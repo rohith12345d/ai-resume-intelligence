@@ -205,9 +205,24 @@ if uploaded_file is not None:
 # DASHBOARD
 # ------------------------------------------------
 
-if menu=="Dashboard":
+st.markdown(
+"""
+<h1 style='
+text-align:center;
+color:#00e5ff;
+background-color:rgba(0,0,0,0.75);
+padding:15px;
+border-radius:10px;
+font-weight:700;
+letter-spacing:1px;
+'>
+AI Resume Intelligence Dashboard
+</h1>
+""",
+unsafe_allow_html=True
+)
 
-    st.title("AI Resume Intelligence Dashboard")
+st.write("Upload your resume from the sidebar to begin analysis.")
 
     if uploaded_file is None:
 
