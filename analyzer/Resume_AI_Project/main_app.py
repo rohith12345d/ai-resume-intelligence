@@ -4,7 +4,6 @@ import docx
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import time
-import base64
 
 from resume_skill_parser import extract_skills
 from resume_skill_parser import skill_frequency
@@ -13,10 +12,6 @@ from career_match_engine import recommend_roles
 from readiness_engine import calculate_readiness
 
 
-# ------------------------------------------------
-# PAGE CONFIG
-# ------------------------------------------------
-
 st.set_page_config(
     page_title="AI Resume Intelligence",
     page_icon="🤖",
@@ -24,82 +19,42 @@ st.set_page_config(
 )
 
 
-# ------------------------------------------------
-# BACKGROUND IMAGE
-# ------------------------------------------------
+# -------------------------------
+# BACKGROUND + UI STYLE
+# -------------------------------
 
 def set_background():
-   st.markdown(
+    st.markdown(
         """
         <style>
 
         .stApp {
             background-image:
-            linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+            linear-gradient(rgba(0,0,0,0.40), rgba(0,0,0,0.40)),
             url("https://raw.githubusercontent.com/rohith12345d/ai-resume-intelligence/main/analyzer/Resume_AI_Project/ai_background.jpg");
-
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
-        h1 {
-            color: white;
-            font-weight: 700;
-            text-align: center;
-            text-shadow: 0px 0px 12px rgba(0,0,0,0.9);
+        .title-box{
+            text-align:center;
+            color:#00e5ff;
+            background:rgba(0,0,0,0.75);
+            padding:18px;
+            border-radius:12px;
+            font-size:38px;
+            font-weight:700;
+            letter-spacing:1px;
+            margin-bottom:10px;
         }
 
-        p {
-            color: #e5e7eb;
-            font-size: 18px;
-            text-align: center;
+        .subtitle{
+            text-align:center;
+            color:#f1f5f9;
+            font-size:18px;
+            margin-bottom:30px;
         }
-
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
- 
-   st.markdown(
-        """
-        <style>
-
-        .stApp {
-            background-image:
-            linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-            url("https://raw.githubusercontent.com/rohith12345d/ai-resume-intelligence/main/analyzer/Resume_AI_Project/ai_background.jpg");
-
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        h1, h2, h3 {
-            color: white;
-            text-align: center;
-            text-shadow: 2px 2px 10px black;
-        }
-
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-        
-
-   st.markdown(
-        f"""
-        <style>
-
-        .stApp {{
-        background-image:
-    linear-gradient(rgba(2,6,23,0.55), rgba(2,6,23,0.55))    
-        
-
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        }}
 
         </style>
         """,
@@ -110,9 +65,28 @@ def set_background():
 set_background()
 
 
-# ------------------------------------------------
+st.markdown(
+"""
+<div class="title-box">
+AI Resume Intelligence Dashboard
+</div>
+""",
+unsafe_allow_html=True
+)
+
+st.markdown(
+"""
+<div class="subtitle">
+Upload your resume from the sidebar to begin analysis
+</div>
+""",
+unsafe_allow_html=True
+)
+
+
+# -------------------------------
 # SIDEBAR
-# ------------------------------------------------
+# -------------------------------
 
 st.sidebar.title("🤖 AI Resume System")
 
@@ -140,9 +114,9 @@ readiness_scores={}
 project_found=False
 
 
-# ------------------------------------------------
+# -------------------------------
 # AI ANALYSIS PROGRESS
-# ------------------------------------------------
+# -------------------------------
 
 if uploaded_file is not None:
 
@@ -201,28 +175,11 @@ if uploaded_file is not None:
 
 
 
-# ------------------------------------------------
+# -------------------------------
 # DASHBOARD
-# ------------------------------------------------
+# -------------------------------
 
-   st.markdown(
-"""
-<h1 style='
-text-align:center;
-color:#00e5ff;
-background-color:rgba(0,0,0,0.75);
-padding:15px;
-border-radius:10px;
-font-weight:700;
-letter-spacing:1px;
-'>
-AI Resume Intelligence Dashboard
-</h1>
-""",
-unsafe_allow_html=True
-)
-
-    st.write("Upload your resume from the sidebar to begin analysis.")
+if menu=="Dashboard":
 
     if uploaded_file is None:
 
@@ -238,9 +195,7 @@ unsafe_allow_html=True
         col4.metric("Resume Status","Analyzed")
 
 
-        # --------------------------------
-        # AI RESUME SCORE GAUGE
-        # --------------------------------
+        # AI RESUME SCORE
 
         resume_score = min(len(skills) * 6, 100)
 
@@ -263,13 +218,11 @@ unsafe_allow_html=True
 
 
 
-# ------------------------------------------------
+# -------------------------------
 # SKILL ANALYSIS
-# ------------------------------------------------
+# -------------------------------
 
 if menu=="Skill Analysis":
-
-    st.title("Skill Analysis")
 
     if uploaded_file is None:
 
@@ -323,13 +276,11 @@ if menu=="Skill Analysis":
 
 
 
-# ------------------------------------------------
+# -------------------------------
 # CAREER RECOMMENDATION
-# ------------------------------------------------
+# -------------------------------
 
 if menu=="Career Recommendation":
-
-    st.title("Career Recommendation")
 
     if uploaded_file is None:
 
@@ -375,13 +326,11 @@ if menu=="Career Recommendation":
 
 
 
-# ------------------------------------------------
+# -------------------------------
 # SKILL GAP ANALYSIS
-# ------------------------------------------------
+# -------------------------------
 
 if menu=="Skill Gap & Roadmap":
-
-    st.title("Skill Gap Analysis & Learning Roadmap")
 
     if uploaded_file is None:
 
