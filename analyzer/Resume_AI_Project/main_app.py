@@ -29,32 +29,38 @@ st.set_page_config(
 # ------------------------------------------------
 
 def set_background():
-  <style>
+    st.markdown(
+        """
+        <style>
 
-.stApp {
-background-image:
-linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-url("https://raw.githubusercontent.com/rohith12345d/ai-resume-intelligence/main/analyzer/Resume_AI_Project/ai_background.jpg");
+        .stApp {
+            background-image:
+            linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+            url("https://raw.githubusercontent.com/rohith12345d/ai-resume-intelligence/main/analyzer/Resume_AI_Project/ai_background.jpg");
 
-background-size: cover;
-background-position: center;
-background-attachment: fixed;
-}
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
 
-h1 {
-color: white;
-font-weight: 700;
-text-align: center;
-text-shadow: 0px 0px 12px rgba(0,0,0,0.9);
-}
+        h1 {
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 0px 0px 12px rgba(0,0,0,0.9);
+        }
 
-p {
-color: #e5e7eb;
-font-size: 18px;
-text-align: center;
-}
+        p {
+            color: #e5e7eb;
+            font-size: 18px;
+            text-align: center;
+        }
 
-</style>  
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+ 
   st.markdown(
         """
         <style>
