@@ -44,7 +44,7 @@ def set_background():
     )
         
 
-   st.markdown(
+  st.markdown(
         f"""
         <style>
 
