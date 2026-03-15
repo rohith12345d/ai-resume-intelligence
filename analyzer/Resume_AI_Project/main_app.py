@@ -29,7 +29,7 @@ st.set_page_config(
 # ------------------------------------------------
 
 def set_background():
-    st.markdown(
+   st.markdown(
         """
         <style>
 
@@ -61,7 +61,7 @@ def set_background():
         unsafe_allow_html=True
     )
  
-  st.markdown(
+   st.markdown(
         """
         <style>
 
@@ -87,7 +87,7 @@ def set_background():
     )
         
 
-  st.markdown(
+   st.markdown(
         f"""
         <style>
 
