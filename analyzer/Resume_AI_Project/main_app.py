@@ -30,7 +30,7 @@ st.set_page_config(
 
 def set_background():
 
-    with open("ai_background.jpg", "rb") as img:
+ with open("analyzer/Resume_AI_Project/ai_background.jpg", "rb") as img:  
         encoded = base64.b64encode(img.read()).decode()
 
     st.markdown(
