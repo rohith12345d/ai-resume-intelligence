@@ -35,7 +35,7 @@ def set_background():
 
         .stApp {
             background-image:
-            linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+            linear-gradient(rgba(0,0,0,0.80), rgba(0,0,0,0.80)),
             url("https://raw.githubusercontent.com/rohith12345d/ai-resume-intelligence/main/analyzer/Resume_AI_Project/ai_background.jpg");
 
             background-size: cover;
