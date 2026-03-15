@@ -29,8 +29,20 @@ st.set_page_config(
 # ------------------------------------------------
 
 def set_background():
-   with open("analyzer/Resume_AI_Project/ai_background.jpg","rb") as img:
-        encoded = base64.b64encode(img.read()).decode()
+  st.markdown(
+        """
+        <style>
+        .stApp {
+            background-image: url("https://raw.githubusercontent.com/rohith12345d/ai-resume-intelligence/main/analyzer/Resume_AI_Project/ai_background.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+        
 
    st.markdown(
         f"""
@@ -39,7 +51,7 @@ def set_background():
         .stApp {{
         background-image:
     linear-gradient(rgba(2,6,23,0.55), rgba(2,6,23,0.55))    
-        url("data:image/jpg;base64,{encoded}");
+        
 
         background-size: cover;
         background-position: center;
