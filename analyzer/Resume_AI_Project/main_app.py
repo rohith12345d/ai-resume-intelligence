@@ -32,10 +32,12 @@ def set_background():
   st.markdown(
         """
         <style>
+
         .stApp {
             background-image:
-            linear-gradient(rgba(2,6,23,0.65), rgba(2,6,23,0.65)),
+            linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
             url("https://raw.githubusercontent.com/rohith12345d/ai-resume-intelligence/main/analyzer/Resume_AI_Project/ai_background.jpg");
+
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -43,8 +45,10 @@ def set_background():
 
         h1, h2, h3 {
             color: white;
-            text-shadow: 0px 0px 10px rgba(0,0,0,0.7);
+            text-align: center;
+            text-shadow: 2px 2px 10px black;
         }
+
         </style>
         """,
         unsafe_allow_html=True
