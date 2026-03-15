@@ -205,7 +205,7 @@ if uploaded_file is not None:
 # DASHBOARD
 # ------------------------------------------------
 
-  st.markdown(
+   st.markdown(
 """
 <h1 style='
 text-align:center;
@@ -222,7 +222,7 @@ AI Resume Intelligence Dashboard
 unsafe_allow_html=True
 )
 
-  st.write("Upload your resume from the sidebar to begin analysis.")
+    st.write("Upload your resume from the sidebar to begin analysis.")
 
     if uploaded_file is None:
 
