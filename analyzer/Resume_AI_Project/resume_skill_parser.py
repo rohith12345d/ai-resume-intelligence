@@ -1,76 +1,72 @@
-import re
-
-# Skill database with variations
-skills_database = {
-    "python": ["python", "python programming", "python developer"],
-    "java": ["java", "java programming"],
-    "c": ["c", "c programming"],
-    "c++": ["c++"],
-    "sql": ["sql", "mysql", "postgresql"],
-    "html": ["html", "html5"],
-    "css": ["css", "css3"],
-    "javascript": ["javascript", "js"],
-    "machine learning": ["machine learning", "ml"],
-    "data analysis": ["data analysis", "data analytics"],
-    "pandas": ["pandas"],
-    "numpy": ["numpy"],
-    "statistics": ["statistics"],
-    "react": ["react", "reactjs"],
-    "node": ["node", "nodejs"],
-    "apis": ["api", "apis", "rest api"],
-    "agile": ["agile", "agile methodology"],
-    "project management": ["project management"],
-    "technical writing": ["technical writing"]
-}
+import pdfplumber
+import docx
 
 
-# Extract skills from resume
-def extract_skills(resume_text):
+def extract_text_from_pdf(file):
 
-    resume_text = resume_text.lower()
-    detected_skills = []
+    text = ""
 
-    for skill, variations in skills_database.items():
+    with pdfplumber.open(file) as pdf:
+        for page in pdf.pages:
+            text += page.extract_text() or ""
 
-        for variation in variations:
-
-            pattern = r"\b" + re.escape(variation) + r"\b"
-
-            if re.search(pattern, resume_text):
-                detected_skills.append(skill)
-                break
-
-    return detected_skills
+    return text
 
 
-# Count frequency of detected skills
-def skill_frequency(resume_text, detected_skills):
+def extract_text_from_docx(file):
 
-    resume_text = resume_text.lower()
-    frequency = {}
+    doc = docx.Document(file)
 
-    for skill in detected_skills:
+    text = ""
 
-        variations = skills_database[skill]
-        count = 0
+    for para in doc.paragraphs:
+        text += para.text
 
-        for variation in variations:
-
-            pattern = r"\b" + re.escape(variation) + r"\b"
-            matches = re.findall(pattern, resume_text)
-            count += len(matches)
-
-        frequency[skill] = count
-
-    return frequency
+    return text
 
 
-# Check if resume mentions projects
-def project_evidence(resume_text):
+def extract_skills(uploaded_file):
 
-    resume_text = resume_text.lower()
+    if uploaded_file is None:
+        return []
 
-    if "project" in resume_text:
-        return True
+    file_type = uploaded_file.name.split(".")[-1].lower()
+
+    resume_text = ""
+
+    if file_type == "pdf":
+        resume_text = extract_text_from_pdf(uploaded_file)
+
+    elif file_type == "docx":
+        resume_text = extract_text_from_docx(uploaded_file)
+
     else:
-        return False
+        resume_text = uploaded_file.read().decode("utf-8", errors="ignore")
+
+    if not resume_text:
+        return []
+
+    resume_text = resume_text.lower()
+
+    skill_database = [
+        "python",
+        "machine learning",
+        "data analysis",
+        "sql",
+        "html",
+        "css",
+        "javascript",
+        "react",
+        "node",
+        "pandas",
+        "numpy",
+        "statistics"
+    ]
+
+    found_skills = []
+
+    for skill in skill_database:
+        if skill in resume_text:
+            found_skills.append(skill)
+
+    return found_skills
