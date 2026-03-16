@@ -21,7 +21,7 @@ st.set_page_config(
 # BACKGROUND IMAGE
 def set_background():
 
-    with open("ai_background.jpg", "rb") as f:
+    with open("analyzer/Resume_AI_Project/ai_background.jpg", "rb") as f:
         data = f.read()
 
     encoded = base64.b64encode(data).decode()
