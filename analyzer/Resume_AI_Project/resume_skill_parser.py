@@ -2,16 +2,47 @@ import pdfplumber
 import docx
 
 
+# skill database
+
+skill_database = [
+    "python",
+    "machine learning",
+    "deep learning",
+    "data analysis",
+    "sql",
+    "html",
+    "css",
+    "javascript",
+    "react",
+    "node",
+    "pandas",
+    "numpy",
+    "statistics",
+    "tensorflow",
+    "pytorch",
+    "nlp"
+]
+
+
+# extract text from pdf
+
 def extract_text_from_pdf(file):
 
     text = ""
 
     with pdfplumber.open(file) as pdf:
+
         for page in pdf.pages:
-            text += page.extract_text() or ""
+
+            page_text = page.extract_text()
+
+            if page_text:
+                text += page_text
 
     return text
 
+
+# extract text from docx
 
 def extract_text_from_docx(file):
 
@@ -20,10 +51,13 @@ def extract_text_from_docx(file):
     text = ""
 
     for para in doc.paragraphs:
-        text += para.text
+
+        text += para.text + " "
 
     return text
 
+
+# main function
 
 def extract_skills(uploaded_file):
 
@@ -34,39 +68,35 @@ def extract_skills(uploaded_file):
 
     resume_text = ""
 
-    if file_type == "pdf":
-        resume_text = extract_text_from_pdf(uploaded_file)
+    try:
 
-    elif file_type == "docx":
-        resume_text = extract_text_from_docx(uploaded_file)
+        if file_type == "pdf":
 
-    else:
-        resume_text = uploaded_file.read().decode("utf-8", errors="ignore")
+            resume_text = extract_text_from_pdf(uploaded_file)
 
-    if not resume_text:
+        elif file_type == "docx":
+
+            resume_text = extract_text_from_docx(uploaded_file)
+
+        elif file_type == "txt":
+
+            resume_text = uploaded_file.read().decode("utf-8")
+
+        else:
+
+            return []
+
+    except:
         return []
 
     resume_text = resume_text.lower()
 
-    skill_database = [
-        "python",
-        "machine learning",
-        "data analysis",
-        "sql",
-        "html",
-        "css",
-        "javascript",
-        "react",
-        "node",
-        "pandas",
-        "numpy",
-        "statistics"
-    ]
-
     found_skills = []
 
     for skill in skill_database:
+
         if skill in resume_text:
+
             found_skills.append(skill)
 
     return found_skills
