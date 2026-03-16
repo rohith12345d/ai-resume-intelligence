@@ -2,12 +2,14 @@ import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
 import base64
+import os
 
 from resume_skill_parser import extract_skills
 from career_match_engine import recommend_roles
 from readiness_engine import calculate_readiness
 from roadmap_engine import generate_learning_roadmap
 from insights_engine import generate_insights
+
 
 # -----------------------------
 # PAGE CONFIG
@@ -19,27 +21,36 @@ st.set_page_config(
 )
 
 # -----------------------------
-# BACKGROUND IMAGE
+# BACKGROUND IMAGE + GLASS CSS
 # -----------------------------
 
 def set_background():
 
-    with open("ai_background.jpg", "rb") as f:
+    current_dir = os.path.dirname(__file__)
+    image_path = os.path.join(current_dir, "ai_background.jpg")
+
+    with open(image_path, "rb") as f:
         img = base64.b64encode(f.read()).decode()
 
     st.markdown(
         f"""
         <style>
+
         .stApp {{
         background-image: url("data:image/jpg;base64,{img}");
         background-size: cover;
+        background-position: center;
         background-attachment: fixed;
         }}
 
-        .block-container {{
-        background: rgba(0,0,0,0.55);
-        padding: 2rem;
-        border-radius: 15px;
+        .glass-card {{
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(14px);
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border:1px solid rgba(255,255,255,0.2);
+        box-shadow:0 8px 32px rgba(0,0,0,0.35);
         }}
 
         </style>
@@ -49,170 +60,183 @@ def set_background():
 
 set_background()
 
+
 # -----------------------------
 # TITLE
 # -----------------------------
 
 st.markdown(
 """
-<h1 style='text-align:center;
+<h1 style='
+text-align:center;
 color:#00E5FF;
 font-weight:800;
-letter-spacing:2px;'>
+letter-spacing:3px;
+font-size:42px;
+'>
 AI RESUME INTELLIGENCE DASHBOARD
 </h1>
 """,
 unsafe_allow_html=True
 )
 
-st.markdown(
-"""
-<p style='text-align:center;color:white'>
-Upload your resume to analyze skills and career opportunities
-</p>
-""",
-unsafe_allow_html=True
-)
+st.markdown("<hr style='border:1px solid #00E5FF;'>", unsafe_allow_html=True)
+
 
 # -----------------------------
 # FILE UPLOAD
 # -----------------------------
 
 uploaded_file = st.file_uploader(
-"Upload Resume",
-type=["txt","pdf","docx"]
+"Upload Resume (PDF / DOCX / TXT)"
 )
 
-if uploaded_file:
+if uploaded_file is None:
+    st.info("Please upload your resume to begin analysis.")
+    st.stop()
 
-    # -----------------------------
-    # SKILL EXTRACTION
-    # -----------------------------
 
-    skills = extract_skills(uploaded_file)
+# -----------------------------
+# SKILL EXTRACTION
+# -----------------------------
 
-    if not skills:
-        st.warning("No skills detected in resume.")
-        st.stop()
+skills = extract_skills(uploaded_file)
 
-    skill_names = list(skills.keys())
-    skill_values = list(skills.values())
+if not skills:
+    st.warning("No skills detected in resume.")
+    st.stop()
 
-    # -----------------------------
-    # RESUME SCORE
-    # -----------------------------
+skill_names = list(skills.keys())
+skill_values = list(skills.values())
 
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 
-    st.subheader("AI Resume Strength Meter")
+# -----------------------------
+# RESUME SCORE
+# -----------------------------
 
-    fig = go.Figure(go.Indicator(
+score = calculate_readiness(skill_names)
+
+st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+
+st.subheader("AI Resume Strength Meter")
+
+fig = go.Figure(go.Indicator(
     mode="gauge+number",
     value=score,
     number={'font': {'size': 48, 'color': "#00E5FF"}},
     title={'text': "<b>Resume Score</b>", 'font': {'size': 22, 'color': "#00E5FF"}},
     gauge={
-        'axis': {
-            'range': [0, 100],
-            'tickwidth': 1,
-            'tickcolor': "#00E5FF"
-        },
-
-        'bar': {
-            'color': "#00E5FF",
-            'thickness': 0.35
-        },
-
+        'axis': {'range': [0, 100], 'tickcolor': "#00E5FF"},
+        'bar': {'color': "#00E5FF", 'thickness': 0.35},
         'bgcolor': "rgba(0,0,0,0.6)",
-
         'borderwidth': 2,
         'bordercolor': "#00E5FF",
-
         'steps': [
             {'range': [0, 40], 'color': "#2b0a0a"},
             {'range': [40, 70], 'color': "#332200"},
             {'range': [70, 100], 'color': "#003333"}
-            ]
-        }
-    ))
+        ]
+    }
+))
 
-    fig.update_layout(
+fig.update_layout(
     paper_bgcolor="rgba(0,0,0,0)",
     font={'color': "#00E5FF"}
-    )
+)
 
-    st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=True)
 
-    st.markdown("</div>", unsafe_allow_html=True)
-    # -----------------------------
-    # SKILL ANALYSIS
-    # -----------------------------
+st.markdown("</div>", unsafe_allow_html=True)
 
-    st.subheader("Detected Skills")
 
-    fig = px.bar(
-        y=skill_names,
-        x=skill_values,
-        orientation="h",
-        color=skill_names,
-        title="Skill Strength in Resume"
-    )
+# -----------------------------
+# SKILL ANALYSIS
+# -----------------------------
 
-    fig.update_layout(
-        showlegend=False,
-        height=400,
-        xaxis_title="Frequency",
-        yaxis_title="Skills"
-    )
+st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 
-    st.plotly_chart(fig,use_container_width=True)
+st.subheader("Skill Analysis")
 
-    # -----------------------------
-    # CAREER MATCH
-    # -----------------------------
+fig = px.bar(
+    y=skill_names,
+    x=skill_values,
+    orientation="h",
+    color=skill_names,
+    title="Skill Strength in Resume"
+)
 
-    st.subheader("Career Recommendations")
+fig.update_layout(
+    showlegend=False,
+    height=400,
+    xaxis_title="Frequency",
+    yaxis_title="Skills"
+)
 
-    roles = recommend_roles(skill_names)
+st.plotly_chart(fig, use_container_width=True)
 
-    labels = list(roles.keys())
-    values = list(roles.values())
+st.markdown("</div>", unsafe_allow_html=True)
 
-    fig = go.Figure(
-        data=[go.Pie(
-            labels=labels,
-            values=values,
-            hole=0.55,
-            textinfo="label+percent"
-        )]
-    )
 
-    fig.update_layout(title="Career Match Distribution")
+# -----------------------------
+# CAREER MATCH
+# -----------------------------
 
-    st.plotly_chart(fig,use_container_width=True)
+st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 
-    # -----------------------------
-    # SKILL GAP ROADMAP
-    # -----------------------------
+st.subheader("Career Recommendations")
 
-    st.subheader("Skill Gap Roadmap")
+roles = recommend_roles(skill_names)
 
-    roadmap = generate_learning_roadmap(skill_names)
+labels = list(roles.keys())
+values = list(roles.values())
 
-    for skill,steps in roadmap.items():
+fig = go.Figure(
+    data=[go.Pie(
+        labels=labels,
+        values=values,
+        hole=0.55,
+        textinfo="label+percent"
+    )]
+)
 
-        st.markdown(f"### {skill}")
+fig.update_layout(title="Career Match Distribution")
 
-        for step in steps:
-            st.write("•",step)
+st.plotly_chart(fig, use_container_width=True)
 
-    # -----------------------------
-    # AI INSIGHTS
-    # -----------------------------
+st.markdown("</div>", unsafe_allow_html=True)
 
-    st.subheader("AI Resume Insights")
 
-    insights = generate_insights(skill_names)
+# -----------------------------
+# SKILL GAP ROADMAP
+# -----------------------------
 
-    for insight in insights:
-        st.write("•",insight)
+st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+
+st.subheader("Skill Gap Roadmap")
+
+roadmap = generate_learning_roadmap(skill_names)
+
+for skill, steps in roadmap.items():
+
+    st.markdown(f"### {skill}")
+
+    for step in steps:
+        st.write("•", step)
+
+st.markdown("</div>", unsafe_allow_html=True)
+
+
+# -----------------------------
+# AI INSIGHTS
+# -----------------------------
+
+st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+
+st.subheader("AI Resume Insights")
+
+insights = generate_insights(skill_names)
+
+for insight in insights:
+    st.write("•", insight)
+
+st.markdown("</div>", unsafe_allow_html=True)
