@@ -1,53 +1,24 @@
 # readiness_engine.py
+def calculate_readiness(skills):
 
-job_roles = {
-    "Data Scientist": [
+    if not skills:
+        return 0
+
+    important_skills = [
         "python",
         "machine learning",
-        "statistics",
-        "pandas",
-        "numpy",
-        "data analysis"
-    ],
-
-    "Web Developer": [
-        "html",
-        "css",
-        "javascript",
-        "react",
-        "node"
-    ],
-
-    "Backend Developer": [
-        "python",
-        "java",
-        "sql",
-        "apis"
-    ],
-
-    "Data Analyst": [
-        "python",
         "sql",
         "data analysis",
-        "pandas"
+        "pandas",
+        "statistics"
     ]
-}
 
+    matched = 0
 
-def calculate_readiness(user_skills):
+    for skill in skills:
+        if skill in important_skills:
+            matched += 1
 
-    readiness_scores = {}
+    score = (matched / len(important_skills)) * 100
 
-    for role, required_skills in job_roles.items():
-
-        matched = 0
-
-        for skill in required_skills:
-            if skill in user_skills:
-                matched += 1
-
-        score = (matched / len(required_skills)) * 100
-
-        readiness_scores[role] = round(score, 2)
-
-    return readiness_scores
+    return round(score)
