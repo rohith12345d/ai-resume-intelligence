@@ -1,59 +1,39 @@
 import streamlit as st
 import pdfplumber
 import docx
-import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 import time
+import plotly.graph_objects as go
+import plotly.express as px
 
-from resume_skill_parser import extract_skills
-from resume_skill_parser import skill_frequency
-from resume_skill_parser import project_evidence
+from resume_skill_parser import extract_skills, skill_frequency
 from career_match_engine import recommend_roles
 from readiness_engine import calculate_readiness
+from roadmap_engine import generate_roadmap
+from insights_engine import generate_insights
 
 
-st.set_page_config(
-    page_title="AI Resume Intelligence",
-    page_icon="🤖",
-    layout="wide"
-)
+st.set_page_config(page_title="AI Resume Intelligence", layout="wide")
 
-
-# -------------------------------
-# BACKGROUND + UI STYLE
-# -------------------------------
+# --------------------------
+# BACKGROUND
+# --------------------------
 
 def set_background():
     st.markdown(
         """
         <style>
-
         .stApp {
-            background-image:
-            linear-gradient(rgba(0,0,0,0.40), rgba(0,0,0,0.40)),
-            url("https://raw.githubusercontent.com/rohith12345d/ai-resume-intelligence/main/analyzer/Resume_AI_Project/ai_background.jpg");
+            background-image: url("https://raw.githubusercontent.com/rohith12345d/ai-resume-intelligence/main/analyzer/Resume_AI_Project/ai_background.jpg");
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
         }
 
-        .title-box{
-            text-align:center;
-            color:#00e5ff;
-            background:rgba(0,0,0,0.75);
-            padding:18px;
-            border-radius:12px;
-            font-size:38px;
-            font-weight:700;
-            letter-spacing:1px;
-            margin-bottom:10px;
-        }
-
-        .subtitle{
-            text-align:center;
-            color:#f1f5f9;
-            font-size:18px;
-            margin-bottom:30px;
+        .glass{
+            background: rgba(15,23,42,0.75);
+            padding:20px;
+            border-radius:16px;
+            backdrop-filter: blur(12px);
+            border:1px solid rgba(255,255,255,0.1);
         }
 
         </style>
@@ -61,343 +41,184 @@ def set_background():
         unsafe_allow_html=True
     )
 
-
 set_background()
 
+# --------------------------
+# HEADER
+# --------------------------
 
 st.markdown(
 """
-<div class="title-box">
-AI Resume Intelligence Dashboard
-</div>
+<h1 style='text-align:center;color:#00e5ff;font-family:Inter;'>AI RESUME INTELLIGENCE SYSTEM</h1>
 """,
 unsafe_allow_html=True
 )
 
-st.markdown(
-"""
-<div class="subtitle">
-Upload your resume from the sidebar to begin analysis
-</div>
-""",
-unsafe_allow_html=True
-)
+st.write("Upload your resume from the sidebar to begin AI analysis.")
 
-
-# -------------------------------
+# --------------------------
 # SIDEBAR
-# -------------------------------
+# --------------------------
 
-st.sidebar.title("🤖 AI Resume System")
+st.sidebar.title("AI Resume System")
 
 menu = st.sidebar.selectbox(
-    "Navigation",
-    [
-        "Dashboard",
-        "Skill Analysis",
-        "Career Recommendation",
-        "Skill Gap & Roadmap"
-    ]
+"Navigation",
+[
+"Dashboard",
+"Skill Analysis",
+"Career Recommendation",
+"Skill Gap Roadmap",
+"AI Resume Insights"
+]
 )
 
 uploaded_file = st.sidebar.file_uploader(
-    "Upload Resume",
-    type=["txt","pdf","docx"]
+"Upload Resume",
+type=["pdf","docx"]
 )
-
 
 resume_text=""
 skills=[]
-frequency={}
-role_scores={}
-readiness_scores={}
-project_found=False
+freq={}
+roles={}
+readiness={}
 
+# --------------------------
+# FILE PROCESSING
+# --------------------------
 
-# -------------------------------
-# AI ANALYSIS PROGRESS
-# -------------------------------
+if uploaded_file:
 
-if uploaded_file is not None:
+    with st.spinner("Analyzing Resume with AI..."):
 
-    progress_text = st.empty()
-    progress_bar = st.progress(0)
+        if uploaded_file.type=="application/pdf":
+            with pdfplumber.open(uploaded_file) as pdf:
+                for page in pdf.pages:
+                    resume_text+=page.extract_text()
 
-    progress_text.text("Uploading Resume...")
-    progress_bar.progress(20)
-    time.sleep(0.5)
+        elif uploaded_file.type=="application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            doc=docx.Document(uploaded_file)
+            for para in doc.paragraphs:
+                resume_text+=para.text
 
-    if uploaded_file.type == "text/plain":
-        resume_text = uploaded_file.read().decode("utf-8")
+        skills=extract_skills(resume_text)
+        freq=skill_frequency(resume_text,skills)
+        roles=recommend_roles(skills)
+        readiness=calculate_readiness(skills)
 
-    elif uploaded_file.type == "application/pdf":
-        with pdfplumber.open(uploaded_file) as pdf:
-            for page in pdf.pages:
-                text = page.extract_text()
-                if text:
-                    resume_text += text
-
-    elif uploaded_file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        doc = docx.Document(uploaded_file)
-        for para in doc.paragraphs:
-            resume_text += para.text
-
-
-    progress_text.text("Extracting Skills...")
-    progress_bar.progress(40)
-    time.sleep(0.5)
-
-    skills = extract_skills(resume_text)
-
-
-    progress_text.text("Analyzing Skill Frequency...")
-    progress_bar.progress(60)
-    time.sleep(0.5)
-
-    frequency = skill_frequency(resume_text, skills)
-
-
-    progress_text.text("Generating Career Recommendations...")
-    progress_bar.progress(80)
-    time.sleep(0.5)
-
-    role_scores = recommend_roles(skills)
-    readiness_scores = calculate_readiness(skills)
-    project_found = project_evidence(resume_text)
-
-
-    progress_text.text("Finalizing AI Analysis...")
-    progress_bar.progress(100)
-    time.sleep(0.5)
-
-    progress_text.empty()
-    progress_bar.empty()
-
-
-
-# -------------------------------
+# --------------------------
 # DASHBOARD
-# -------------------------------
+# --------------------------
 
 if menu=="Dashboard":
 
-    if uploaded_file is None:
-
-        st.info("Upload your resume from the sidebar to begin analysis.")
-
+    if not uploaded_file:
+        st.info("Upload resume to start analysis.")
     else:
 
-        col1,col2,col3,col4 = st.columns(4)
+        col1,col2,col3,col4=st.columns(4)
 
         col1.metric("Detected Skills",len(skills))
-        col2.metric("Career Matches",len(role_scores))
-        col3.metric("Projects Found","Yes" if project_found else "No")
+        col2.metric("Career Matches",len(roles))
+        col3.metric("Projects Found","Yes" if "project" in resume_text.lower() else "No")
         col4.metric("Resume Status","Analyzed")
 
+        score=min(len(skills)*6,100)
 
-        # AI RESUME SCORE
-
-        resume_score = min(len(skills) * 6, 100)
-
-        fig = go.Figure(go.Indicator(
+        fig=go.Figure(go.Indicator(
             mode="gauge+number",
-            value=resume_score,
-            title={'text': "AI Resume Score"},
+            value=score,
+            title={'text':"AI Resume Score"},
             gauge={
-                'axis': {'range': [0,100]},
-                'bar': {'color': "#22d3ee"},
-                'steps': [
-                    {'range': [0,40], 'color': "#dc2626"},
-                    {'range': [40,70], 'color': "#f59e0b"},
-                    {'range': [70,100], 'color': "#22c55e"}
+                'axis':{'range':[0,100]},
+                'bar':{'color':"#00e5ff"},
+                'steps':[
+                    {'range':[0,40],'color':'#dc2626'},
+                    {'range':[40,70],'color':'#f59e0b'},
+                    {'range':[70,100],'color':'#22c55e'}
                 ]
             }
         ))
 
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig,use_container_width=True)
 
-
-
-# -------------------------------
+# --------------------------
 # SKILL ANALYSIS
-# -------------------------------
+# --------------------------
 
 if menu=="Skill Analysis":
 
-    if uploaded_file is None:
-
-        st.warning("Upload resume first.")
-
+    if not uploaded_file:
+        st.warning("Upload resume first")
     else:
 
-        st.subheader("Detected Skills")
+        df=px.data.tips()
 
-        cols = st.columns(4)
+        names=list(freq.keys())
+        values=list(freq.values())
 
-        for i, skill in enumerate(skills):
-
-            cols[i % 4].markdown(
-                f"""
-                <div style="
-                background: rgba(30,41,59,0.7);
-                padding:12px;
-                border-radius:10px;
-                text-align:center;
-                color:#38bdf8;
-                font-weight:500;">
-                {skill.upper()}
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
-
-        st.subheader("Skill Strength")
-
-        skills_list = list(frequency.keys())
-        values = list(frequency.values())
-
-        fig, ax = plt.subplots()
-
-        ax.bar(
-            skills_list,
-            values,
-            color=["#38bdf8","#60a5fa","#22d3ee","#818cf8","#f472b6"]
+        fig=px.bar(
+            x=values,
+            y=names,
+            orientation='h',
+            color=values,
+            color_continuous_scale="Blues"
         )
 
-        ax.set_facecolor("black")
-        fig.set_facecolor("black")
+        st.plotly_chart(fig,use_container_width=True)
 
-        ax.tick_params(colors="white")
-
-        plt.xticks(rotation=45)
-
-        st.pyplot(fig)
-
-
-
-# -------------------------------
+# --------------------------
 # CAREER RECOMMENDATION
-# -------------------------------
+# --------------------------
 
 if menu=="Career Recommendation":
 
-    if uploaded_file is None:
-
-        st.warning("Upload resume first.")
-
+    if not uploaded_file:
+        st.warning("Upload resume first")
     else:
 
-        roles=list(role_scores.keys())
-        scores=list(role_scores.values())
+        labels=list(roles.keys())
+        values=list(roles.values())
 
-        fig, ax = plt.subplots()
+        fig=go.Figure(data=[go.Pie(
+            labels=labels,
+            values=values,
+            hole=.4
+        )])
 
-        colors=[
-            "#38bdf8",
-            "#22d3ee",
-            "#818cf8",
-            "#f472b6",
-            "#34d399"
-        ]
+        st.plotly_chart(fig)
 
-        ax.pie(
-            scores,
-            labels=roles,
-            autopct="%1.1f%%",
-            colors=colors,
-            startangle=90
-        )
+# --------------------------
+# SKILL GAP ROADMAP
+# --------------------------
 
-        ax.axis("equal")
+if menu=="Skill Gap Roadmap":
 
-        st.pyplot(fig)
-
-
-        st.subheader("Career Readiness")
-
-        for role, score in readiness_scores.items():
-
-            st.write(role)
-
-            st.progress(int(score))
-
-            st.write(str(score) + "% readiness")
-
-
-
-# -------------------------------
-# SKILL GAP ANALYSIS
-# -------------------------------
-
-if menu=="Skill Gap & Roadmap":
-
-    if uploaded_file is None:
-
-        st.warning("Upload resume first.")
-
+    if not uploaded_file:
+        st.warning("Upload resume first")
     else:
 
-        job_roles = {
+        roadmap=generate_roadmap(skills)
 
-        "Data Scientist":["python","machine learning","statistics","pandas","numpy","data analysis"],
-        "Machine Learning Engineer":["python","machine learning","tensorflow","pytorch","numpy"],
-        "AI Engineer":["python","machine learning","deep learning","tensorflow","pytorch"],
-        "Data Analyst":["python","sql","data analysis","pandas","statistics"],
-        "Backend Developer":["python","java","sql","apis","node"],
-        "Frontend Developer":["html","css","javascript","react"],
-        "Web Developer":["html","css","javascript","react","node"],
-        "Full Stack Developer":["html","css","javascript","react","node","sql"],
-        "Software Engineer":["python","java","c","algorithms","data structures"],
-        "DevOps Engineer":["linux","docker","kubernetes","python","cloud"],
-        "Cloud Engineer":["aws","cloud","docker","linux","python"]
+        for skill,steps in roadmap.items():
 
-        }
+            st.subheader(skill)
 
-        selected_role = st.selectbox(
-            "Select Target Role",
-            list(job_roles.keys())
-        )
+            for step in steps:
+                st.write("•",step)
 
-        required_skills = job_roles[selected_role]
+# --------------------------
+# AI INSIGHTS
+# --------------------------
 
-        missing_skills=[]
+if menu=="AI Resume Insights":
 
-        for skill in required_skills:
+    if not uploaded_file:
+        st.warning("Upload resume first")
+    else:
 
-            if skill not in skills:
-                missing_skills.append(skill)
+        insights=generate_insights(skills,resume_text)
 
-
-        if missing_skills:
-
-            st.subheader("Missing Skills")
-
-            missing_html=""
-
-            for skill in missing_skills:
-
-                missing_html += f"""
-                <span style="
-                background:#dc2626;
-                padding:8px 16px;
-                border-radius:20px;
-                margin:6px;
-                display:inline-block;
-                color:white;">
-                {skill.upper()}
-                </span>
-                """
-
-            st.markdown(missing_html,unsafe_allow_html=True)
-
-
-            st.subheader("Learning Roadmap")
-
-            for i, skill in enumerate(missing_skills, start=1):
-
-                st.write(f"Step {i}: Learn {skill}")
-
-        else:
-
-            st.success("You already meet the requirements for this role.")
+        for i in insights:
+            st.write("•",i)
