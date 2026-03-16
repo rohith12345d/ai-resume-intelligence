@@ -14,6 +14,14 @@ st.set_page_config(
     page_title="AI Resume Intelligence",
     layout="wide"
 )
+st.markdown(
+"""
+<p style='text-align:center;color:white'>
+Upload your resume to analyze skills and career opportunities
+</p>
+""",
+unsafe_allow_html=True
+)
 
 
 # BACKGROUND
@@ -193,13 +201,26 @@ if page == "Career Recommendation":
     values = list(career_scores.values())
 
     fig = go.Figure(
-        data=[go.Pie(
+    data=[go.Pie(
         labels=labels,
         values=values,
-        hole=0.55
+        hole=0.55,
+        textinfo="label+percent",
+        marker=dict(colors=[
+            "#00E5FF",
+            "#00FFB3",
+            "#FFA500",
+            "#FF4D4D",
+            "#8A2BE2"
+            ])
         )]
     )
 
+fig.update_layout(
+    title="Career Match Distribution"
+)
+
+st.plotly_chart(fig, use_container_width=True)
     st.plotly_chart(fig,use_container_width=True)
 
     st.markdown("</div>",unsafe_allow_html=True)
