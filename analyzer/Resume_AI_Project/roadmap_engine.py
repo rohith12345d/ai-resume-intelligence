@@ -1,31 +1,43 @@
-def generate_roadmap(skills):
+# roadmap_engine.py
 
-    roadmap={}
+def generate_learning_roadmap(skills):
 
-    if "python" not in skills:
-        roadmap["Python"]=[
-        "Python Basics",
-        "OOP Concepts",
-        "Data Structures",
-        "NumPy & Pandas",
-        "Machine Learning Libraries"
+    roadmap = {}
+
+    skill_paths = {
+
+        "python": [
+            "Python Basics",
+            "OOP Concepts",
+            "Data Structures in Python",
+            "Python Projects"
+        ],
+
+        "machine learning": [
+            "Linear Regression",
+            "Classification Algorithms",
+            "Model Evaluation",
+            "ML Projects"
+        ],
+
+        "sql": [
+            "SQL Basics",
+            "Joins",
+            "Aggregation",
+            "Database Projects"
+        ],
+
+        "data analysis": [
+            "Pandas",
+            "Data Cleaning",
+            "Visualization",
+            "EDA Projects"
         ]
+    }
 
-    if "machine learning" not in skills:
-        roadmap["Machine Learning"]=[
-        "Supervised Learning",
-        "Regression & Classification",
-        "Model Evaluation",
-        "Scikit Learn",
-        "ML Projects"
-        ]
+    for skill in skill_paths:
 
-    if "sql" not in skills:
-        roadmap["SQL"]=[
-        "Basic Queries",
-        "Joins",
-        "Aggregations",
-        "Database Design"
-        ]
+        if skill not in skills:
+            roadmap[skill] = skill_paths[skill]
 
     return roadmap
