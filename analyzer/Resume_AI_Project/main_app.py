@@ -132,18 +132,18 @@ if uploaded_file:
             {'range': [0, 40], 'color': "#2b0a0a"},
             {'range': [40, 70], 'color': "#332200"},
             {'range': [70, 100], 'color': "#003333"}
-        ]
-    }
-))
+            ]
+        }
+    ))
 
-fig.update_layout(
+    fig.update_layout(
     paper_bgcolor="rgba(0,0,0,0)",
     font={'color': "#00E5FF"}
-)
+    )
 
-st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)
 
-st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
     # -----------------------------
     # SKILL ANALYSIS
     # -----------------------------
