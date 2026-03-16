@@ -158,17 +158,23 @@ if page == "Skill Analysis":
     st.subheader("Detected Skills")
 
     skill_names = skills
-
     skill_values = [1]*len(skills)
 
     fig = px.bar(
-        x=skill_names,
-        y=skill_values,
-        labels={"x":"Skills","y":"Presence"},
-        color=skill_names
+    y=skill_names,
+    x=skill_values,
+    orientation="h",
+    color=skill_names,
+    title="Skill Distribution",
     )
 
-    st.plotly_chart(fig,use_container_width=True)
+    fig.update_layout(
+    showlegend=False,
+    xaxis_title="Skill Presence",
+    yaxis_title="Skills"
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("</div>",unsafe_allow_html=True)
 
