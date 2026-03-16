@@ -1,14 +1,32 @@
 # career_match_engine.py
 
 # Job role skill database
+
 job_roles = {
+
     "Data Scientist": [
         "python",
         "machine learning",
-        "statistics",
         "pandas",
         "numpy",
+        "statistics",
         "data analysis"
+    ],
+
+    "Machine Learning Engineer": [
+        "python",
+        "machine learning",
+        "tensorflow",
+        "pytorch",
+        "deep learning"
+    ],
+
+    "Data Analyst": [
+        "python",
+        "sql",
+        "pandas",
+        "data analysis",
+        "statistics"
     ],
 
     "Web Developer": [
@@ -24,14 +42,6 @@ job_roles = {
         "java",
         "sql",
         "node"
-    ],
-
-    "Data Analyst": [
-        "python",
-        "sql",
-        "data analysis",
-        "pandas",
-        "statistics"
     ]
 }
 
@@ -40,11 +50,15 @@ def career_matches(user_skills):
 
     role_scores = {}
 
+    if not user_skills:
+        return {}
+
     for role, required_skills in job_roles.items():
 
         matched = 0
 
         for skill in required_skills:
+
             if skill in user_skills:
                 matched += 1
 
