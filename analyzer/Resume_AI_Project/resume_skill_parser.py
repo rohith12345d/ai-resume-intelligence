@@ -2,50 +2,54 @@ import re
 import pdfplumber
 import docx
 
-# Large AI Skill Database (can be expanded anytime)
+# Skill categories
 
-skills_db = [
+skill_categories = {
 
-# Programming
-"python","java","c","c++","javascript","typescript","go","rust",
+"Programming":[
+"python","java","c","c++","javascript","typescript","go","rust"
+],
 
-# Web
-"html","css","react","angular","vue","node","express","django","flask",
+"Web Development":[
+"html","css","react","angular","vue","node","express","django","flask"
+],
 
-# Data
-"sql","mysql","postgresql","mongodb","data analysis","data science",
-"data visualization","pandas","numpy","statistics",
+"Data Skills":[
+"sql","mysql","postgresql","mongodb","data analysis",
+"data science","data visualization","pandas","numpy","statistics"
+],
 
-# AI / ML
+"AI / Machine Learning":[
 "machine learning","deep learning","tensorflow","pytorch",
-"scikit-learn","nlp","computer vision",
+"scikit-learn","nlp","computer vision"
+],
 
-# Cloud
-"aws","azure","gcp","docker","kubernetes",
+"Cloud / DevOps":[
+"aws","azure","gcp","docker","kubernetes","git","github","ci/cd","linux"
+],
 
-# DevOps
-"git","github","ci/cd","linux","bash",
+"Analytics":[
+"power bi","tableau","excel"
+],
 
-# Analytics
-"power bi","tableau","excel",
+"Mobile Development":[
+"android","kotlin","swift","flutter"
+],
 
-# Mobile
-"android","kotlin","swift","flutter",
-
-# Security
+"Cybersecurity":[
 "cybersecurity","network security","penetration testing"
 ]
+
+}
 
 
 def extract_text(file):
 
     filename = file.name.lower()
 
-    # TXT
     if filename.endswith(".txt"):
         return file.read().decode("utf-8", errors="ignore")
 
-    # PDF
     if filename.endswith(".pdf"):
 
         text = ""
@@ -58,7 +62,6 @@ def extract_text(file):
 
         return text
 
-    # DOCX
     if filename.endswith(".docx"):
 
         doc = docx.Document(file)
@@ -79,13 +82,20 @@ def extract_skills(uploaded_file):
 
     text = text.lower()
 
-    skill_counts = {}
+    detected = {}
 
-    for skill in skills_db:
+    for category,skills in skill_categories.items():
 
-        matches = re.findall(skill, text)
+        found = {}
 
-        if matches:
-            skill_counts[skill] = len(matches)
+        for skill in skills:
 
-    return skill_counts
+            matches = re.findall(skill,text)
+
+            if matches:
+                found[skill] = len(matches)
+
+        if found:
+            detected[category] = found
+
+    return detected
