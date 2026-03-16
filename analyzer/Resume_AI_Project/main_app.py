@@ -102,27 +102,48 @@ if uploaded_file:
     # RESUME SCORE
     # -----------------------------
 
-    score = calculate_readiness(skill_names)
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 
-    st.subheader("Resume Strength")
+st.subheader("AI Resume Strength Meter")
 
-    fig = go.Figure(go.Indicator(
-        mode="gauge+number",
-        value=score,
-        title={'text':"Resume Score"},
-        gauge={
-            'axis':{'range':[0,100]},
-            'bar':{'color':"#00E5FF"},
-            'steps':[
-                {'range':[0,40],'color':"#FF4D4D"},
-                {'range':[40,70],'color':"#FFA500"},
-                {'range':[70,100],'color':"#00FFB3"}
-            ]
-        }
-    ))
+fig = go.Figure(go.Indicator(
+    mode="gauge+number",
+    value=score,
+    number={'font': {'size': 48, 'color': "#00E5FF"}},
+    title={'text': "<b>Resume Score</b>", 'font': {'size': 22, 'color': "#00E5FF"}},
+    gauge={
+        'axis': {
+            'range': [0, 100],
+            'tickwidth': 1,
+            'tickcolor': "#00E5FF"
+        },
 
-    st.plotly_chart(fig,use_container_width=True)
+        'bar': {
+            'color': "#00E5FF",
+            'thickness': 0.35
+        },
 
+        'bgcolor': "rgba(0,0,0,0.6)",
+
+        'borderwidth': 2,
+        'bordercolor': "#00E5FF",
+
+        'steps': [
+            {'range': [0, 40], 'color': "#2b0a0a"},
+            {'range': [40, 70], 'color': "#332200"},
+            {'range': [70, 100], 'color': "#003333"}
+        ]
+    }
+))
+
+fig.update_layout(
+    paper_bgcolor="rgba(0,0,0,0)",
+    font={'color': "#00E5FF"}
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("</div>", unsafe_allow_html=True)
     # -----------------------------
     # SKILL ANALYSIS
     # -----------------------------
