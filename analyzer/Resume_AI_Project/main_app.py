@@ -216,11 +216,10 @@ if page == "Career Recommendation":
         )]
     )
 
-fig.update_layout(
+    fig.update_layout(
     title="Career Match Distribution"
-)
+    )
 
-st.plotly_chart(fig, use_container_width=True)
     st.plotly_chart(fig,use_container_width=True)
 
     st.markdown("</div>",unsafe_allow_html=True)
