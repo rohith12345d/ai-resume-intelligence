@@ -1,10 +1,12 @@
-# resume_skill_parser.py
-
 import re
+import pdfplumber
+import docx
 
-skill_database = [
+# Skill database
+skills_db = [
     "python",
     "machine learning",
+    "deep learning",
     "data analysis",
     "sql",
     "html",
@@ -13,22 +15,57 @@ skill_database = [
     "react",
     "node",
     "pandas",
-    "numpy"
+    "numpy",
+    "tensorflow",
+    "pytorch"
 ]
+
+
+def extract_text(file):
+
+    filename = file.name.lower()
+
+    # TXT FILE
+    if filename.endswith(".txt"):
+        return file.read().decode("utf-8")
+
+    # PDF FILE
+    if filename.endswith(".pdf"):
+
+        text = ""
+
+        with pdfplumber.open(file) as pdf:
+            for page in pdf.pages:
+                text += page.extract_text() or ""
+
+        return text
+
+    # DOCX FILE
+    if filename.endswith(".docx"):
+
+        doc = docx.Document(file)
+        text = ""
+
+        for para in doc.paragraphs:
+            text += para.text + " "
+
+        return text
+
+    return ""
 
 
 def extract_skills(uploaded_file):
 
-    text = uploaded_file.read().decode("utf-8", errors="ignore")
+    text = extract_text(uploaded_file)
     text = text.lower()
 
     skill_counts = {}
 
-    for skill in skill_database:
+    for skill in skills_db:
 
-        count = len(re.findall(skill, text))
+        matches = re.findall(skill, text)
 
-        if count > 0:
-            skill_counts[skill] = count
+        if matches:
+            skill_counts[skill] = len(matches)
 
     return skill_counts
