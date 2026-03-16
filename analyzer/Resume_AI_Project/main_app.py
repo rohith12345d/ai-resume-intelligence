@@ -1,6 +1,6 @@
 import streamlit as st
-import matplotlib.pyplot as plt
 import plotly.graph_objects as go
+import plotly.express as px
 import base64
 
 from resume_skill_parser import extract_skills
@@ -10,21 +10,18 @@ from roadmap_engine import generate_learning_roadmap
 from insights_engine import generate_insights
 
 
-# PAGE CONFIG
 st.set_page_config(
-    page_title="AI RESUME INTELLIGENCE",
-    page_icon="🧠",
+    page_title="AI Resume Intelligence",
     layout="wide"
 )
 
 
-# BACKGROUND IMAGE
+# BACKGROUND
+
 def set_background():
 
-    with open("analyzer/Resume_AI_Project/ai_background.jpg", "rb") as f:
-        data = f.read()
-
-    encoded = base64.b64encode(data).decode()
+    with open("analyzer/Resume_AI_Project/ai_background.jpg", "rb") as img:
+        encoded = base64.b64encode(img.read()).decode()
 
     st.markdown(
         f"""
@@ -41,8 +38,12 @@ def set_background():
         backdrop-filter: blur(14px);
         border-radius: 14px;
         padding: 25px;
-        margin-bottom: 25px;
-        border:1px solid rgba(255,255,255,0.15);
+        border:1px solid rgba(255,255,255,0.2);
+        }}
+
+        h1 {{
+        font-family: 'Trebuchet MS';
+        letter-spacing:2px;
         }}
 
         </style>
@@ -55,14 +56,13 @@ set_background()
 
 
 # TITLE
+
 st.markdown(
 """
-<h1 style='
-text-align:center;
-font-size:42px;
+<h1 style='text-align:center;
 color:#00E5FF;
+font-size:45px;
 font-weight:800;
-letter-spacing:2px;
 '>
 AI RESUME INTELLIGENCE DASHBOARD
 </h1>
@@ -70,15 +70,14 @@ AI RESUME INTELLIGENCE DASHBOARD
 unsafe_allow_html=True
 )
 
-st.write("")
-
 
 # SIDEBAR
+
 st.sidebar.title("Navigation")
 
 page = st.sidebar.radio(
     "Select Section",
-    ["Dashboard", "Skill Analysis", "Career Recommendation", "Skill Gap Detector"]
+    ["Dashboard","Skill Analysis","Career Recommendation","Skill Gap Detector"]
 )
 
 uploaded_file = st.sidebar.file_uploader(
@@ -87,7 +86,6 @@ uploaded_file = st.sidebar.file_uploader(
 )
 
 
-# IF NO FILE
 if uploaded_file is None:
 
     st.info("Upload your resume from the sidebar to begin analysis.")
@@ -95,104 +93,126 @@ if uploaded_file is None:
 
 
 # PROCESS RESUME
+
 skills = extract_skills(uploaded_file)
-careers = career_matches(skills)
+
+career_scores = career_matches(skills)
+
 score = calculate_readiness(skills)
+
 roadmap = generate_learning_roadmap(skills)
+
 insights = generate_insights(skills)
 
 
 # DASHBOARD
+
 if page == "Dashboard":
 
-    st.markdown("<div class='glass'>", unsafe_allow_html=True)
+    col1,col2 = st.columns(2)
 
-    st.subheader("Resume Score")
+    with col1:
 
-    fig = go.Figure(go.Indicator(
+        st.markdown("<div class='glass'>",unsafe_allow_html=True)
+
+        st.subheader("Resume Score")
+
+        fig = go.Figure(go.Indicator(
         mode = "gauge+number",
         value = score,
         title = {'text': "Resume Strength"},
         gauge = {
-            'axis': {'range': [0,100]},
-            'bar': {'color': "#00E5FF"},
-            'steps' : [
-                {'range': [0,40], 'color': "#FF4B4B"},
-                {'range': [40,70], 'color': "#FFA500"},
-                {'range': [70,100], 'color': "#00FFB3"}
-            ]
-        }
-    ))
+        'axis': {'range':[0,100]},
+        'bar': {'color':"#00E5FF"},
+        'steps':[
+        {'range':[0,40],'color':"#ff4d4d"},
+        {'range':[40,70],'color':"#ffa64d"},
+        {'range':[70,100],'color':"#00ffcc"}
+        ]}
+        ))
 
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig,use_container_width=True)
 
-    st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("</div>",unsafe_allow_html=True)
 
 
-    st.markdown("<div class='glass'>", unsafe_allow_html=True)
+    with col2:
 
-    st.subheader("AI Insights")
+        st.markdown("<div class='glass'>",unsafe_allow_html=True)
 
-    for i in insights:
-        st.write("•", i)
+        st.subheader("AI Insights")
 
-    st.markdown("</div>", unsafe_allow_html=True)
+        for i in insights:
+            st.write("•",i)
+
+        st.markdown("</div>",unsafe_allow_html=True)
+
 
 
 # SKILL ANALYSIS
+
 if page == "Skill Analysis":
 
-    st.markdown("<div class='glass'>", unsafe_allow_html=True)
+    st.markdown("<div class='glass'>",unsafe_allow_html=True)
 
     st.subheader("Detected Skills")
 
-    skill_names = list(skills.keys())
-    skill_values = list(skills.values())
+    skill_names = skills
 
-    fig, ax = plt.subplots()
+    skill_values = [1]*len(skills)
 
-    ax.bar(skill_names, skill_values)
+    fig = px.bar(
+        x=skill_names,
+        y=skill_values,
+        labels={"x":"Skills","y":"Presence"},
+        color=skill_names
+    )
 
-    plt.xticks(rotation=30)
+    st.plotly_chart(fig,use_container_width=True)
 
-    st.pyplot(fig)
+    st.markdown("</div>",unsafe_allow_html=True)
 
-    st.markdown("</div>", unsafe_allow_html=True)
 
 
 # CAREER RECOMMENDATION
+
 if page == "Career Recommendation":
 
-    st.markdown("<div class='glass'>", unsafe_allow_html=True)
+    st.markdown("<div class='glass'>",unsafe_allow_html=True)
 
-    st.subheader("Recommended Careers")
+    st.subheader("Recommended Career Paths")
 
-    labels = list(careers.keys())
-    values = list(careers.values())
+    labels = list(career_scores.keys())
 
-    fig = go.Figure(data=[go.Pie(
+    values = list(career_scores.values())
+
+    fig = go.Figure(
+        data=[go.Pie(
         labels=labels,
         values=values,
-        hole=.5
-    )])
+        hole=0.55
+        )]
+    )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig,use_container_width=True)
 
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>",unsafe_allow_html=True)
+
 
 
 # SKILL GAP
+
 if page == "Skill Gap Detector":
 
-    st.markdown("<div class='glass'>", unsafe_allow_html=True)
+    st.markdown("<div class='glass'>",unsafe_allow_html=True)
 
     st.subheader("Learning Roadmap")
 
-    for skill, steps in roadmap.items():
+    for skill,steps in roadmap.items():
 
         st.markdown(f"### {skill}")
 
-        for s in steps:
-            st.write("•", s)
+        for step in steps:
+            st.write("•",step)
 
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>",unsafe_allow_html=True)
