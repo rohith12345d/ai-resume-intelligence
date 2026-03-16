@@ -104,9 +104,9 @@ if uploaded_file:
 
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 
-st.subheader("AI Resume Strength Meter")
+    st.subheader("AI Resume Strength Meter")
 
-fig = go.Figure(go.Indicator(
+    fig = go.Figure(go.Indicator(
     mode="gauge+number",
     value=score,
     number={'font': {'size': 48, 'color': "#00E5FF"}},
