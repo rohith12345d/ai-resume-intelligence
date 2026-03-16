@@ -165,21 +165,22 @@ if page == "Skill Analysis":
 
     st.subheader("Detected Skills")
 
-    skill_names = skills
-    skill_values = [1]*len(skills)
+    skill_names = list(skills.keys())
+    skill_values = list(skills.values())
 
     fig = px.bar(
     y=skill_names,
     x=skill_values,
     orientation="h",
     color=skill_names,
-    title="Skill Distribution",
+    title="Skill Strength in Resume",
     )
 
     fig.update_layout(
     showlegend=False,
-    xaxis_title="Skill Presence",
-    yaxis_title="Skills"
+    xaxis_title="Frequency in Resume",
+    yaxis_title="Skills",
+    height=400
     )
 
     st.plotly_chart(fig, use_container_width=True)
