@@ -1,224 +1,198 @@
 import streamlit as st
-import pdfplumber
-import docx
-import time
+import matplotlib.pyplot as plt
 import plotly.graph_objects as go
-import plotly.express as px
+import base64
 
-from resume_skill_parser import extract_skills, skill_frequency
-from career_match_engine import recommend_roles
+from resume_skill_parser import extract_skills
+from career_match_engine import career_matches
 from readiness_engine import calculate_readiness
-from roadmap_engine import generate_roadmap
+from roadmap_engine import generate_learning_roadmap
 from insights_engine import generate_insights
 
 
-st.set_page_config(page_title="AI Resume Intelligence", layout="wide")
+# PAGE CONFIG
+st.set_page_config(
+    page_title="AI RESUME INTELLIGENCE",
+    page_icon="🧠",
+    layout="wide"
+)
 
-# --------------------------
-# BACKGROUND
-# --------------------------
 
+# BACKGROUND IMAGE
 def set_background():
-    st.markdown(
-        """
-        <style>
-        .stApp {
-            background-image: url("https://raw.githubusercontent.com/rohith12345d/ai-resume-intelligence/main/analyzer/Resume_AI_Project/ai_background.jpg");
-            background-size: cover;
-            background-position: center;
-        }
 
-        .glass{
-            background: rgba(15,23,42,0.75);
-            padding:20px;
-            border-radius:16px;
-            backdrop-filter: blur(12px);
-            border:1px solid rgba(255,255,255,0.1);
-        }
+    with open("ai_background.jpg", "rb") as f:
+        data = f.read()
+
+    encoded = base64.b64encode(data).decode()
+
+    st.markdown(
+        f"""
+        <style>
+
+        .stApp {{
+        background-image: url("data:image/jpg;base64,{encoded}");
+        background-size: cover;
+        background-position: center;
+        }}
+
+        .glass {{
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(14px);
+        border-radius: 14px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border:1px solid rgba(255,255,255,0.15);
+        }}
 
         </style>
         """,
         unsafe_allow_html=True
     )
 
+
 set_background()
 
-# --------------------------
-# HEADER
-# --------------------------
 
+# TITLE
 st.markdown(
 """
-<h1 style='text-align:center;color:#00e5ff;font-family:Inter;'>AI RESUME INTELLIGENCE SYSTEM</h1>
+<h1 style='
+text-align:center;
+font-size:42px;
+color:#00E5FF;
+font-weight:800;
+letter-spacing:2px;
+'>
+AI RESUME INTELLIGENCE DASHBOARD
+</h1>
 """,
 unsafe_allow_html=True
 )
 
-st.write("Upload your resume from the sidebar to begin AI analysis.")
+st.write("")
 
-# --------------------------
+
 # SIDEBAR
-# --------------------------
+st.sidebar.title("Navigation")
 
-st.sidebar.title("AI Resume System")
-
-menu = st.sidebar.selectbox(
-"Navigation",
-[
-"Dashboard",
-"Skill Analysis",
-"Career Recommendation",
-"Skill Gap Roadmap",
-"AI Resume Insights"
-]
+page = st.sidebar.radio(
+    "Select Section",
+    ["Dashboard", "Skill Analysis", "Career Recommendation", "Skill Gap Detector"]
 )
 
 uploaded_file = st.sidebar.file_uploader(
-"Upload Resume",
-type=["pdf","docx"]
+    "Upload Resume",
+    type=["pdf","docx","txt"]
 )
 
-resume_text=""
-skills=[]
-freq={}
-roles={}
-readiness={}
 
-# --------------------------
-# FILE PROCESSING
-# --------------------------
+# IF NO FILE
+if uploaded_file is None:
 
-if uploaded_file:
+    st.info("Upload your resume from the sidebar to begin analysis.")
+    st.stop()
 
-    with st.spinner("Analyzing Resume with AI..."):
 
-        if uploaded_file.type=="application/pdf":
-            with pdfplumber.open(uploaded_file) as pdf:
-                for page in pdf.pages:
-                    resume_text+=page.extract_text()
+# PROCESS RESUME
+skills = extract_skills(uploaded_file)
+careers = career_matches(skills)
+score = calculate_readiness(skills)
+roadmap = generate_learning_roadmap(skills)
+insights = generate_insights(skills)
 
-        elif uploaded_file.type=="application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-            doc=docx.Document(uploaded_file)
-            for para in doc.paragraphs:
-                resume_text+=para.text
 
-        skills=extract_skills(resume_text)
-        freq=skill_frequency(resume_text,skills)
-        roles=recommend_roles(skills)
-        readiness=calculate_readiness(skills)
-
-# --------------------------
 # DASHBOARD
-# --------------------------
+if page == "Dashboard":
 
-if menu=="Dashboard":
+    st.markdown("<div class='glass'>", unsafe_allow_html=True)
 
-    if not uploaded_file:
-        st.info("Upload resume to start analysis.")
-    else:
+    st.subheader("Resume Score")
 
-        col1,col2,col3,col4=st.columns(4)
+    fig = go.Figure(go.Indicator(
+        mode = "gauge+number",
+        value = score,
+        title = {'text': "Resume Strength"},
+        gauge = {
+            'axis': {'range': [0,100]},
+            'bar': {'color': "#00E5FF"},
+            'steps' : [
+                {'range': [0,40], 'color': "#FF4B4B"},
+                {'range': [40,70], 'color': "#FFA500"},
+                {'range': [70,100], 'color': "#00FFB3"}
+            ]
+        }
+    ))
 
-        col1.metric("Detected Skills",len(skills))
-        col2.metric("Career Matches",len(roles))
-        col3.metric("Projects Found","Yes" if "project" in resume_text.lower() else "No")
-        col4.metric("Resume Status","Analyzed")
+    st.plotly_chart(fig, use_container_width=True)
 
-        score=min(len(skills)*6,100)
+    st.markdown("</div>", unsafe_allow_html=True)
 
-        fig=go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=score,
-            title={'text':"AI Resume Score"},
-            gauge={
-                'axis':{'range':[0,100]},
-                'bar':{'color':"#00e5ff"},
-                'steps':[
-                    {'range':[0,40],'color':'#dc2626'},
-                    {'range':[40,70],'color':'#f59e0b'},
-                    {'range':[70,100],'color':'#22c55e'}
-                ]
-            }
-        ))
 
-        st.plotly_chart(fig,use_container_width=True)
+    st.markdown("<div class='glass'>", unsafe_allow_html=True)
 
-# --------------------------
+    st.subheader("AI Insights")
+
+    for i in insights:
+        st.write("•", i)
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
 # SKILL ANALYSIS
-# --------------------------
+if page == "Skill Analysis":
 
-if menu=="Skill Analysis":
+    st.markdown("<div class='glass'>", unsafe_allow_html=True)
 
-    if not uploaded_file:
-        st.warning("Upload resume first")
-    else:
+    st.subheader("Detected Skills")
 
-        df=px.data.tips()
+    skill_names = list(skills.keys())
+    skill_values = list(skills.values())
 
-        names=list(freq.keys())
-        values=list(freq.values())
+    fig, ax = plt.subplots()
 
-        fig=px.bar(
-            x=values,
-            y=names,
-            orientation='h',
-            color=values,
-            color_continuous_scale="Blues"
-        )
+    ax.bar(skill_names, skill_values)
 
-        st.plotly_chart(fig,use_container_width=True)
+    plt.xticks(rotation=30)
 
-# --------------------------
+    st.pyplot(fig)
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
 # CAREER RECOMMENDATION
-# --------------------------
+if page == "Career Recommendation":
 
-if menu=="Career Recommendation":
+    st.markdown("<div class='glass'>", unsafe_allow_html=True)
 
-    if not uploaded_file:
-        st.warning("Upload resume first")
-    else:
+    st.subheader("Recommended Careers")
 
-        labels=list(roles.keys())
-        values=list(roles.values())
+    labels = list(careers.keys())
+    values = list(careers.values())
 
-        fig=go.Figure(data=[go.Pie(
-            labels=labels,
-            values=values,
-            hole=.4
-        )])
+    fig = go.Figure(data=[go.Pie(
+        labels=labels,
+        values=values,
+        hole=.5
+    )])
 
-        st.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width=True)
 
-# --------------------------
-# SKILL GAP ROADMAP
-# --------------------------
+    st.markdown("</div>", unsafe_allow_html=True)
 
-if menu=="Skill Gap Roadmap":
 
-    if not uploaded_file:
-        st.warning("Upload resume first")
-    else:
+# SKILL GAP
+if page == "Skill Gap Detector":
 
-        roadmap=generate_roadmap(skills)
+    st.markdown("<div class='glass'>", unsafe_allow_html=True)
 
-        for skill,steps in roadmap.items():
+    st.subheader("Learning Roadmap")
 
-            st.subheader(skill)
+    for skill, steps in roadmap.items():
 
-            for step in steps:
-                st.write("•",step)
+        st.markdown(f"### {skill}")
 
-# --------------------------
-# AI INSIGHTS
-# --------------------------
+        for s in steps:
+            st.write("•", s)
 
-if menu=="AI Resume Insights":
-
-    if not uploaded_file:
-        st.warning("Upload resume first")
-    else:
-
-        insights=generate_insights(skills,resume_text)
-
-        for i in insights:
-            st.write("•",i)
+    st.markdown("</div>", unsafe_allow_html=True)
