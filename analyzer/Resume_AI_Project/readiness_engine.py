@@ -1,4 +1,5 @@
 # readiness_engine.py
+
 def calculate_readiness(skills):
 
     if not skills:
@@ -10,15 +11,19 @@ def calculate_readiness(skills):
         "sql",
         "data analysis",
         "pandas",
-        "statistics"
+        "statistics",
+        "deep learning"
     ]
 
     matched = 0
 
     for skill in skills:
+
         if skill in important_skills:
             matched += 1
 
     score = (matched / len(important_skills)) * 100
 
-    return round(score)
+    score = round(score)
+
+    return score
