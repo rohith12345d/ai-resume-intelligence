@@ -261,6 +261,15 @@ if menu == "📊 Skill Analysis":
     )
 
     st.plotly_chart(fig_meter, use_container_width=True)
+    if score < 40:
+        st.error("Resume Strength: Low — Add more technical skills")
+    
+    elif score < 70:
+        st.warning("Resume Strength: Moderate — Improve projects and technologies")
+    
+    else:
+        st.success("Resume Strength: High — Strong job readiness")
+    
 
     # ---------------- RADAR ----------------
     st.subheader("AI Skill Capability Radar")
