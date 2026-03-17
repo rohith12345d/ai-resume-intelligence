@@ -140,7 +140,7 @@ if menu == "Skill Analysis":
 # CAREER MATCH
 elif menu == "Career Match":
 
-    st.subheader("AI Career Recommendation Analysis")
+    st.subheader("Career Recommendation ")
 
     roles = recommend_roles(skill_names)
 
@@ -176,7 +176,7 @@ elif menu == "Career Match":
         )
 
         fig.update_layout(
-            title="Career Match Distribution",
+            title="AI Career Recomendation Analysis",
             paper_bgcolor="rgba(0,0,0,0)",
             font=dict(color="white")
         )
