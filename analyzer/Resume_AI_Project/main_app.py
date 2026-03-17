@@ -197,8 +197,10 @@ else:
     skills = {}
 
 
-skill_names = list(skills.keys())
-skill_values = [len(v) for v in skills.values()]
+skill_names = []
+for skill_list in sklls.values():
+    skill_names.extend(skill_list)
+skill_names= [s.lower() for s in skill_names]
 
 
 # =====================================================
