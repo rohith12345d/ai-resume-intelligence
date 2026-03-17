@@ -325,7 +325,7 @@ if menu == "📊 Skill Analysis":
         text=skill_values,
         textposition="outside",
         marker=dict(
-            color=["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE"]
+            color=["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE","#FF4C4C"]
         )
     ))
     
@@ -336,6 +336,7 @@ if menu == "📊 Skill Analysis":
         plot_bgcolor="rgba(255,255,255,0.20)",
         font=dict(color="black")
     )
+    st.plotly_char(fig_bar,use_container_width=True)
 # =====================================================
 # 🎯 CAREER MATCH
 # =====================================================
