@@ -1,6 +1,6 @@
 # roadmap_engine.py
 
-def generate_learning_roadmap(user_skills):
+def generate_learning_roadmap(selected_role,skill_names):
 
     roadmap = {}
 
