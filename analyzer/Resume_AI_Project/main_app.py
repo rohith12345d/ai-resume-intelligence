@@ -29,7 +29,7 @@ layout="wide"
 def set_background():
 
     with open("ai_background.jpg","rb") as f:
-    img = base64.b64encode(f.read()).decode()
+        img = base64.b64encode(f.read()).decode()
 
 st.markdown(
 f"""
