@@ -5,25 +5,19 @@ def calculate_readiness(skills):
     if not skills:
         return 0
 
-    important_skills = [
-        "python",
-        "machine learning",
-        "sql",
-        "data analysis",
-        "pandas",
-        "statistics",
-        "deep learning"
-    ]
+    # total skills detected
+    total_skills = len(skills)
 
-    matched = 0
-
-    for skill in skills:
-
-        if skill in important_skills:
-            matched += 1
-
-    score = (matched / len(important_skills)) * 100
-
-    score = round(score)
+    # simple readiness scoring
+    if total_skills >= 10:
+        score = 90
+    elif total_skills >= 7:
+        score = 75
+    elif total_skills >= 5:
+        score = 60
+    elif total_skills >= 3:
+        score = 40
+    else:
+        score = 20
 
     return score
