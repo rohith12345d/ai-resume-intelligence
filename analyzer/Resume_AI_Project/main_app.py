@@ -2,6 +2,7 @@ import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
 import base64
+import os
 
 from resume_skill_parser import extract_skills
 from career_match_engine import recommend_roles
