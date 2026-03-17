@@ -25,6 +25,7 @@ def extract_skills(uploaded_file):
             text += para.text + "\n"
 
     text = text.lower()
+    print(text)
 
     skills_db = {
 
