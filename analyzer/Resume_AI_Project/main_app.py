@@ -316,6 +316,7 @@ if menu == "📊 Skill Analysis":
         for tech in tech_list:
             for skill in skill_names:
                 if tech.lower() in skill.lower():
+                    if tech.title() not in detected:
                     detected.append(tech.title())
     
         if detected:
