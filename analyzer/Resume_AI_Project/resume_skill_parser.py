@@ -59,8 +59,15 @@ def extract_skills(uploaded_file):
         found = []
 
         for skill in skills:
-            if re.search(r'\b'+re.escape(skill)+r'\b', text):
+
+        # Special handling for C language
+        if skill == "c":
+            if re.search(r'(?<!\w)c(?!\w)', text):
                 found.append(skill)
+            continue
+    
+        if re.search(r'\b' + re.escape(skill) + r'\b', text):
+            found.append(skill)
 
         if found:
             detected[category] = found
