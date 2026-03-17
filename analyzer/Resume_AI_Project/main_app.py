@@ -198,7 +198,7 @@ else:
 
 
 skill_names = list(skills.keys())
-skill_values = list(skills.values())
+skill_values = [len(v) for v in skills.values()]
 
 
 # =====================================================
