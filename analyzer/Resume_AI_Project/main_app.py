@@ -126,6 +126,8 @@ skill_values = list(skills.values())
 # 📊 SKILL ANALYSIS PAGE
 # =====================================================
 if menu == "📊 Skill Analysis":
+    with st.spinner("AI is analyzing skill data..."):
+        time.sleep(1)
 
     score = calculate_readiness(skill_names)
 
@@ -226,6 +228,8 @@ if menu == "📊 Skill Analysis":
 # 🎯 CAREER MATCH
 # =====================================================
 elif menu == "🎯 Career Match":
+    with st.spinner("AI is analyzing career compatibility..."):
+        time.sleep(1)
 
     roles = recommend_roles(skill_names)
 
@@ -258,6 +262,8 @@ elif menu == "🎯 Career Match":
 # 🧠 SKILL GAP ROADMAP
 # =====================================================
 elif menu == "🧠 Skill Gap Roadmap":
+    with st.spinner("AI is generating learning roadmap..."):
+        time.sleep(1)
 
     st.subheader("Learning Roadmap")
 
@@ -275,6 +281,9 @@ elif menu == "🧠 Skill Gap Roadmap":
 # 💡 AI INSIGHTS
 # =====================================================
 elif menu == "💡 AI Insights":
+    with st.spinner("AI is generating resume insights..."):
+        time.sleep(1)
+    
 
     st.subheader("AI Resume Insights")
 
