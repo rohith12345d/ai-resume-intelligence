@@ -89,6 +89,7 @@ margin-bottom: 30px;
 
 """, unsafe_allow_html=True)
 
+st.success("AI System Status: Active and Ready")
 
 # ---------------- SIDEBAR ----------------
 st.sidebar.title("AI Resume Dashboard")
