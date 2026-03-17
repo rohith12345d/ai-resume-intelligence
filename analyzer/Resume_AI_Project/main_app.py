@@ -145,6 +145,9 @@ else:
 skill_names = list(skills.keys())
 skill_values = list(skills.values())
 
+# Calculate resume score first
+score = calculate_readiness(skill_names)
+
 st.markdown("### Resume Skill Summary")
 
 col1, col2, col3 = st.columns(3)
@@ -152,7 +155,6 @@ col1, col2, col3 = st.columns(3)
 col1.metric("Skills Detected", len(skill_names))
 col2.metric("Resume Strength Score", score)
 col3.metric("Career Matches", len(recommend_roles(skill_names)))
-
 
 # =====================================================
 # 📊 SKILL ANALYSIS PAGE
