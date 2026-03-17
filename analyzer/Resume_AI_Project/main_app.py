@@ -98,14 +98,20 @@ st.sidebar.markdown(
 unsafe_allow_html=True
 )
 
+st.sidebar.markdown("<div class='nav-card'>📊 Skill Analysis</div>", unsafe_allow_html=True)
+st.sidebar.markdown("<div class='nav-card'>🎯 Career Match</div>", unsafe_allow_html=True)
+st.sidebar.markdown("<div class='nav-card'>🧠 Skill Gap Roadmap</div>", unsafe_allow_html=True)
+st.sidebar.markdown("<div class='nav-card'>💡 AI Insights</div>", unsafe_allow_html=True)
+
 menu = st.sidebar.radio(
-    "Navigation",
+    "Select Module",
     [
         "📊 Skill Analysis",
         "🎯 Career Match",
         "🧠 Skill Gap Roadmap",
         "💡 AI Insights"
-    ]
+    ],
+    label_visibility="collapsed"
 )
 
 uploaded_file = st.sidebar.file_uploader(
