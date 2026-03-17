@@ -145,16 +145,6 @@ else:
 skill_names = list(skills.keys())
 skill_values = list(skills.values())
 
-# Calculate resume score first
-score = calculate_readiness(skill_names)
-
-st.markdown("### Resume Skill Summary")
-
-col1, col2, col3 = st.columns(3)
-
-col1.metric("Skills Detected", len(skill_names))
-col3.metric("Career Matches", len(recommend_roles(skill_names)))
-
 # =====================================================
 # 📊 SKILL ANALYSIS PAGE
 # =====================================================
@@ -169,57 +159,82 @@ if menu == "📊 Skill Analysis":
     
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     
-    st.markdown("### Resume Skill Summary")
+    st.markdown("## Resume Skill Summary")
     
-    col1, col2 = st.columns([1,2])
+    # ---- Metrics ----
+    col1, col2 = st.columns(2)
     
-    # LEFT SIDE METRICS
     with col1:
         st.metric("Skills Detected", len(skill_names))
+    
+    with col2:
         st.metric("Career Matches", len(recommend_roles(skill_names)))
     
-    # RIGHT SIDE GAUGE
-    with col2:
+    st.markdown("---")
     
-        fig_meter = go.Figure(go.Indicator(
+    # ---- AI Resume Strength Meter ----
     
-            mode="gauge+number",
+    fig_meter = go.Figure(go.Indicator(
     
-            value=score,
+        mode="gauge+number",
     
-            number={'font':{'size':60,'color':"#00E5FF"}},
+        value=score,
     
-            title={'text':"AI Resume Strength",'font':{'size':24,'color':"#00E5FF"}},
-    
-            gauge={
-    
-                'axis':{'range':[0,100]},
-    
-                'bar':{'color':"#00E5FF",'thickness':0.25},
-    
-                'bgcolor':"rgba(0,0,0,0.6)",
-    
-                'borderwidth':3,
-                'bordercolor':"#00E5FF",
-    
-                'steps':[
-                    {'range':[0,40],'color':"#8B0000"},
-                    {'range':[40,70],'color':"#FFA500"},
-                    {'range':[70,100],'color':"#006400"}
-                ]
+        number={
+            'font':{
+                'size':70,
+                'color':"#00E5FF"
             }
+        },
     
-        ))
+        title={
+            'text':"AI Resume Strength",
+            'font':{'size':28,'color':"#00E5FF"}
+        },
     
-        fig_meter.update_layout(
-            height=320,
-            paper_bgcolor="rgba(0,0,0,0)",
-            font={'color':"#00E5FF"}
-        )
+        gauge={
     
-        st.plotly_chart(fig_meter, use_container_width=True)
+            'axis':{
+                'range':[0,100],
+                'tickwidth':2,
+                'tickcolor':"#00E5FF"
+            },
+    
+            'bar':{
+                'color':"#00E5FF",
+                'thickness':0.3
+            },
+    
+            'bgcolor':"rgba(0,0,0,0.6)",
+    
+            'borderwidth':4,
+            'bordercolor':"#00E5FF",
+    
+            'steps':[
+    
+                {'range':[0,40],'color':"#8B0000"},
+                {'range':[40,70],'color':"#FFA500"},
+                {'range':[70,100],'color':"#00FF7F"}
+    
+            ]
+        }
+    
+    ))
+    
+    fig_meter.update_layout(
+    
+        height=400,
+    
+        paper_bgcolor="rgba(0,0,0,0)",
+    
+        font={'color':"#00E5FF"}
+    
+    )
+    
+    st.plotly_chart(fig_meter, use_container_width=True)
     
     st.markdown("</div>", unsafe_allow_html=True)
+    
    
     
 
