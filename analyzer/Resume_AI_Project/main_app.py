@@ -296,7 +296,7 @@ if menu == "📊 Skill Analysis":
 
     st.plotly_chart(fig_radar, use_container_width=True)
 
-    st.caption("Radar chart shows distribution of skill categories detected in your resume")
+    st.caption("Radar chart visualizes the distribution of skill categories detected in your resume")
 
     # -------- DETECT TECHNOLOGIES FROM RESUME --------
 
@@ -330,28 +330,28 @@ if menu == "📊 Skill Analysis":
     
     for i,(category,skill_list) in enumerate(items):
     
+        skill_text = "<br>".join([f"• {s}" for s in skill_list])
+    
         block = f"""
         <div style="
         background:rgba(255,255,255,0.15);
-        padding:12px;
+        padding:15px;
         border-radius:10px;
         margin-bottom:10px;
         border-left:6px solid #00E5FF;
         ">
         <b style="font-size:18px">{category}</b><br>
+        {skill_text}
+        </div>
         """
-    
-        for skill in skill_list:
-            block += f"• {skill}<br>"
-    
-        block += "</div>"
     
         if i % 2 == 0:
             col1.markdown(block, unsafe_allow_html=True)
         else:
             col2.markdown(block, unsafe_allow_html=True)
-
     # ---------------- BAR CHART ----------------
+
+    st.caption("Skill Frequency shows how many skills from each category were detected in the resume.")
     st.subheader("Skill Frequency")
 
     colors = ["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE","#FF4C4C"]
