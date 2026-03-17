@@ -1,8 +1,22 @@
 # roadmap_engine.py
-
-def generate_learning_roadmap(selected_role,skill_names):
+def generate_learning_roadmap(selected_role, skill_names):
 
     roadmap = {}
+
+    if selected_role == "Full Stack Developer":
+
+        required_skills = ["html","css","javascript","react","node"]
+
+        missing = []
+
+        for skill in required_skills:
+
+            if skill not in skill_names:
+                missing.append(skill)
+
+        roadmap["Skills to Learn"] = missing
+
+    return roadmap
 
     learning_paths = {
 
@@ -44,7 +58,7 @@ def generate_learning_roadmap(selected_role,skill_names):
 
     for skill, steps in learning_paths.items():
 
-        if skill not in user_skills:
+        if skill not in skill_names:
             roadmap[skill] = steps
 
     return roadmap
