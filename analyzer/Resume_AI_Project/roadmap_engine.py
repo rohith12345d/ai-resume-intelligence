@@ -1,64 +1,27 @@
-# roadmap_engine.py
-def generate_learning_roadmap(selected_role, skill_names):
+def generate_learning_roadmap(selected_role, user_skills):
 
-    roadmap = {}
+    roadmap_db = {
 
-    if selected_role == "Full Stack Developer":
-
-        required_skills = ["html","css","javascript","react","node"]
-
-        missing = []
-
-        for skill in required_skills:
-
-            if skill not in skill_names:
-                missing.append(skill)
-
-        roadmap["Skills to Learn"] = missing
-
-    return roadmap
-
-    learning_paths = {
-
-        "python": [
-            "Learn Python Basics",
-            "Understand OOP Concepts",
-            "Practice Data Structures",
-            "Build Python Projects"
+        "Full Stack Developer":[
+            "html","css","javascript","react","node","apis","sql"
         ],
 
-        "machine learning": [
-            "Learn Supervised Learning",
-            "Study Regression & Classification",
-            "Understand Model Evaluation",
-            "Build ML Projects"
+        "Data Scientist":[
+            "python","pandas","numpy","machine learning","sql"
         ],
 
-        "sql": [
-            "Learn SQL Basics",
-            "Practice Joins",
-            "Learn Aggregations",
-            "Work with Databases"
-        ],
-
-        "data analysis": [
-            "Learn Pandas",
-            "Practice Data Cleaning",
-            "Perform Exploratory Data Analysis",
-            "Create Data Visualizations"
-        ],
-
-        "deep learning": [
-            "Understand Neural Networks",
-            "Learn TensorFlow or PyTorch",
-            "Practice Image / Text Models",
-            "Build Deep Learning Projects"
+        "Machine Learning Engineer":[
+            "python","pandas","numpy","machine learning","tensorflow"
         ]
+
     }
 
-    for skill, steps in learning_paths.items():
+    required = roadmap_db.get(selected_role, [])
 
-        if skill not in skill_names:
-            roadmap[skill] = steps
+    missing = []
 
-    return roadmap
+    for skill in required:
+        if skill not in user_skills:
+            missing.append(skill)
+
+    return missing
