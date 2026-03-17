@@ -55,13 +55,14 @@ def set_background():
         }}
 
         .glass-card {{
-        background: rgba(255,255,255,0.08);
-        backdrop-filter: blur(10px);
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(12px);
         border-radius: 15px;
         padding: 25px;
         margin-bottom: 20px;
-        border: 1px solid rgba(255,255,255,0.15);
-        box-shadow: 0 0 15px rgba(0,229,255,0.25);
+        border: 1px solid rgba(0,229,255,0.3);
+        box-shadow: 0 0 10px rgba(0,229,255,0.4),
+        0 0 20px rgba(0,229,255,0.2);
         }}
 
         .glow-meter {{
@@ -163,11 +164,11 @@ if menu == "📊 Skill Analysis":
     
     # ---------------- AI RESUME STRENGTH ----------------
 
-    score = calculate_readiness(skill_names)
+    # score = calculate_readiness(skill_names)
     
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+    # st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     
-    st.markdown("## Resume Skill Summary")
+    # st.markdown("## Resume Skill Summary")
     
     # # ---- Metrics ----
     # col1, col2 = st.columns(2)
@@ -258,6 +259,15 @@ if menu == "📊 Skill Analysis":
     st.plotly_chart(fig_meter, use_container_width=True)
     
     st.markdown("</div>", unsafe_allow_html=True)
+
+    if score < 40:
+        st.error("AI Evaluation: Weak Resume — Add more technical skills")
+
+    elif score < 70:
+        st.warning("AI Evaluation: Moderate Resume — Improve projects and experience")
+    
+    else:
+        st.success("AI Evaluation: Strong Resume — Good job readiness")
 
 
 
