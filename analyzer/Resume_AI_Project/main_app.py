@@ -114,10 +114,15 @@ if uploaded_file is None:
 
 # ---------------- SKILL EXTRACTION ----------------
 with st.spinner("AI is analyzing your resume...."):
-    progress = st.progress(0)
+    # AI analyzing animation
+    progress_bar = st.progress(0)
     for i in range(100):
         time.sleep(0.01)
-        progress.progress(i+1)
+        progress_bar.progress(i + 1)
+    
+    # Remove the line after analysis
+    progress_bar.empty()
+    
     skills_raw = extract_skills(uploaded_file)
 
 if not skills_raw:
