@@ -163,80 +163,59 @@ if menu == "📊 Skill Analysis":
     with st.spinner("AI is analyzing skill data..."):
                      time.sleep(1)
     st.subheader("Detected Skills")
-    # ---------- AI RESUME STRENGTH ----------
-    score = calculate_readiness(skill_names)
-
-    fig_meter = go.Figure(go.Indicator(
-
-    mode="gauge+number+delta",
-
-    value=score,
-
-    number={
-        'font':{
-            'size':60,
-            'color':"#00E5FF"
-        }
-    },
-
-    title={
-        'text':"AI Resume Strength",
-        'font':{'size':26,'color':"#00E5FF"}
-    },
-
-    gauge={
-
-        'shape':"angular",
-
-        'axis':{
-            'range':[0,100],
-            'tickwidth':2,
-            'tickcolor':"#00E5FF"
-        },
-
-        'bar':{
-            'color':"rgba(0,0,0,0)"
-        },
-
-        'bgcolor':"rgba(0,0,0,0.6)",
-
-        'borderwidth':3,
-        'bordercolor':"#00E5FF",
-
-        'steps':[
-
-            {'range':[0,40],'color':"#8B0000"},
-            {'range':[40,70],'color':"#FFA500"},
-            {'range':[70,100],'color':"#006400"}
-
-        ],
-
-        'threshold':{
-            'line':{'color':"#FFFFFF",'width':4},
-            'thickness':0.75,
-            'value':score
-            }
-
-        }
-
-    ))
     
-    fig_meter.update_layout(
+    # ---------- AI RESUME STRENGTH ----------
 
-    height=350,
+    score = calculate_readiness(skill_names)
+    
+    placeholder = st.empty()
+    
+    for i in range(score + 1):
+    
+        fig_meter = go.Figure(go.Indicator(
+            mode="gauge+number",
+            value=i,
+    
+            number={
+                'font':{'size':60,'color':"#00E5FF"}
+            },
+    
+            title={
+                'text':"AI Resume Strength",
+                'font':{'size':26,'color':"#00E5FF"}
+            },
+    
+            gauge={
+                'axis':{'range':[0,100]},
+    
+                'bar':{'color':"#00E5FF"},
+    
+                'steps':[
+                    {'range':[0,40],'color':"#8B0000"},
+                    {'range':[40,70],'color':"#FFA500"},
+                    {'range':[70,100],'color':"#006400"}
+                ]
+            }
+        ))
+    
+        fig_meter.update_layout(
+            height=350,
+            paper_bgcolor="rgba(0,0,0,0)",
+            font={'color':"#00E5FF"}
+        )
 
-    paper_bgcolor="rgba(0,0,0,0)",
+    placeholder.plotly_chart(fig_meter, use_container_width=True)
 
-    font={'color':"#00E5FF"}
-
-    )
+    time.sleep(0.02)
     
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     
     st.plotly_chart(fig_meter,use_container_width=True)
     
     st.markdown("</div>", unsafe_allow_html=True)
+    
     # ---------- SKILL FREQUENCY ----------
+    
     st.subheader("Detected Skills")
 
     fig = go.Figure()
