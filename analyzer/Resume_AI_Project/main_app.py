@@ -276,9 +276,9 @@ if menu == "📊 Skill Analysis":
 
     fig_radar.update_layout(
         height=300,
-        margin=dict(l=10,r=10,t=40,b=20),
+        margin=dict(l=40,r=40,t=40,b=60),
         
-        polar=dict(radialaxis=dict(visible=True)),
+        polar=dict(radialaxis=dict(visible=True,gridcolor="rgba(0,0,0,0.2)"),
         showlegend=False,
         paper_bgcolor="rgba(255,255,255,0.25)",
         plot_bgcolor="rgba(255,255,255,0.20)",
@@ -292,30 +292,50 @@ if menu == "📊 Skill Analysis":
 
     cols = st.columns(2)
 
+    colors = ["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE","#FF4C4C"]
+
     for i,(skill,value) in enumerate(skills.items()):
-        cols[i%2].write(f"• {skill} ({value})")
+    
+    color = colors[i % len(colors)]
+
+    cols[i%2].markdown(
+        f"""
+        <div style="
+        background:rgba(255,255,255,0.15);
+        padding:8px;
+        border-radius:8px;
+        margin-bottom:6px;
+        border-left:5px solid {color};
+        font-weight:500;">
+        {skill} ({value})
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     # ---------------- BAR CHART ----------------
     st.subheader("Skill Frequency")
 
     fig_bar = go.Figure()
 
-    fig_bar.add_trace(go.Bar(
-        x=skill_values,
-        y=skill_names,
-        orientation='h',
-        marker=dict(color="#00E5FF")
-    ))
-
-    fig_bar.update_layout(
-        height=280,
-        margin=dict(l=10,r=10,t=30,b=20),
-        paper_bgcolor="rgba(255,255,255,0.20)",
-        plot_bgcolor="rgba(255,255,255,0.20)",
-        font=dict(color="black")
+fig_bar.add_trace(go.Bar(
+    x=skill_values,
+    y=skill_names,
+    orientation='h',
+    text=skill_values,
+    textposition="outside",
+    marker=dict(
+        color=["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE"]
     )
+))
 
-    st.plotly_chart(fig_bar, use_container_width=True)
+fig_bar.update_layout(
+    height=280,
+    margin=dict(l=40, r=40, t=30, b=20),
+    paper_bgcolor="rgba(255,255,255,0.20)",
+    plot_bgcolor="rgba(255,255,255,0.20)",
+    font=dict(color="black")
+)
 # =====================================================
 # 🎯 CAREER MATCH
 # =====================================================
