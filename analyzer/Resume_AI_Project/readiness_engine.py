@@ -2,6 +2,7 @@
 
 import pdfplumber
 import docx
+import calculate_readiness
 
 def extract_skills(uploaded_file):
 
