@@ -318,24 +318,24 @@ if menu == "📊 Skill Analysis":
 
     fig_bar = go.Figure()
 
-fig_bar.add_trace(go.Bar(
-    x=skill_values,
-    y=skill_names,
-    orientation='h',
-    text=skill_values,
-    textposition="outside",
-    marker=dict(
-        color=["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE"]
+    fig_bar.add_trace(go.Bar(
+        x=skill_values,
+        y=skill_names,
+        orientation='h',
+        text=skill_values,
+        textposition="outside",
+        marker=dict(
+            color=["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE"]
+        )
+    ))
+    
+    fig_bar.update_layout(
+        height=280,
+        margin=dict(l=40, r=40, t=30, b=20),
+        paper_bgcolor="rgba(255,255,255,0.20)",
+        plot_bgcolor="rgba(255,255,255,0.20)",
+        font=dict(color="black")
     )
-))
-
-fig_bar.update_layout(
-    height=280,
-    margin=dict(l=40, r=40, t=30, b=20),
-    paper_bgcolor="rgba(255,255,255,0.20)",
-    plot_bgcolor="rgba(255,255,255,0.20)",
-    font=dict(color="black")
-)
 # =====================================================
 # 🎯 CAREER MATCH
 # =====================================================
