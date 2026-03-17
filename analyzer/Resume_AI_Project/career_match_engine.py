@@ -2,7 +2,7 @@
 
 def recommend_roles(user_skills):
 
-    # convert skill categories into real skills
+    # expand category skills
     expanded_skills = []
 
     for skill in user_skills:
@@ -47,7 +47,6 @@ def recommend_roles(user_skills):
         "Full Stack Developer":[
             "html","css","javascript","react","node","sql"
         ]
-
     }
 
     role_scores = {}
@@ -57,11 +56,15 @@ def recommend_roles(user_skills):
         matched = 0
 
         for skill in required_skills:
-
-            if skill.lower() in [s.lower() for s in expanded_skills]:
+            if skill in expanded_skills:
                 matched += 1
 
-        score = (matched / len(required_skills)) * 100
-        role_scores[role] = round(score,2)
+        score = matched   # use raw match count
+
+        if score > 0:
+            role_scores[role] = score
+
+    # sort roles by best match
+    role_scores = dict(sorted(role_scores.items(), key=lambda x: x[1], reverse=True))
 
     return role_scores
