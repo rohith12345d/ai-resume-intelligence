@@ -1,5 +1,6 @@
 import re
-
+import pdfplumber
+import docx
 def extract_skills(uploaded_file):
 
     text = uploaded_file.read().decode("utf-8").lower()
