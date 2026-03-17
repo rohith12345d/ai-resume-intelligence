@@ -1,45 +1,64 @@
 # career_match_engine.py
 
-# Expanded job role database
+def recommend_roles(user_skills):
 
-job_roles = {
+    job_roles = {
 
     "Data Scientist": [
-        "python","machine learning","statistics","pandas","numpy","data analysis"
-    ],
-
-    "Machine Learning Engineer": [
-        "python","machine learning","deep learning","tensorflow","pytorch"
-    ],
-
-    "AI Engineer": [
-        "python","machine learning","deep learning","nlp","tensorflow"
+        "python","machine learning","pandas","numpy","statistics","data analysis"
     ],
 
     "Data Analyst": [
-        "python","sql","pandas","data analysis","statistics"
+        "python","sql","excel","pandas","data analysis","statistics"
+    ],
+
+    "Machine Learning Engineer": [
+        "python","machine learning","tensorflow","pytorch","deep learning"
+    ],
+
+    "AI Engineer": [
+        "python","machine learning","deep learning","tensorflow","keras"
     ],
 
     "Web Developer": [
-        "html","css","javascript","react","node"
+        "html","css","javascript","react","node","bootstrap"
+    ],
+
+    "Frontend Developer": [
+        "html","css","javascript","react","angular"
     ],
 
     "Backend Developer": [
-        "python","java","sql","node","api"
+        "python","java","sql","node","django","flask"
     ],
 
-    "Software Developer": [
-        "python","java","c++","algorithms","data structures"
+    "Full Stack Developer": [
+        "html","css","javascript","react","node","sql"
+    ],
+
+    "Software Engineer": [
+        "python","java","c++","data structures","algorithms"
+    ],
+
+    "DevOps Engineer": [
+        "docker","kubernetes","aws","linux","ci/cd"
+    ],
+
+    "Cloud Engineer": [
+        "aws","azure","cloud","docker","kubernetes"
+    ],
+
+    "Cybersecurity Analyst": [
+        "network security","cryptography","ethical hacking","linux"
+    ],
+
+    "Mobile App Developer": [
+        "flutter","android","java","kotlin","react native"
     ]
+
 }
 
-
-def recommend_roles(user_skills):
-
     role_scores = {}
-
-    if not user_skills:
-        return {}
 
     for role, required_skills in job_roles.items():
 
@@ -47,11 +66,11 @@ def recommend_roles(user_skills):
 
         for skill in required_skills:
 
-            if skill in user_skills:
+            if skill.lower() in [s.lower() for s in user_skills]:
                 matched += 1
 
         score = (matched / len(required_skills)) * 100
 
-        role_scores[role] = round(score,2)
+        role_scores[role] = round(score, 2)
 
     return role_scores
