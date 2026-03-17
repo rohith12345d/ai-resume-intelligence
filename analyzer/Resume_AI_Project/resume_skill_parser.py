@@ -1,14 +1,44 @@
 # resume_skill_parser.py
 
+import io
+
 def extract_skills(uploaded_file):
 
-    try:
-        text = uploaded_file.read().decode("utf-8").lower()
-    except:
-        text = str(uploaded_file.read()).lower()
+    text = ""
+
+    # detect file type
+    file_name = uploaded_file.name.lower()
+
+    # ---------- TXT ----------
+    if file_name.endswith(".txt"):
+        text = uploaded_file.read().decode("utf-8")
+
+    # ---------- PDF ----------
+    elif file_name.endswith(".pdf"):
+        import PyPDF2
+        pdf_reader = PyPDF2.PdfReader(uploaded_file)
+
+        for page in pdf_reader.pages:
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text
+
+    # ---------- DOCX ----------
+    elif file_name.endswith(".docx"):
+        import docx
+        doc = docx.Document(uploaded_file)
+
+        for para in doc.paragraphs:
+            text += para.text
+
+    text = text.lower()
+
+    # -----------------------
+    # SKILL DATABASE
+    # -----------------------
 
     skills_db = {
-        "Programming": ["python","java","c++","c","javascript"],
+        "Programming": ["python","java","c++","javascript"],
         "Web Development": ["html","css","react","node","django"],
         "Data Skills": ["sql","pandas","numpy","data analysis"],
         "AI / Machine Learning": ["machine learning","deep learning","tensorflow","keras","scikit"]
