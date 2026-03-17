@@ -118,4 +118,4 @@ def extract_skills(uploaded_file):
     if found:
         detected[category] = found
 
-return detected
+    return detected
