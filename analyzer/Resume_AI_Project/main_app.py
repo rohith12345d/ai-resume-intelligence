@@ -118,7 +118,10 @@ if menu == "Skill Analysis":
 
     st.subheader("Detected Skills")
 
-    # Normal skill frequency chart
+    # -------------------------
+    # SKILL FREQUENCY BAR CHART
+    # -------------------------
+
     fig = go.Figure()
 
     fig.add_trace(go.Bar(
@@ -129,7 +132,7 @@ if menu == "Skill Analysis":
     ))
 
     fig.update_layout(
-        title="Skill Strength",
+        title="Skill Frequency in Resume",
         xaxis_title="Frequency",
         yaxis_title="Skills",
         height=400,
@@ -141,10 +144,10 @@ if menu == "Skill Analysis":
     st.plotly_chart(fig, use_container_width=True)
 
     # -------------------------
-    # AI SKILL SCORE BREAKDOWN
+    # AI SKILL DISTRIBUTION
     # -------------------------
 
-    st.subheader("AI Skill Score Breakdown")
+    st.subheader("AI Skill Distribution")
 
     total = sum(skill_values)
 
@@ -153,33 +156,20 @@ if menu == "Skill Analysis":
         percent = round((v / total) * 100, 2)
         percentages.append(percent)
 
-    fig2 = go.Figure(data=[go.pie(
-                                 labels = skill_names,
-                                 values = percentages,
-                                 hole = 0.5
-                                 )])
-    fig2.update_layout(
-        title = "AI Skill Distribution",
-        paper_bgcolor = "rgba(0,0,0,0)"
-    )
-    
-    fig2.add_trace(go.Bar(
-        x=percentages,
-        y=skill_names,
-        orientation="h",
-        marker=dict(color="#00FFB3")
-    ))
+    fig2 = go.Figure(data=[go.Pie(
+        labels=skill_names,
+        values=percentages,
+        hole=0.5
+    )])
 
     fig2.update_layout(
-        title="Skill Percentage Analysis",
-        xaxis_title="Skill Strength %",
-        yaxis_title="Skill Areas",
-        height=400,
+        title="Skill Percentage Distribution",
         paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)"
+        font=dict(color="white")
     )
 
     st.plotly_chart(fig2, use_container_width=True)
+
 
 # ---------------- CAREER MATCH ----------------
 # CAREER MATCH
