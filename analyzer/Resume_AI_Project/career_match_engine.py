@@ -66,5 +66,6 @@ def recommend_roles(user_skills):
 
     # sort roles by best match
     role_scores = dict(sorted(role_scores.items(), key=lambda x: x[1], reverse=True))
+    role_scores = dict(list(role_scores.items())[:4])
 
     return role_scores
