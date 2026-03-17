@@ -365,13 +365,13 @@ elif menu == "💡 AI Insights":
 
     st.markdown("---")
 
-st.subheader("AI Model Analysis")
-
-processing_time = round(random.uniform(0.8,1.8),2)
-
-st.write("Model Used: Resume Intelligence Analyzer v1.0")
-st.write("AI Engine: Skill Extraction + Career Matching + Readiness Score")
-st.write(f"Processing Time: {processing_time} seconds")
+    st.subheader("AI Model Analysis")
+    
+    processing_time = round(random.uniform(0.8,1.8),2)
+    
+    st.write("Model Used: Resume Intelligence Analyzer v1.0")
+    st.write("AI Engine: Skill Extraction + Career Matching + Readiness Score")
+    st.write(f"Processing Time: {processing_time} seconds")
 
 
     # -------- Generate AI Resume Report --------
