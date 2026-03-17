@@ -169,19 +169,20 @@ if menu == "📊 Skill Analysis":
     
     st.markdown("## Resume Skill Summary")
     
-    # ---- Metrics ----
-    col1, col2 = st.columns(2)
+    # # ---- Metrics ----
+    # col1, col2 = st.columns(2)
     
-    with col1:
-        st.metric("Skills Detected", len(skill_names))
+    # with col1:
+    #     st.metric("Skills Detected", len(skill_names))
     
-    with col2:
-        st.metric("Career Matches", len(recommend_roles(skill_names)))
+    # with col2:
+    #     st.metric("Career Matches", len(recommend_roles(skill_names)))
     
-    st.markdown("---")
+    # st.markdown("---")
     
     # ---- AI Resume Strength Meter ----
     
+    # ---------------- AI RESUME STRENGTH ----------------
     # ---------------- AI RESUME STRENGTH ----------------
 
     score = calculate_readiness(skill_names)
@@ -257,54 +258,6 @@ if menu == "📊 Skill Analysis":
     st.plotly_chart(fig_meter, use_container_width=True)
     
     st.markdown("</div>", unsafe_allow_html=True)
-
-    # ---------- SKILL DISTRIBUTION ----------
-    st.subheader("AI Skill Distribution")
-
-    total = sum(skill_values)
-
-    percentages = []
-    for v in skill_values:
-        percentages.append(round((v/total)*100,2))
-
-    fig2 = go.Figure(data=[go.Pie(
-        labels=skill_names,
-        values=percentages,
-        hole=0.5,
-        marker=dict(colors=[
-            "#00E5FF","#00FFA6","#FFD700",
-            "#FF7F50","#A29BFE","#74B9FF"
-        ])
-    )])
-
-    fig2.update_layout(
-        title="Skill Percentage Distribution",
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white")
-    )
-
-    st.plotly_chart(fig2,use_container_width=True)
-
-
-    st.subheader("AI Skill Radar Analysis")
-
-    fig_radar = go.Figure()
-    
-    fig_radar.add_trace(go.Scatterpolar(
-        r=skill_values,
-        theta=skill_names,
-        fill='toself',
-        line=dict(color="#00E5FF")
-    ))
-    
-    fig_radar.update_layout(
-        polar=dict(radialaxis=dict(visible=True)),
-        showlegend=False,
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white")
-    )
-    
-    st.plotly_chart(fig_radar, use_container_width=True)
 
 
 
