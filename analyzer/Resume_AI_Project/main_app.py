@@ -218,12 +218,10 @@ fig_meter = go.Figure(go.Indicator(
   
   ))
     
-  fig_meter.update_layout(
-    
-    height=380,
-    
-       paper_bgcolor="rgba(0,0,0,0)",
-    
+fig_meter.update_layout(
+     height=380,
+     paper_bgcolor="rgba(0,0,0,0)",
+
      font={'color':"#00E5FF"}
     
 )
