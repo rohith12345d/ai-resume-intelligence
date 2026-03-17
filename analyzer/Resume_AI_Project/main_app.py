@@ -296,22 +296,22 @@ if menu == "📊 Skill Analysis":
 
     for i,(skill,value) in enumerate(skills.items()):
     
-    color = colors[i % len(colors)]
+        color = colors[i % len(colors)]
 
-    cols[i%2].markdown(
-        f"""
-        <div style="
-        background:rgba(255,255,255,0.15);
-        padding:8px;
-        border-radius:8px;
-        margin-bottom:6px;
-        border-left:5px solid {color};
-        font-weight:500;">
-        {skill} ({value})
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+        cols[i%2].markdown(
+            f"""
+            <div style="
+            background:rgba(255,255,255,0.15);
+            padding:8px;
+            border-radius:8px;
+            margin-bottom:6px;
+            border-left:5px solid {color};
+            font-weight:500;">
+            {skill} ({value})
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
     # ---------------- BAR CHART ----------------
     st.subheader("Skill Frequency")
