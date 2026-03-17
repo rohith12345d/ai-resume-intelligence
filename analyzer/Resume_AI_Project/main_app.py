@@ -67,9 +67,7 @@ def set_background():
         .glow-meter {{
         box-shadow: 
         0 0 10px #00E5FF,
-        0 0 20px #00E5FF,
-        0 0 40px #00E5FF,
-        0 0 60px #00FFA6;
+        0 0 20px rgba(0,229,255,0.6);
         border-radius:20px;
         padding:20px;
         }}
@@ -247,7 +245,14 @@ if menu == "📊 Skill Analysis":
     st.markdown("</div>", unsafe_allow_html=True)
     
    
+    if score < 40:
+    st.error("Resume Strength: Weak — Add more technical skills")
+
+    elif score < 70:
+        st.warning("Resume Strength: Moderate — Improve projects and tools")
     
+    else:
+        st.success("Resume Strength: Strong — Good career readiness")
 
 
     # ---------- SKILL DISTRIBUTION ----------
