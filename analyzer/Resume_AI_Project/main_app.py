@@ -10,6 +10,26 @@ from readiness_engine import calculate_readiness
 from roadmap_engine import generate_learning_roadmap
 from insights_engine import generate_insights
 
+def generate_report(score, skill_names, best_role, insights):
+
+    report = "AI RESUME ANALYSIS REPORT\n"
+    report += "--------------------------------\n\n"
+
+    report += f"Resume Strength Score : {score}\n\n"
+
+    report += "Detected Skills\n"
+    for skill in skill_names:
+        report += f"- {skill}\n"
+
+    report += "\nRecommended Career\n"
+    report += f"{best_role}\n"
+
+    report += "\nAI Insights\n"
+    for insight in insights:
+        report += f"- {insight}\n"
+
+    return report
+
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(page_title="AI Resume Intelligence", layout="wide")
@@ -330,3 +350,16 @@ elif menu == "💡 AI Insights":
 
     for insight in insights:
         st.write("•",insight)
+
+best_role = max(recommend_roles(skill_names), key=recommend_roles(skill_names).get)
+
+score = calculate_readiness(skill_names)
+
+report = generate_report(score, skill_names, best_role, insights)
+
+st.download_button(
+    label="Download AI Resume Report",
+    data=report,
+    file_name="ai_resume_report.txt",
+    mime="text/plain"
+)
