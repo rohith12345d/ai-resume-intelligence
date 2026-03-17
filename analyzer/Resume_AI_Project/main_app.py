@@ -124,11 +124,14 @@ if menu == "Skill Analysis":
 
     st.subheader("Detected Skills")
 
+    skill_labels = list(skills.keys())
+    skill_counts = list(skills.values())
+
     fig = go.Figure()
 
     fig.add_trace(go.Bar(
-        x=skill_values,
-        y=skill_names,
+        x=skill_counts,
+        y=skill_labels,
         orientation='h',
         marker=dict(color="#00E5FF")
     ))
@@ -145,34 +148,28 @@ if menu == "Skill Analysis":
 
     st.plotly_chart(fig, use_container_width=True)
 
-
 # CAREER MATCH
 elif menu == "Career Match":
 
     st.subheader("Career Recommendations")
 
-    roles = recommend_roles(skill_names)
+    roles = recommend_roles(list(skills.keys()))
 
-    if roles:
+    labels = list(roles.keys())
+    values = list(roles.values())
 
-        labels = list(roles.keys())
-        values = list(roles.values())
+    fig = go.Figure(data=[go.Pie(
+        labels=labels,
+        values=values,
+        hole=0.55
+    )])
 
-        fig = go.Figure(data=[go.Pie(
-            labels=labels,
-            values=values,
-            hole=0.55
-        )])
+    fig.update_layout(
+        title="Career Match Distribution",
+        paper_bgcolor="rgba(0,0,0,0)"
+    )
 
-        fig.update_layout(
-            title="Career Match Distribution",
-            paper_bgcolor="rgba(0,0,0,0)"
-        )
-
-        st.plotly_chart(fig, use_container_width=True)
-
-    else:
-        st.warning("No matching career roles found")
+    st.plotly_chart(fig, use_container_width=True)
 
 
 # SKILL GAP ROADMAP
