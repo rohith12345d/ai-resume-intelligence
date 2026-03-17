@@ -236,72 +236,53 @@ if menu == "📊 Skill Analysis":
     fig_meter = go.Figure(go.Indicator(
         mode="gauge+number",
         value=score,
-        title={'text': "AI Resume Strength"},
+    
+        number={'font':{'size':60,'color':"black"}},
+    
+        title={'text':"AI Resume Strength",'font':{'size':22,'color':"#003b46"}},
+    
         gauge={
-            'axis': {'range': [0, 100]},
-            'steps': [
-                {'range': [0, 40], 'color': "#FF3B3B"},
-                {'range': [40, 70], 'color': "#FFA500"},
-                {'range': [70, 100], 'color': "#00FF7F"}
+    
+            'axis':{
+                'range':[0,100],
+                'tickcolor':"#003b46"
+            },
+    
+            'bar':{
+                'color':"#00E5FF",
+                'thickness':0.25
+            },
+    
+            'bgcolor':"rgba(255,255,255,0.25)",
+    
+            'borderwidth':2,
+            'bordercolor':"#00E5FF",
+    
+            'steps':[
+    
+                {'range':[0,40],'color':"#FF3B3B"},
+                {'range':[40,70],'color':"#FFA500"},
+                {'range':[70,100],'color':"#00FF7F"}
+    
             ]
+    
         }
+    
     ))
-
+    
+    fig_meter.update_layout(
+    
+        height=380,
+    
+        paper_bgcolor="rgba(255,255,255,0.25)",
+    
+        plot_bgcolor="rgba(255,255,255,0.25)",
+    
+        font={'color':"black"}
+    
+    )
+    
     st.plotly_chart(fig_meter, use_container_width=True)
-
-    if score < 40:
-        st.error("AI Evaluation: Weak Resume — Add more technical skills")
-
-    elif score < 70:
-        st.warning("AI Evaluation: Moderate Resume — Improve projects and experience")
-
-    else:
-        st.success("AI Evaluation: Strong Resume — Good job readiness")
-
-    st.subheader("Detected Skills")
-
-    cols = st.columns(2)
-
-    for i, (skill, value) in enumerate(skills.items()):
-        cols[i % 2].write(f"• {skill} ({value})")
-
-    st.subheader("Skill Frequency")
-
-    fig_bar = go.Figure()
-
-    fig_bar.add_trace(go.Bar(
-        x=skill_values,
-        y=skill_names,
-        orientation='h'
-    ))
-
-    fig_bar.update_layout(
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)"
-    )
-
-    st.plotly_chart(fig_bar, use_container_width=True)
-
-    st.subheader("AI Skill Capability Radar")
-
-    fig_radar = go.Figure()
-
-    fig_radar.add_trace(go.Scatterpolar(
-        r=skill_values,
-        theta=skill_names,
-        fill='toself',
-        line=dict(color="#00E5FF")
-    ))
-
-    fig_radar.update_layout(
-        polar=dict(radialaxis=dict(visible=True)),
-        showlegend=False,
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white")
-    )
-
-    st.plotly_chart(fig_radar, use_container_width=True)
-
 
 # =====================================================
 # 🎯 CAREER MATCH
