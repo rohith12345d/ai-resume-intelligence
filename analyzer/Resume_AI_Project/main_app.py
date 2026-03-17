@@ -166,62 +166,57 @@ if menu == "📊 Skill Analysis":
     
     # ---------------- AI RESUME STRENGTH ----------------
 
-    # ---------------- AI RESUME STRENGTH ----------------
+   # ---------------- AI RESUME STRENGTH ----------------
 
     score = calculate_readiness(skill_names)
     
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     
-    fig_meter = go.Figure(go.Indicator(
+    meter_placeholder = st.empty()
     
-        mode="gauge+number",
+    # animate in steps (no blinking)
+    for i in range(0, score + 1, 5):
     
-        value=score,
+        fig_meter = go.Figure(go.Indicator(
+            mode="gauge+number",
+            value=i,
     
-        number={
-            'font':{'size':60,'color':"#00E5FF"}
-        },
+            number={'font':{'size':60,'color':"#00E5FF"}},
     
-        title={
-            'text':"AI Resume Strength",
-            'font':{'size':26,'color':"#00E5FF"}
-        },
+            title={'text':"AI Resume Strength",'font':{'size':26,'color':"#00E5FF"}},
     
-        gauge={
+            gauge={
     
-            'axis':{
-                'range':[0,100],
-                'tickwidth':2,
-                'tickcolor':"#00E5FF"
-            },
+                'axis':{'range':[0,100]},
     
-            'bar':{
-                'color':"#00E5FF",
-                'thickness':0.25
-            },
+                'bar':{'color':"#00E5FF",'thickness':0.25},
     
-            'bgcolor':"rgba(0,0,0,0.6)",
+                'bgcolor':"rgba(0,0,0,0.6)",
     
-            'borderwidth':3,
-            'bordercolor':"#00E5FF",
+                'borderwidth':3,
+                'bordercolor':"#00E5FF",
     
-            'steps':[
-                {'range':[0,40],'color':"#8B0000"},
-                {'range':[40,70],'color':"#FFA500"},
-                {'range':[70,100],'color':"#006400"}
-            ]
+                'steps':[
+                    {'range':[0,40],'color':"#8B0000"},
+                    {'range':[40,70],'color':"#FFA500"},
+                    {'range':[70,100],'color':"#006400"}
+                ]
+            }
+        ))
     
-        }
+        fig_meter.update_layout(
+            height=350,
+            paper_bgcolor="rgba(0,0,0,0)",
+            font={'color':"#00E5FF"}
+        )
     
-    ))
+        meter_placeholder.plotly_chart(fig_meter, use_container_width=True)
     
-    fig_meter.update_layout(
-        height=350,
-        paper_bgcolor="rgba(0,0,0,0)",
-        font={'color':"#00E5FF"}
-    )
+        time.sleep(0.08)
     
-    st.plotly_chart(fig_meter, use_container_width=True)
+    # final correct value
+    fig_meter.data[0].value = score
+    meter_placeholder.plotly_chart(fig_meter, use_container_width=True)
     
     st.markdown("</div>", unsafe_allow_html=True)
     
