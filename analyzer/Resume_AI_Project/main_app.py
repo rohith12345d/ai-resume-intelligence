@@ -283,34 +283,34 @@ if menu=="Skill Analysis":
 
     st.markdown("</div>",unsafe_allow_html=True)
 
-# ---------- AI SKILL RADAR ANALYSIS ----------
+    # ---------- AI SKILL RADAR ANALYSIS ----------
 
-st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-
-st.subheader("AI Skill Balance Radar")
-
-fig_radar = go.Figure()
-
-fig_radar.add_trace(go.Scatterpolar(
-    r=skill_values,
-    theta=skill_names,
-    fill='toself',
-    line=dict(color="#00E5FF")
-))
-
-fig_radar.update_layout(
-    polar=dict(
-        radialaxis=dict(
-            visible=True
-        )
-    ),
-    showlegend=False,
-    paper_bgcolor="rgba(0,0,0,0)"
-)
-
-st.plotly_chart(fig_radar, use_container_width=True)
-
-st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+    
+    st.subheader("AI Skill Balance Radar")
+    
+    fig_radar = go.Figure()
+    
+    fig_radar.add_trace(go.Scatterpolar(
+        r=skill_values,
+        theta=skill_names,
+        fill='toself',
+        line=dict(color="#00E5FF")
+    ))
+    
+    fig_radar.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True
+            )
+        ),
+        showlegend=False,
+        paper_bgcolor="rgba(0,0,0,0)"
+    )
+    
+    st.plotly_chart(fig_radar, use_container_width=True)
+    
+    st.markdown("</div>", unsafe_allow_html=True)
 
 
 # ---------------- CAREER MATCH ----------------
