@@ -14,6 +14,9 @@ from insights_engine import generate_insights
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(page_title="AI Resume Intelligence", layout="wide")
+
+
+# ---------------- SIDEBAR + UI STYLE ----------------
 st.markdown("""
 <style>
 
@@ -28,6 +31,24 @@ st.markdown("""
     color: white;
 }
 
+/* Hide radio circles */
+div[role="radiogroup"] > label > div:first-child {
+    display:none;
+}
+
+/* Sidebar menu style */
+div[role="radiogroup"] label {
+    font-size:18px;
+    padding:10px;
+    border-radius:6px;
+    margin-bottom:6px;
+}
+
+/* Hover highlight */
+div[role="radiogroup"] label:hover {
+    background: rgba(0,229,255,0.15);
+}
+
 /* Upload box styling */
 [data-testid="stFileUploader"] {
     background: rgba(255,255,255,0.05);
@@ -37,12 +58,10 @@ st.markdown("""
 }
 
 </style>
-
-
 """, unsafe_allow_html=True)
 
 
-# ---------------- BACKGROUND ----------------
+# ---------------- BACKGROUND IMAGE ----------------
 def set_background():
     try:
         current_dir = os.path.dirname(__file__)
@@ -77,6 +96,7 @@ def set_background():
     except:
         pass
 
+
 set_background()
 
 
@@ -91,48 +111,35 @@ st.success("AI System Status: Active and Ready")
 
 
 # ---------------- SIDEBAR ----------------
-st.sidebar.markdown(
-"""
+st.sidebar.markdown("""
 <h2 style='text-align:center;color:#00E5FF'>
 🤖 AI Resume Dashboard
 </h2>
-""",
-unsafe_allow_html=True
+""", unsafe_allow_html=True)
+
+menu = st.sidebar.radio(
+    "",
+    [
+        "📊 Skill Analysis",
+        "🎯 Career Match",
+        "🧠 Skill Gap Roadmap",
+        "💡 AI Insights"
+    ]
 )
-# Sidebar title
-st.sidebar.markdown("## 🤖 AI Resume Dashboard")
 
-# initialize session state
-if "menu" not in st.session_state:
-    st.session_state.menu = "Skill Analysis"
-
-# menu items
-if st.sidebar.button("📊 Skill Analysis"):
-    st.session_state.menu = "Skill Analysis"
-
-if st.sidebar.button("🎯 Career Match"):
-    st.session_state.menu = "Career Match"
-
-if st.sidebar.button("🧠 Skill Gap Roadmap"):
-    st.session_state.menu = "Skill Gap Roadmap"
-
-if st.sidebar.button("💡 AI Insights"):
-    st.session_state.menu = "AI Insights"
-
-menu = st.session_state.menu
 
 uploaded_file = st.sidebar.file_uploader(
     "Upload Resume",
-    type=["txt","pdf","docx"]
+    type=["txt", "pdf", "docx"]
 )
+
 
 if uploaded_file is None:
     st.info("Upload your resume from the sidebar to begin analysis")
     st.stop()
 
 
-# ---------------- SKILL EXTRACTION (RUN ONLY ONCE) ----------------
-
+# ---------------- SKILL EXTRACTION (RUN ONCE) ----------------
 if "skills_data" not in st.session_state:
 
     with st.spinner("AI is analyzing your resume..."):
@@ -147,25 +154,24 @@ if "skills_data" not in st.session_state:
 
         st.session_state.skills_data = extract_skills(uploaded_file)
 
+
 skills_raw = st.session_state.skills_data
-
-
-
-
 
 
 # ---------------- NORMALIZE SKILLS ----------------
 if isinstance(skills_raw, dict):
     skills = skills_raw
+
 elif isinstance(skills_raw, list):
 
     skills = {}
 
     for s in skills_raw:
-        skills[s] = skills.get(s,0) + 1
+        skills[s] = skills.get(s, 0) + 1
 
 else:
     skills = {}
+
 
 skill_names = list(skills.keys())
 skill_values = list(skills.values())
@@ -175,43 +181,40 @@ skill_values = list(skills.values())
 # 📊 SKILL ANALYSIS PAGE
 # =====================================================
 if menu == "📊 Skill Analysis":
+
     with st.spinner("AI is analyzing skill data..."):
         time.sleep(1)
 
     score = calculate_readiness(skill_names)
 
-    # -------- Resume Summary --------
     st.markdown("## Resume Skill Summary")
 
-    col1,col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
     with col1:
-        st.metric("Skills Detected",len(skill_names))
+        st.metric("Skills Detected", len(skill_names))
 
     with col2:
-        st.metric("Career Matches",len(recommend_roles(skill_names)))
+        st.metric("Career Matches", len(recommend_roles(skill_names)))
 
-    # -------- Gauge --------
     st.markdown("### AI Resume Strength")
 
     fig_meter = go.Figure(go.Indicator(
         mode="gauge+number",
         value=score,
-        title={'text':"AI Resume Strength"},
+        title={'text': "AI Resume Strength"},
         gauge={
-            'axis':{'range':[0,100]},
-            'steps':[
-                {'range':[0,40],'color':"#FF3B3B"},
-                {'range':[40,70],'color':"#FFA500"},
-                {'range':[70,100],'color':"#00FF7F"}
+            'axis': {'range': [0, 100]},
+            'steps': [
+                {'range': [0, 40], 'color': "#FF3B3B"},
+                {'range': [40, 70], 'color': "#FFA500"},
+                {'range': [70, 100], 'color': "#00FF7F"}
             ]
         }
     ))
 
-    st.plotly_chart(fig_meter,use_container_width=True)
+    st.plotly_chart(fig_meter, use_container_width=True)
 
-
-    # -------- AI Evaluation --------
     if score < 40:
         st.error("AI Evaluation: Weak Resume — Add more technical skills")
 
@@ -221,17 +224,13 @@ if menu == "📊 Skill Analysis":
     else:
         st.success("AI Evaluation: Strong Resume — Good job readiness")
 
-
-    # -------- Detected Skills --------
     st.subheader("Detected Skills")
 
     cols = st.columns(2)
 
-    for i,(skill,value) in enumerate(skills.items()):
-        cols[i%2].write(f"• {skill} ({value})")
+    for i, (skill, value) in enumerate(skills.items()):
+        cols[i % 2].write(f"• {skill} ({value})")
 
-
-    # -------- Skill Frequency Chart --------
     st.subheader("Skill Frequency")
 
     fig_bar = go.Figure()
@@ -247,36 +246,34 @@ if menu == "📊 Skill Analysis":
         plot_bgcolor="rgba(0,0,0,0)"
     )
 
-    st.plotly_chart(fig_bar,use_container_width=True)
-    
+    st.plotly_chart(fig_bar, use_container_width=True)
+
     st.subheader("AI Skill Capability Radar")
 
     fig_radar = go.Figure()
-    
+
     fig_radar.add_trace(go.Scatterpolar(
         r=skill_values,
         theta=skill_names,
         fill='toself',
         line=dict(color="#00E5FF")
     ))
-    
+
     fig_radar.update_layout(
-        polar=dict(
-            radialaxis=dict(
-                visible=True
-            )
-        ),
+        polar=dict(radialaxis=dict(visible=True)),
         showlegend=False,
         paper_bgcolor="rgba(0,0,0,0)",
         font=dict(color="white")
     )
-    
+
     st.plotly_chart(fig_radar, use_container_width=True)
+
 
 # =====================================================
 # 🎯 CAREER MATCH
 # =====================================================
 elif menu == "🎯 Career Match":
+
     with st.spinner("AI is analyzing career compatibility..."):
         time.sleep(1)
 
@@ -293,7 +290,7 @@ elif menu == "🎯 Career Match":
 
     else:
 
-        best_role = max(roles,key=roles.get)
+        best_role = max(roles, key=roles.get)
         best_score = roles[best_role]
 
         st.success(f"Top Career Match: {best_role} ({best_score})")
@@ -304,13 +301,14 @@ elif menu == "🎯 Career Match":
             hole=0.55
         )])
 
-        st.plotly_chart(fig,use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
 
 # =====================================================
 # 🧠 SKILL GAP ROADMAP
 # =====================================================
 elif menu == "🧠 Skill Gap Roadmap":
+
     with st.spinner("AI is generating learning roadmap..."):
         time.sleep(1)
 
@@ -318,52 +316,48 @@ elif menu == "🧠 Skill Gap Roadmap":
 
     roadmap = generate_learning_roadmap(skill_names)
 
-    for skill,steps in roadmap.items():
+    for skill, steps in roadmap.items():
 
         st.markdown(f"### {skill}")
 
         for step in steps:
-            st.write("•",step)
+            st.write("•", step)
 
 
 # =====================================================
 # 💡 AI INSIGHTS
 # =====================================================
 elif menu == "💡 AI Insights":
+
     with st.spinner("AI is generating resume insights..."):
         time.sleep(1)
-    
 
     st.subheader("AI Resume Insights")
 
     insights = generate_insights(skill_names)
 
     for insight in insights:
-        st.write("•",insight)
+        st.write("•", insight)
 
     st.markdown("---")
 
     st.subheader("AI Model Analysis")
 
-    processing_time = round(random.uniform(0.8,1.8),2)
+    processing_time = round(random.uniform(0.8, 1.8), 2)
 
     st.write("Model Used: Resume Intelligence Analyzer v1.0")
     st.write("AI Engine: Skill Extraction + Career Matching + Readiness Score")
     st.write(f"Processing Time: {processing_time} seconds")
 
-
-    # -------- Generate Report --------
     roles = recommend_roles(skill_names)
-    best_role = max(roles,key=roles.get)
+    best_role = max(roles, key=roles.get)
     score = calculate_readiness(skill_names)
 
     report = "AI RESUME ANALYSIS REPORT\n"
     report += "--------------------------------\n\n"
-
     report += f"Resume Strength Score : {score}\n\n"
 
     report += "Detected Skills\n"
-
     for skill in skill_names:
         report += f"- {skill}\n"
 
@@ -371,10 +365,8 @@ elif menu == "💡 AI Insights":
     report += f"{best_role}\n"
 
     report += "\nAI Insights\n"
-
     for insight in insights:
         report += f"- {insight}\n"
-
 
     st.download_button(
         label="Download AI Resume Report",
@@ -390,4 +382,4 @@ st.markdown("""
 <center>
 AI Resume Intelligence Dashboard • Developed using Python & Streamlit
 </center>
-""",unsafe_allow_html=True)
+""", unsafe_allow_html=True)
