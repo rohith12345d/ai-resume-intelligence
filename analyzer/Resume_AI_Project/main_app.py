@@ -165,8 +165,6 @@ if menu == "📊 Skill Analysis":
     
     # ---------------- AI RESUME STRENGTH ----------------
 
-  # ---------------- AI RESUME STRENGTH ----------------
-
     score = calculate_readiness(skill_names)
     
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
@@ -175,60 +173,55 @@ if menu == "📊 Skill Analysis":
     
     col1, col2 = st.columns([1,2])
     
+    # LEFT SIDE METRICS
     with col1:
         st.metric("Skills Detected", len(skill_names))
         st.metric("Career Matches", len(recommend_roles(skill_names)))
     
+    # RIGHT SIDE GAUGE
     with col2:
     
-        meter_placeholder = st.empty()
+        fig_meter = go.Figure(go.Indicator(
     
-        for i in range(0, score + 1, 2):   # step of 2 makes animation smoother
+            mode="gauge+number",
     
-            fig_meter = go.Figure(go.Indicator(
+            value=score,
     
-                mode="gauge+number",
-                value=i,
+            number={'font':{'size':60,'color':"#00E5FF"}},
     
-                number={'font':{'size':60,'color':"#00E5FF"}},
+            title={'text':"AI Resume Strength",'font':{'size':24,'color':"#00E5FF"}},
     
-                title={'text':"AI Resume Strength",'font':{'size':24,'color':"#00E5FF"}},
+            gauge={
     
-                gauge={
+                'axis':{'range':[0,100]},
     
-                    'axis':{'range':[0,100]},
+                'bar':{'color':"#00E5FF",'thickness':0.25},
     
-                    'bar':{'color':"#00E5FF",'thickness':0.25},
+                'bgcolor':"rgba(0,0,0,0.6)",
     
-                    'bgcolor':"rgba(0,0,0,0.6)",
+                'borderwidth':3,
+                'bordercolor':"#00E5FF",
     
-                    'borderwidth':3,
-                    'bordercolor':"#00E5FF",
+                'steps':[
+                    {'range':[0,40],'color':"#8B0000"},
+                    {'range':[40,70],'color':"#FFA500"},
+                    {'range':[70,100],'color':"#006400"}
+                ]
+            }
     
-                    'steps':[
-                        {'range':[0,40],'color':"#8B0000"},
-                        {'range':[40,70],'color':"#FFA500"},
-                        {'range':[70,100],'color':"#006400"}
-                    ]
-                }
+        ))
     
-            ))
+        fig_meter.update_layout(
+            height=320,
+            paper_bgcolor="rgba(0,0,0,0)",
+            font={'color':"#00E5FF"}
+        )
     
-            fig_meter.update_layout(
-                height=320,
-                paper_bgcolor="rgba(0,0,0,0)",
-                font={'color':"#00E5FF"}
-            )
-    
-            meter_placeholder.plotly_chart(fig_meter, use_container_width=True)
-    
-            time.sleep(0.03)
-    
-        # ensure final exact score
-        fig_meter.data[0].value = score
-        meter_placeholder.plotly_chart(fig_meter, use_container_width=True)
+        st.plotly_chart(fig_meter, use_container_width=True)
     
     st.markdown("</div>", unsafe_allow_html=True)
+   
+    
 
 
     # ---------- SKILL DISTRIBUTION ----------
