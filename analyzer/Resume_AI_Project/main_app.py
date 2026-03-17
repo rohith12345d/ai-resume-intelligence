@@ -140,7 +140,7 @@ if menu == "Skill Analysis":
 # CAREER MATCH
 elif menu == "Career Match":
 
-    st.subheader("Career Recommendations")
+    st.subheader("AI Career Recommendation Analysis")
 
     roles = recommend_roles(skill_names)
 
