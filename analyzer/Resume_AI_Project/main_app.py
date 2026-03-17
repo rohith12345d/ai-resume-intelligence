@@ -253,9 +253,11 @@ if menu == "📊 Skill Analysis":
     ))
 
     fig_meter.update_layout(
-        height=300,
-        paper_bgcolor="rgba(255,255,255,0.25)",
-        plot_bgcolor="rgba(255,255,255,0.25)"
+        height=260
+        margin=dict(l=20,r=20,t=40,b=10),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white")
     )
 
     st.plotly_chart(fig_meter, use_container_width=True)
