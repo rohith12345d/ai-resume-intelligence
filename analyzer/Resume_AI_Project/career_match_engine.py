@@ -2,61 +2,53 @@
 
 def recommend_roles(user_skills):
 
+    # convert skill categories into real skills
+    expanded_skills = []
+
+    for skill in user_skills:
+
+        if skill == "Programming":
+            expanded_skills += ["python","java","c++","javascript"]
+
+        elif skill == "Web Development":
+            expanded_skills += ["html","css","react","node"]
+
+        elif skill == "Data Skills":
+            expanded_skills += ["sql","pandas","numpy","data analysis"]
+
+        elif skill == "AI / Machine Learning":
+            expanded_skills += ["machine learning","tensorflow","keras"]
+
+        else:
+            expanded_skills.append(skill)
+
     job_roles = {
 
-    "Data Scientist": [
-        "python","machine learning","pandas","numpy","statistics","data analysis"
-    ],
+        "Data Scientist":[
+            "python","machine learning","pandas","numpy","data analysis"
+        ],
 
-    "Data Analyst": [
-        "python","sql","excel","pandas","data analysis","statistics"
-    ],
+        "Data Analyst":[
+            "python","sql","pandas","data analysis"
+        ],
 
-    "Machine Learning Engineer": [
-        "python","machine learning","tensorflow","pytorch","deep learning"
-    ],
+        "Web Developer":[
+            "html","css","javascript","react"
+        ],
 
-    "AI Engineer": [
-        "python","machine learning","deep learning","tensorflow","keras"
-    ],
+        "Backend Developer":[
+            "python","java","sql","node"
+        ],
 
-    "Web Developer": [
-        "html","css","javascript","react","node","bootstrap"
-    ],
+        "Machine Learning Engineer":[
+            "python","machine learning","tensorflow","keras"
+        ],
 
-    "Frontend Developer": [
-        "html","css","javascript","react","angular"
-    ],
+        "Full Stack Developer":[
+            "html","css","javascript","react","node","sql"
+        ]
 
-    "Backend Developer": [
-        "python","java","sql","node","django","flask"
-    ],
-
-    "Full Stack Developer": [
-        "html","css","javascript","react","node","sql"
-    ],
-
-    "Software Engineer": [
-        "python","java","c++","data structures","algorithms"
-    ],
-
-    "DevOps Engineer": [
-        "docker","kubernetes","aws","linux","ci/cd"
-    ],
-
-    "Cloud Engineer": [
-        "aws","azure","cloud","docker","kubernetes"
-    ],
-
-    "Cybersecurity Analyst": [
-        "network security","cryptography","ethical hacking","linux"
-    ],
-
-    "Mobile App Developer": [
-        "flutter","android","java","kotlin","react native"
-    ]
-
-}
+    }
 
     role_scores = {}
 
@@ -66,11 +58,10 @@ def recommend_roles(user_skills):
 
         for skill in required_skills:
 
-            if skill.lower() in [s.lower() for s in user_skills]:
+            if skill.lower() in [s.lower() for s in expanded_skills]:
                 matched += 1
 
         score = (matched / len(required_skills)) * 100
-
-        role_scores[role] = round(score, 2)
+        role_scores[role] = round(score,2)
 
     return role_scores
