@@ -91,7 +91,7 @@ st.markdown("""
 AI RESUME INTELLIGENCE DASHBOARD
 </h1>
 
-""", unsafe_allow_html=True))
+""", unsafe_allow_html=True)
 
 
 # ---------------- SIDEBAR ----------------
