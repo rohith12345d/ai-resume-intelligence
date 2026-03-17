@@ -226,18 +226,16 @@ fig_meter.update_layout(
     
 )
     
-    st.plotly_chart(fig_meter, use_container_width=True)
+st.plotly_chart(fig_meter, use_container_width=True)
     
-    st.markdown("</div>", unsafe_allow_html=True)
+if score < 40:
+    st.error("AI Evaluation: Weak Resume — Add more technical skills")
 
-    if score < 40:
-        st.error("AI Evaluation: Weak Resume — Add more technical skills")
-
-    elif score < 70:
-        st.warning("AI Evaluation: Moderate Resume — Improve projects and experience")
+elif score < 70:
+    st.warning("AI Evaluation: Moderate Resume — Improve projects and experience")
     
-    else:
-        st.success("AI Evaluation: Strong Resume — Good job readiness")
+else:
+    st.success("AI Evaluation: Strong Resume — Good job readiness")
 
 # =====================================================
 # 📊 SKILL ANALYSIS PAGE
