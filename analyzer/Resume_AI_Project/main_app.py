@@ -420,63 +420,38 @@ elif menu == "🎯 Career Match":
 elif menu == "🧠 Skill Gap Roadmap":
 
     st.subheader("Select Target Career")
-    
+
     roles = recommend_roles(skill_names)
-    
+
     selected_role = st.selectbox(
         "Choose your target career",
         list(roles.keys())
     )
 
-    roadmap = generate_learning_roadmap(selected_role, skill_names)
-
-    st.subheader("Learning Roadmap")
-    st.markdown("### Skills to learn")
-    
-    for skill in roadmap:
-    
-        st.markdown(f"• {skill}")
-    
-        for step in steps:
-            st.write("•", step)
-
     with st.spinner("AI is generating learning roadmap..."):
         time.sleep(1)
 
+        roadmap = generate_learning_roadmap(selected_role, skill_names)
+
     st.subheader("Learning Roadmap")
+    st.markdown("### Skills to Learn")
 
-    roadmap = generate_learning_roadmap(selected_role,skill_names)
+    for skill in roadmap:
 
-    cols = st.columns(2)
-
-    for i, (skill, steps) in enumerate(roadmap.items()):
-    
-        with cols[i % 2]:
-    
-            steps_html = ""
-            for step in steps:
-                steps_html += f"<li>{step}</li>"
-    
-            st.markdown(f"""
-            <div style="
-            background: rgba(255,255,255,0.35);
-            border-radius:12px;
-            padding:18px;
-            margin-bottom:15px;
-            border-left:6px solid #00E5FF;
-            backdrop-filter: blur(5px);
-            ">
-            
-            <h3 style="color:#002b36;font-weight:700;margin-bottom:10px;">
-            {skill.title()}
-            </h3>
-    
-            <ul style="color:#111;font-size:16px;padding-left:22px;">
-            {steps_html}
-            </ul>
-    
-            </div>
-            """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div style="
+        background: rgba(255,255,255,0.20);
+        border-radius:10px;
+        padding:10px;
+        margin-bottom:8px;
+        border-left:5px solid #00E5FF;
+        backdrop-filter: blur(5px);
+        font-size:16px;
+        color:#111;
+        ">
+        • {skill}
+        </div>
+        """, unsafe_allow_html=True))
 
 
 # =====================================================
