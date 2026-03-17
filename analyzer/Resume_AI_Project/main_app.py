@@ -220,7 +220,15 @@ elif menu == "🎯 Career Match":
         best_role = max(roles, key=roles.get)
         best_score = roles[best_role]
 
-        st.success(f"Top Career Match: {best_role} ({best_score})")
+        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+
+        st.markdown(f"""
+        <h2 style='color:#00E5FF'>Top AI Career Match</h2>
+        <h1 style='color:white'>{best_role}</h1>
+        <h3 style='color:#00FFA6'>Match Score : {best_score}</h3>
+        """, unsafe_allow_html=True)
+
+        st.markdown("</div>", unsafe_allow_html=True)
 
         fig = go.Figure(data=[go.Pie(
             labels=labels,
