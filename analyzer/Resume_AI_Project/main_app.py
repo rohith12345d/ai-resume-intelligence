@@ -182,6 +182,24 @@ if menu == "📊 Skill Analysis":
     
     # ---- AI Resume Strength Meter ----
     
+    # ---------------- AI RESUME STRENGTH ----------------
+
+    score = calculate_readiness(skill_names)
+    
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+    
+    st.markdown("## Resume Skill Summary")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.metric("Skills Detected", len(skill_names))
+    
+    with col2:
+        st.metric("Career Matches", len(recommend_roles(skill_names)))
+    
+    st.markdown("---")
+    
     fig_meter = go.Figure(go.Indicator(
     
         mode="gauge+number",
@@ -189,10 +207,7 @@ if menu == "📊 Skill Analysis":
         value=score,
     
         number={
-            'font':{
-                'size':70,
-                'color':"#00E5FF"
-            }
+            'font':{'size':70,'color':"#00E5FF"}
         },
     
         title={
@@ -204,23 +219,23 @@ if menu == "📊 Skill Analysis":
     
             'axis':{
                 'range':[0,100],
-                'tickwidth':2,
-                'tickcolor':"#00E5FF"
+                'tickcolor':"#00E5FF",
+                'tickwidth':2
             },
     
             'bar':{
                 'color':"#00E5FF",
-                'thickness':0.3
+                'thickness':0.28
             },
     
-            'bgcolor':"rgba(0,0,0,0.6)",
+            'bgcolor':"rgba(0,0,0,0)",
     
-            'borderwidth':4,
+            'borderwidth':3,
             'bordercolor':"#00E5FF",
     
             'steps':[
     
-                {'range':[0,40],'color':"#8B0000"},
+                {'range':[0,40],'color':"#FF3B3B"},
                 {'range':[40,70],'color':"#FFA500"},
                 {'range':[70,100],'color':"#00FF7F"}
     
@@ -231,7 +246,7 @@ if menu == "📊 Skill Analysis":
     
     fig_meter.update_layout(
     
-        height=400,
+        height=380,
     
         paper_bgcolor="rgba(0,0,0,0)",
     
@@ -239,21 +254,9 @@ if menu == "📊 Skill Analysis":
     
     )
     
-    st.markdown("<div class='glow-meter'>", unsafe_allow_html=True)
     st.plotly_chart(fig_meter, use_container_width=True)
-
+    
     st.markdown("</div>", unsafe_allow_html=True)
-    
-   
-    if score < 40:
-        st.error("Resume Strength: Weak — Add more technical skills")
-
-    elif score < 70:
-        st.warning("Resume Strength: Moderate — Improve projects and tools")
-    
-    else:
-        st.success("Resume Strength: Strong — Good career readiness")
-
 
     # ---------- SKILL DISTRIBUTION ----------
     st.subheader("AI Skill Distribution")
