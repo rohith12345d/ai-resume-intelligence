@@ -168,7 +168,8 @@ if menu == "📊 Skill Analysis":
 
     score = calculate_readiness(skill_names)
     
-    placeholder = st.empty()
+    # create placeholder for animation
+    meter_placeholder = st.empty()
     
     for i in range(score + 1):
     
@@ -176,14 +177,9 @@ if menu == "📊 Skill Analysis":
             mode="gauge+number",
             value=i,
     
-            number={
-                'font':{'size':60,'color':"#00E5FF"}
-            },
+            number={'font':{'size':60,'color':"#00E5FF"}},
     
-            title={
-                'text':"AI Resume Strength",
-                'font':{'size':26,'color':"#00E5FF"}
-            },
+            title={'text':"AI Resume Strength",'font':{'size':26,'color':"#00E5FF"}},
     
             gauge={
                 'axis':{'range':[0,100]},
@@ -204,7 +200,7 @@ if menu == "📊 Skill Analysis":
             font={'color':"#00E5FF"}
         )
 
-    placeholder.plotly_chart(fig_meter, use_container_width=True)
+    meter_placeholder.plotly_chart(fig_meter, use_container_width=True)
 
     time.sleep(0.02)
     
