@@ -38,11 +38,32 @@ def extract_skills(uploaded_file):
     # -----------------------
 
     skills_db = {
-        "Programming": ["python","java","c++","javascript"],
-        "Web Development": ["html","css","react","node","django"],
-        "Data Skills": ["sql","pandas","numpy","data analysis"],
-        "AI / Machine Learning": ["machine learning","deep learning","tensorflow","keras","scikit"]
-    }
+
+        "Programming": [
+        "python","c","cpp","java","javascript"
+        ],
+        
+        "Web Development": [
+        "html","css","javascript","react","node","apis"
+        ],
+        
+        "Data Skills": [
+        "sql","pandas","numpy","data analysis","excel"
+        ],
+        
+        "AI / Machine Learning": [
+        "machine learning","deep learning","tensorflow","pytorch","scikit-learn"
+        ],
+        
+        "Software Development": [
+        "agile","agile project management"
+        ],
+        
+        "Documentation": [
+        "technical writing"
+        ]
+        
+        }
 
     detected = {}
 
