@@ -8,13 +8,15 @@ def calculate_readiness(skill_names):
     skill_count = len(skill_names)
 
     # simple scoring logic
-    if skill_count >= 10:
-        return 90
-    elif skill_count >= 7:
-        return 75
-    elif skill_count >= 5:
-        return 60
-    elif skill_count >= 3:
+    if skill_count <= 2:
+        return 25
+    elif skill_count <= 4:
         return 40
+    elif skill_count <= 6:
+        return 60
+    elif skill_count <= 8:
+        return 75
+    elif skill_count <= 10:
+        return 85
     else:
-        return 20
+        return 95
