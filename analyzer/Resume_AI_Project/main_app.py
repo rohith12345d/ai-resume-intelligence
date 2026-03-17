@@ -14,26 +14,25 @@ st.set_page_config(page_title="AI Resume Intelligence", layout="wide")
 
 # BACKGROUND
 def set_background():
-    with open("ai_background.jpg", "rb") as f:
+
+    current_dir = os.path.dirname(__file__)
+    image_path = os.path.join(current_dir, "ai_background.jpg")
+
+    with open(image_path, "rb") as f:
         img = base64.b64encode(f.read()).decode()
 
-    st.markdown(f"""
+    st.markdown(
+        f"""
         <style>
         .stApp {{
         background-image: url("data:image/jpg;base64,{img}");
         background-size: cover;
         background-attachment: fixed;
         }}
-
-        .glass {{
-        background: rgba(255,255,255,0.08);
-        backdrop-filter: blur(12px);
-        padding: 25px;
-        border-radius: 12px;
-        border: 1px solid rgba(255,255,255,0.2);
-        }}
         </style>
-        """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
 
 set_background()
 
