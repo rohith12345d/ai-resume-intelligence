@@ -2,7 +2,6 @@ import streamlit as st
 import plotly.graph_objects as go
 import base64
 import os
-import time
 
 from resume_skill_parser import extract_skills
 from career_match_engine import recommend_roles
@@ -17,7 +16,6 @@ st.set_page_config(page_title="AI Resume Intelligence", layout="wide")
 
 # ---------------- BACKGROUND ----------------
 def set_background():
-
     try:
         current_dir = os.path.dirname(__file__)
         image_path = os.path.join(current_dir, "ai_background.jpg")
@@ -28,70 +26,26 @@ def set_background():
         st.markdown(
         f"""
         <style>
-
         .stApp {{
-            background-image: url("data:image/jpg;base64,{img}");
-            background-size: cover;
-            background-attachment: fixed;
+        background-image: url("data:image/jpg;base64,{img}");
+        background-size: cover;
+        background-attachment: fixed;
         }}
-
-        .glass-card {{
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(12px);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.2);
-            margin-bottom: 25px;
-        }}
-
         </style>
         """,
         unsafe_allow_html=True
         )
-
     except:
         pass
-
 
 set_background()
 
 
 # ---------------- TITLE ----------------
 st.markdown("""
-<style>
-
-.glow-title {
-    text-align:center;
-    font-size:48px;
-    font-weight:900;
-    color:#00E5FF;
-    text-shadow:
-        0 0 10px #00E5FF,
-        0 0 20px #00E5FF,
-        0 0 40px #00E5FF;
-    animation: glowPulse 2s infinite alternate;
-}
-
-@keyframes glowPulse {
-    from {
-        text-shadow:
-            0 0 10px #00E5FF,
-            0 0 20px #00E5FF;
-    }
-    to {
-        text-shadow:
-            0 0 20px #00E5FF,
-            0 0 40px #00E5FF,
-            0 0 60px #00E5FF;
-    }
-}
-
-</style>
-
-<h1 class="glow-title">
+<h1 style='text-align:center;color:#00E5FF;font-weight:800'>
 AI RESUME INTELLIGENCE DASHBOARD
 </h1>
-
 """, unsafe_allow_html=True)
 
 
@@ -119,293 +73,183 @@ if uploaded_file is None:
 
 
 # ---------------- SKILL EXTRACTION ----------------
-with st.spinner("AI is analyzing your resume...."):
-    time.sleep(2)
-    skills_raw = extract_skills(uploaded_file)
+skills_raw = extract_skills(uploaded_file)
 
 if not skills_raw:
     st.warning("No skills detected in resume")
     st.stop()
 
 
-# ---------------- NORMALIZE SKILLS ----------------
+# normalize skills
 if isinstance(skills_raw, dict):
     skills = skills_raw
-
 elif isinstance(skills_raw, list):
-
     skills = {}
-
     for s in skills_raw:
-        skills[s] = skills.get(s,0)+1
-
+        skills[s] = skills.get(s,0) + 1
 else:
     skills = {}
-
-
-if not skills:
-    st.warning("Skill format not recognized")
-    st.stop()
-
 
 skill_names = list(skills.keys())
 skill_values = list(skills.values())
 
 
-# ---------------- RESUME STRENGTH ----------------
-score = calculate_readiness(skill_names)
+# =====================================================
+# 📊 SKILL ANALYSIS PAGE
+# =====================================================
+if menu == "📊 Skill Analysis":
 
-st.markdown("<div class='glass-card'>",unsafe_allow_html=True)
+    # ---------- AI RESUME STRENGTH ----------
+    score = calculate_readiness(skill_names)
 
-fig_meter = go.Figure(go.Indicator(
+    fig_meter = go.Figure(go.Indicator(
+        mode="gauge+number",
+        value=score,
+        title={'text':"AI Resume Strength"},
+        gauge={
+            'axis':{'range':[0,100]},
+            'bar':{'color':"#00E5FF"},
+            'steps':[
+                {'range':[0,40],'color':"#3a0000"},
+                {'range':[40,70],'color':"#5a3a00"},
+                {'range':[70,100],'color':"#003a3a"}
+            ]
+        }
+    ))
 
-    mode="gauge+number",
+    fig_meter.update_layout(
+        height=350,
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white")
+    )
 
-    value=score,
+    st.plotly_chart(fig_meter,use_container_width=True)
 
-    number={'font':{'size':55,'color':"#00E5FF"}},
-
-    title={'text':"AI Resume Strength",'font':{'size':26,'color':"#00E5FF"}},
-
-    gauge={
-
-        'axis':{'range':[0,100]},
-
-        'bar':{'color':"#00E5FF"},
-
-        'steps':[
-
-            {'range':[0,40],'color':"#3a0000"},
-            {'range':[40,70],'color':"#5a3a00"},
-            {'range':[70,100],'color':"#003a3a"}
-
-        ]
-    }
-
-))
-
-fig_meter.update_layout(
-    height=350,
-    paper_bgcolor="rgba(0,0,0,0)"
-)
-
-st.plotly_chart(fig_meter,use_container_width=True)
-
-st.info(f"Total Skills Detected : {len(skill_names)}")
-
-# ---------------- AI MODEL ANALYSIS ----------------
-
-st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-
-st.subheader("AI Model Analysis")
-
-st.write("Model Used : Resume Intelligence Analyzer v1.0")
-
-st.write("Processing Method : NLP-based skill extraction")
-
-st.write("Skill Detection Accuracy : 92%")
-
-st.write("Recommendation Engine : Rule-based Career Matching")
-
-st.markdown("</div>", unsafe_allow_html=True)
-
-# ---------------- AI CONFIDENCE SCORE ----------------
-
-confidence = min(95, 50 + (len(skill_names) * 8))
-
-if confidence >= 80:
-    status = "High"
-elif confidence >= 60:
-    status = "Moderate"
-else:
-    status = "Low"
-
-st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-
-st.subheader("AI Analysis Confidence")
-
-st.metric("Confidence Score", f"{confidence}%")
-
-st.write(f"Analysis Reliability : **{status}**")
-
-st.markdown("</div>", unsafe_allow_html=True)
+    st.info(f"Total Skills Detected : {len(skill_names)}")
 
 
-# ---------------- SKILL ANALYSIS ----------------
-if menu=="Skill Analysis":
-
-    st.markdown("<div class='glass-card'>",unsafe_allow_html=True)
-
+    # ---------- SKILL FREQUENCY ----------
     st.subheader("Detected Skills")
 
     fig = go.Figure()
 
     fig.add_trace(go.Bar(
-
         x=skill_values,
         y=skill_names,
         orientation='h',
         marker=dict(color="#00E5FF")
-
     ))
 
     fig.update_layout(
-
         title="Skill Frequency in Resume",
         xaxis_title="Frequency",
         yaxis_title="Skills",
         height=400,
-        showlegend=False,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)"
-
     )
 
     st.plotly_chart(fig,use_container_width=True)
 
-    st.markdown("</div>",unsafe_allow_html=True)
 
-
-    # ---------- Skill Distribution ----------
-
-    st.markdown("<div class='glass-card'>",unsafe_allow_html=True)
-
+    # ---------- SKILL DISTRIBUTION ----------
     st.subheader("AI Skill Distribution")
 
-    total=sum(skill_values)
+    total = sum(skill_values)
 
-    percentages=[]
-
+    percentages = []
     for v in skill_values:
+        percentages.append(round((v/total)*100,2))
 
-        percent=round((v/total)*100,2)
-
-        percentages.append(percent)
-
-    fig2=go.Figure(data=[go.Pie(
-
+    fig2 = go.Figure(data=[go.Pie(
         labels=skill_names,
         values=percentages,
-        hole=0.5
-
+        hole=0.5,
+        marker=dict(colors=[
+            "#00E5FF","#00FFA6","#FFD700",
+            "#FF7F50","#A29BFE","#74B9FF"
+        ])
     )])
 
     fig2.update_layout(
-
         title="Skill Percentage Distribution",
         paper_bgcolor="rgba(0,0,0,0)",
         font=dict(color="white")
-
     )
 
     st.plotly_chart(fig2,use_container_width=True)
 
-    st.markdown("</div>",unsafe_allow_html=True)
-
-    # ---------- AI SKILL RADAR ANALYSIS ----------
-
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    
-    st.subheader("AI Skill Balance Radar")
-    
-    fig_radar = go.Figure()
-    
-    fig_radar.add_trace(go.Scatterpolar(
-        r=skill_values,
-        theta=skill_names,
-        fill='toself',
-        line=dict(color="#00E5FF")
-    ))
-    
-    fig_radar.update_layout(
-        polar=dict(
-            radialaxis=dict(
-                visible=True
-            )
-        ),
-        showlegend=False,
-        paper_bgcolor="rgba(0,0,0,0)"
-    )
-    
-    st.plotly_chart(fig_radar, use_container_width=True)
-    
-    st.markdown("</div>", unsafe_allow_html=True)
 
 
-# ---------------- CAREER MATCH ----------------
-elif menu=="Career Match":
+# =====================================================
+# 🎯 CAREER MATCH PAGE
+# =====================================================
+elif menu == "🎯 Career Match":
 
-    st.markdown("<div class='glass-card'>",unsafe_allow_html=True)
+    st.subheader("Career Recommendations")
 
-    st.subheader("Career Recommendation")
+    roles = recommend_roles(skill_names)
 
-    roles=recommend_roles(skill_names)
+    labels = list(roles.keys())
+    values = list(roles.values())
 
-    labels=list(roles.keys())
-    values=list(roles.values())
+    if sum(values) == 0:
+        st.warning("No strong career match detected based on current skills.")
 
-    best_role=max(roles,key=roles.get)
-    best_score=roles[best_role]
+    else:
 
-    st.success(f"Top Career Match: {best_role} ({best_score}% match)")
+        best_role = max(roles, key=roles.get)
+        best_score = roles[best_role]
 
-    fig=go.Figure(data=[go.Pie(
+        st.success(f"Top Career Match: {best_role} ({best_score})")
 
-        labels=labels,
-        values=values,
-        hole=0.55,
-        textinfo="label+percent"
+        fig = go.Figure(data=[go.Pie(
+            labels=labels,
+            values=values,
+            hole=0.55,
+            textinfo="label+percent",
+            marker=dict(colors=[
+                "#00E5FF","#00FFA6","#FFD700",
+                "#FF7F50","#FF4C4C","#A29BFE"
+            ])
+        )])
 
-    )])
+        fig.update_layout(
+            title="AI Career Recommendation Analysis",
+            paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="white")
+        )
 
-    fig.update_layout(
-
-        title="AI Career Recommendation Analysis",
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white")
-
-    )
-
-    st.plotly_chart(fig,use_container_width=True)
-
-    st.markdown("### AI Career Explanation")
-
-    st.write(f"Your resume skills most strongly match the role of **{best_role}**.")
-
-    st.markdown("</div>",unsafe_allow_html=True)
+        st.plotly_chart(fig,use_container_width=True)
 
 
-# ---------------- SKILL GAP ROADMAP ----------------
-elif menu=="Skill Gap Roadmap":
 
-    st.markdown("<div class='glass-card'>",unsafe_allow_html=True)
+# =====================================================
+# 🧠 SKILL GAP ROADMAP
+# =====================================================
+elif menu == "🧠 Skill Gap Roadmap":
 
     st.subheader("Learning Roadmap")
 
-    roadmap=generate_learning_roadmap(skill_names)
+    roadmap = generate_learning_roadmap(skill_names)
 
     for skill,steps in roadmap.items():
 
         st.markdown(f"### {skill}")
 
         for step in steps:
-
             st.write("•",step)
 
-    st.markdown("</div>",unsafe_allow_html=True)
 
 
-# ---------------- AI INSIGHTS ----------------
-elif menu=="AI Insights":
-
-    st.markdown("<div class='glass-card'>",unsafe_allow_html=True)
+# =====================================================
+# 💡 AI INSIGHTS
+# =====================================================
+elif menu == "💡 AI Insights":
 
     st.subheader("AI Resume Insights")
 
-    insights=generate_insights(skill_names)
+    insights = generate_insights(skill_names)
 
     for insight in insights:
-
         st.write("•",insight)
-
-    st.markdown("</div>",unsafe_allow_html=True)
