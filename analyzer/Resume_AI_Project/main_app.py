@@ -197,7 +197,30 @@ if menu == "📊 Skill Analysis":
     )
 
     st.plotly_chart(fig_bar,use_container_width=True)
+    
+    st.subheader("AI Skill Capability Radar")
 
+    fig_radar = go.Figure()
+    
+    fig_radar.add_trace(go.Scatterpolar(
+        r=skill_values,
+        theta=skill_names,
+        fill='toself',
+        line=dict(color="#00E5FF")
+    ))
+    
+    fig_radar.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True
+            )
+        ),
+        showlegend=False,
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white")
+    )
+    
+    st.plotly_chart(fig_radar, use_container_width=True)
 
 # =====================================================
 # 🎯 CAREER MATCH
