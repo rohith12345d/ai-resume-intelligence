@@ -100,15 +100,19 @@ if uploaded_file is None:
 # SKILL EXTRACTION
 # -----------------------------
 
-skills = extract_skills(uploaded_file)
+detected_skills = extract_skills(uploaded_file)
 
-if not skills:
+if not detected_skills:
     st.warning("No skills detected in resume.")
     st.stop()
 
-skill_names = list(skills.keys())
-skill_values = list(skills.values())
+all_skills = []
+all_counts = []
 
+for category, skills in detected_skills.items():
+    for skill, count in skills.items():
+        all_skills.append(skill)
+        all_counts.append(count)
 
 # -----------------------------
 # RESUME SCORE
@@ -158,10 +162,10 @@ st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 st.subheader("Skill Analysis")
 
 fig = px.bar(
-    y=skill_names,
-    x=skill_values,
+    y=all_skills,
+    x=all_counts,
     orientation="h",
-    color=skill_names,
+    color=all_skills,
     title="Skill Strength in Resume"
 )
 
