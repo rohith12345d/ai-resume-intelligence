@@ -246,7 +246,7 @@ if menu == "📊 Skill Analysis":
     
    
     if score < 40:
-    st.error("Resume Strength: Weak — Add more technical skills")
+        st.error("Resume Strength: Weak — Add more technical skills")
 
     elif score < 70:
         st.warning("Resume Strength: Moderate — Improve projects and tools")
