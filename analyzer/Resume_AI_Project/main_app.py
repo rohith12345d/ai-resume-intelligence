@@ -67,12 +67,16 @@ if uploaded_file is None:
 # SKILL EXTRACTION
 skills = extract_skills(uploaded_file)
 
-if not skills:
+if not skills or len(skills) == 0 :
     st.warning("No skills detected in resume")
     st.stop()
+skill_names = []
+skill_values = []
+for skill, count in skills.items():
+    skill_names.append(skill)
+    skill_values.append(count)
 
-skill_names = list(skills.keys())
-skill_values = list(skills.values())
+
 
 # RESUME SCORE
 score = calculate_readiness(skill_names)
@@ -112,6 +116,7 @@ if menu == "Skill Analysis":
         x=skill_values,
         y=skill_names,
         orientation="h",
+        labels={"x" : "Frequency", "y": "Skills"},
         title="Skill Strength"
     )
 
