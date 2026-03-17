@@ -6,22 +6,31 @@ def generate_learning_roadmap(selected_role, user_skills):
             "html","css","javascript","react","node","apis","sql"
         ],
 
+        "Web Developer":[
+            "html","css","javascript","react","bootstrap","apis"
+        ],
+
+        "Data Analyst":[
+            "python","sql","excel","pandas","numpy","power bi","tableau"
+        ],
+
         "Data Scientist":[
-            "python","pandas","numpy","machine learning","sql"
+            "python","pandas","numpy","machine learning","statistics","sql"
         ],
 
         "Machine Learning Engineer":[
-            "python","pandas","numpy","machine learning","tensorflow"
+            "python","pandas","numpy","machine learning","tensorflow","pytorch"
         ]
 
     }
 
-    required = roadmap_db.get(selected_role, [])
+    required_skills = roadmap_db.get(selected_role, [])
 
-    missing = []
+    missing_skills = []
 
-    for skill in required:
-        if skill not in user_skills:
-            missing.append(skill)
+    for skill in required_skills:
 
-    return missing
+        if skill.lower() not in [s.lower() for s in user_skills]:
+            missing_skills.append(skill)
+
+    return missing_skills
