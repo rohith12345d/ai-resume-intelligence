@@ -57,6 +57,31 @@ div[role="radiogroup"] label:hover {
     border: 1px solid rgba(0,229,255,0.4);
 }
 
+/* Active menu rectangle */
+
+div[role="radiogroup"] label[data-checked="true"] {
+    background: white !important;
+    color: black !important;
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+/* Normal menu */
+
+div[role="radiogroup"] label {
+    font-size:18px;
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:6px;
+}
+
+/* Hover effect */
+
+div[role="radiogroup"] label:hover {
+    background: rgba(0,229,255,0.15);
+}
+
 </style>
 """, unsafe_allow_html=True)
 
