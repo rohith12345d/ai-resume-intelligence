@@ -71,6 +71,71 @@ if not skills_raw:
     st.warning("No skills detected in resume")
     st.stop()
 
+# -----------------------------
+# AI RESUME STRENGTH METER
+# -----------------------------
+
+score = calculate_readiness(skill_names)
+
+fig_meter = go.Figure(go.Indicator(
+
+    mode="gauge+number",
+
+    value=score,
+
+    number={
+        'font': {
+            'size': 55,
+            'color': "#00E5FF"
+        }
+    },
+
+    title={
+        'text': "AI Resume Strength",
+        'font': {'size': 26, 'color': "#00E5FF"}
+    },
+
+    gauge={
+
+        'axis': {
+            'range': [0,100],
+            'tickwidth': 2,
+            'tickcolor': "#00E5FF"
+        },
+
+        'bar': {
+            'color': "#00E5FF",
+            'thickness': 0.35
+        },
+
+        'bgcolor': "rgba(0,0,0,0.6)",
+
+        'borderwidth': 3,
+        'bordercolor': "#00E5FF",
+
+        'steps': [
+
+            {'range':[0,40], 'color':"#3a0000"},
+            {'range':[40,70], 'color':"#5a3a00"},
+            {'range':[70,100], 'color':"#003a3a"}
+
+        ]
+    }
+
+))
+
+fig_meter.update_layout(
+
+    height=350,
+
+    paper_bgcolor="rgba(0,0,0,0)",
+
+    font={'color':"#00E5FF"}
+
+)
+
+st.plotly_chart(fig_meter, use_container_width=True)
+
 # ---- Normalize skills to dictionary ----
 if isinstance(skills_raw, dict):
     skills = skills_raw
