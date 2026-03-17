@@ -150,6 +150,12 @@ elif menu == "Career Match":
         labels.append(role)
         values.append(score)
 
+    # show best career recommendation
+    best_role = max(roles, key=roles.get)
+    best_score = roles[best_role]
+
+    st.success(f"Top Career Match: {best_role} ({best_score} match score)")
+
     # prevent empty chart
     if sum(values) == 0:
         st.warning("No strong career match detected based on current skills.")
