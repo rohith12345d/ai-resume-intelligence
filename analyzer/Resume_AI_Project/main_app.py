@@ -472,6 +472,13 @@ elif menu == "💡 AI Insights":
     </div>
     """, unsafe_allow_html=True)
 
+    st.download_button(
+        label="Download AI Resume Report",
+        data=report,
+        file_name="ai_resume_report.txt",
+        mime="text/plain"
+    )
+
     roles = recommend_roles(skill_names)
     best_role = max(roles, key=roles.get)
     score = calculate_readiness(skill_names)
@@ -491,12 +498,7 @@ elif menu == "💡 AI Insights":
     for insight in insights:
         report += f"- {insight}\n"
 
-    st.download_button(
-        label="Download AI Resume Report",
-        data=report,
-        file_name="ai_resume_report.txt",
-        mime="text/plain"
-    )
+    
 
 
 st.markdown("---")
