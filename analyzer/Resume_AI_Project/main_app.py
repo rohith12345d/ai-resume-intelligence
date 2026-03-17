@@ -452,11 +452,24 @@ elif menu == "💡 AI Insights":
 
     st.subheader("AI Model Analysis")
 
-    processing_time = round(random.uniform(0.8, 1.8), 2)
-
-    st.write("Model Used: Resume Intelligence Analyzer v1.0")
-    st.write("AI Engine: Skill Extraction + Career Matching + Readiness Score")
-    st.write(f"Processing Time: {processing_time} seconds")
+    st.markdown(f"""
+    <div style="
+    background: rgba(255,255,255,0.25);
+    border-radius:12px;
+    padding:20px;
+    margin-top:10px;
+    border-left:6px solid #00E5FF;
+    backdrop-filter: blur(8px);
+    ">
+    
+    <b style="color:#002b36;">Model Used:</b> Resume Intelligence Analyzer v1.0<br><br>
+    
+    <b style="color:#002b36;">AI Engine:</b> Skill Extraction + Career Matching + Readiness Score<br><br>
+    
+    <b style="color:#002b36;">Processing Time:</b> {processing_time} seconds
+    
+    </div>
+    """, unsafe_allow_html=True)
 
     roles = recommend_roles(skill_names)
     best_role = max(roles, key=roles.get)
