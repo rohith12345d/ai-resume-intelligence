@@ -100,7 +100,12 @@ st.sidebar.title("AI Resume Dashboard")
 
 menu = st.sidebar.radio(
     "Navigation",
-    ["Skill Analysis","Career Match","Skill Gap Roadmap","AI Insights"]
+    [
+        "📊 Skill Analysis",
+        "🎯 Career Match",
+        "🧠 Skill Gap Roadmap",
+        "💡 AI Insights"
+    ]
 )
 
 uploaded_file = st.sidebar.file_uploader(
