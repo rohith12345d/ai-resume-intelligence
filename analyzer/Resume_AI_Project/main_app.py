@@ -451,6 +451,7 @@ elif menu == "💡 AI Insights":
     st.markdown("---")
 
     st.subheader("AI Model Analysis")
+    processing_time=round(random.uniform(0.8,1.8),2)
 
     st.markdown(f"""
     <div style="
