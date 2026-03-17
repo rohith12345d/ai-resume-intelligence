@@ -57,6 +57,26 @@ div[role="radiogroup"] label:hover {
     border: 1px solid rgba(0,229,255,0.4);
 }
 
+.metric-card {
+background: rgba(255,255,255,0.05);
+border-radius: 12px;
+padding: 20px;
+text-align: center;
+border: 1px solid rgba(0,229,255,0.4);
+box-shadow: 0 0 10px rgba(0,229,255,0.4);
+margin-bottom: 10px;
+}
+
+.metric-title {
+font-size:18px;
+color:#00E5FF;
+}
+
+.metric-value {
+font-size:40px;
+font-weight:bold;
+color:white;
+}
 
 
 </style>
