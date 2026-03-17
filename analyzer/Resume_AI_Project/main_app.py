@@ -14,6 +14,30 @@ from insights_engine import generate_insights
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(page_title="AI Resume Intelligence", layout="wide")
+st.markdown("""
+<style>
+
+/* Sidebar background */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg,#0f2027,#203a43,#2c5364);
+    padding-top: 20px;
+}
+
+/* Sidebar text */
+[data-testid="stSidebar"] * {
+    color: white;
+}
+
+/* Upload box styling */
+[data-testid="stFileUploader"] {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 10px;
+    border: 1px solid rgba(0,229,255,0.4);
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 
 # ---------------- BACKGROUND ----------------
