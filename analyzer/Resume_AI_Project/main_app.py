@@ -432,7 +432,21 @@ elif menu == "💡 AI Insights":
     insights = generate_insights(skill_names)
 
     for insight in insights:
-        st.write("•", insight)
+
+        st.markdown(f"""
+        <div style="
+        background: rgba(255,255,255,0.20);
+        border-radius:10px;
+        padding:12px;
+        margin-bottom:10px;
+        border-left:5px solid #00E5FF;
+        backdrop-filter: blur(5px);
+        font-size:15px;
+        color:#111;
+        ">
+        {insight}
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("---")
 
