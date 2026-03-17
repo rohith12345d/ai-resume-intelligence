@@ -303,9 +303,9 @@ if menu == "📊 Skill Analysis":
 
     col1, col2 = st.columns(2)
     
-    skill_categories = list(skills.items())
+    items = list(detected_skills.items())
     
-    for i, (category, skill_list) in enumerate(skill_categories):
+    for i,(category,skill_list) in enumerate(items):
     
         block = f"""
         <div style="
@@ -315,7 +315,6 @@ if menu == "📊 Skill Analysis":
         margin-bottom:10px;
         border-left:6px solid #00E5FF;
         ">
-        
         <b style="font-size:18px">{category}</b><br>
         """
     
