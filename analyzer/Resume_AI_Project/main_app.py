@@ -314,10 +314,71 @@ if menu == "📊 Skill Analysis":
     # -------- DETECT TECHNOLOGIES FROM RESUME --------
 
     skill_categories = {
-        "Programming": ["python","c","cpp","java","javascript"],
-        "Web Development": ["html","css","react","node","django","flask"],
-        "Data Skills": ["sql","pandas","numpy","excel","power bi"],
-        "AI / Machine Learning": ["machine learning","tensorflow","pytorch","scikit-learn"]
+
+        "Programming":[
+            "python","c","cpp","java","javascript","typescript","go","rust","kotlin","swift",
+            "ruby","php","scala","matlab","r"
+        ],
+    
+        "Web Development":[
+            "html","css","javascript","react","angular","vue","node","express",
+            "django","flask","spring","bootstrap","tailwind","apis","rest api",
+            "graphql","jquery"
+        ],
+    
+        "Data Skills":[
+            "sql","mysql","postgresql","mongodb","pandas","numpy","data analysis",
+            "data visualization","excel","power bi","tableau","statistics",
+            "big data","data mining","data cleaning"
+        ],
+    
+        "AI / Machine Learning":[
+            "machine learning","deep learning","tensorflow","pytorch",
+            "scikit-learn","nlp","computer vision","neural networks",
+            "transformers","llm","reinforcement learning","opencv"
+        ],
+    
+        "Cloud / DevOps":[
+            "aws","azure","google cloud","gcp","docker","kubernetes",
+            "terraform","jenkins","ci/cd","devops","linux","bash"
+        ],
+    
+        "Database":[
+            "sql","mysql","postgresql","oracle","sqlite","mongodb",
+            "firebase","redis","cassandra","dynamodb"
+        ],
+    
+        "Mobile Development":[
+            "android","ios","react native","flutter","swift","kotlin",
+            "xamarin"
+        ],
+    
+        "Cybersecurity":[
+            "cybersecurity","ethical hacking","penetration testing",
+            "network security","cryptography","vulnerability assessment",
+            "kali linux"
+        ],
+    
+        "Software Development":[
+            "software engineering","oop","object oriented programming",
+            "design patterns","system design","microservices"
+        ],
+    
+        "Project Management":[
+            "agile","agile project management","scrum","kanban",
+            "jira","product management","project planning"
+        ],
+    
+        "Documentation":[
+            "technical writing","documentation","requirement analysis",
+            "software documentation"
+        ],
+    
+        "Tools & Platforms":[
+            "git","github","gitlab","bitbucket","vscode","intellij",
+            "eclipse","figma","postman","jira"
+        ]
+    
     }
     
     detected_skills = {}
