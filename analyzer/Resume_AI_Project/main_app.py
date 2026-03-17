@@ -298,6 +298,29 @@ if menu == "📊 Skill Analysis":
 
     st.caption("Radar chart shows distribution of skill categories detected in your resume")
 
+    # -------- DETECT TECHNOLOGIES FROM RESUME --------
+
+    skill_categories = {
+        "Programming": ["python","c","cpp","java","javascript"],
+        "Web Development": ["html","css","react","node","django","flask"],
+        "Data Skills": ["sql","pandas","numpy","excel","power bi"],
+        "AI / Machine Learning": ["machine learning","tensorflow","pytorch","scikit-learn"]
+    }
+    
+    detected_skills = {}
+    
+    for category, tech_list in skill_categories.items():
+    
+        detected = []
+    
+        for tech in tech_list:
+            for skill in skill_names:
+                if tech.lower() in skill.lower():
+                    detected.append(tech.title())
+    
+        if detected:
+            detected_skills[category] = detected
+
     # ---------------- DETECTED SKILLS ----------------
     st.subheader("Detected Skills")
 
