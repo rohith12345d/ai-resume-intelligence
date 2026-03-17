@@ -206,9 +206,6 @@ skill_values = list(skills.values())
 # =====================================================
 if menu == "📊 Skill Analysis":
 
-    with st.spinner("AI is analyzing skill data..."):
-        time.sleep(1)
-
     score = calculate_readiness(skill_names)
 
     st.markdown("## Resume Skill Summary")
@@ -222,7 +219,7 @@ if menu == "📊 Skill Analysis":
             <div class="metric-value">{len(skill_names)}</div>
         </div>
         """, unsafe_allow_html=True)
-    
+
     with col2:
         st.markdown(f"""
         <div class="metric-card">
@@ -231,59 +228,63 @@ if menu == "📊 Skill Analysis":
         </div>
         """, unsafe_allow_html=True)
 
+    # ---------------- GAUGE ----------------
     st.markdown("### AI Resume Strength")
 
     fig_meter = go.Figure(go.Indicator(
         mode="gauge+number",
         value=score,
-    
-        number={'font':{'size':60,'color':"black"}},
-    
-        title={'text':"AI Resume Strength",'font':{'size':22,'color':"#003b46"}},
-    
+        title={'text':"AI Resume Strength"},
         gauge={
-    
-            'axis':{
-                'range':[0,100],
-                'tickcolor':"#003b46"
-            },
-    
-            'bar':{
-                'color':"#00E5FF",
-                'thickness':0.25
-            },
-    
-            'bgcolor':"rgba(255,255,255,0.25)",
-    
-            'borderwidth':2,
-            'bordercolor':"#00E5FF",
-    
+            'axis':{'range':[0,100]},
             'steps':[
-    
                 {'range':[0,40],'color':"#FF3B3B"},
                 {'range':[40,70],'color':"#FFA500"},
                 {'range':[70,100],'color':"#00FF7F"}
-    
             ]
-    
         }
-    
     ))
-    
-    fig_meter.update_layout(
-    
-        height=380,
-    
-        paper_bgcolor="rgba(255,255,255,0.25)",
-    
-        plot_bgcolor="rgba(255,255,255,0.25)",
-    
-        font={'color':"black"}
-    
-    )
-    
+
     st.plotly_chart(fig_meter, use_container_width=True)
 
+    # ---------------- RADAR ----------------
+    st.subheader("AI Skill Capability Radar")
+
+    fig_radar = go.Figure()
+
+    fig_radar.add_trace(go.Scatterpolar(
+        r=skill_values,
+        theta=skill_names,
+        fill='toself'
+    ))
+
+    fig_radar.update_layout(
+        polar=dict(radialaxis=dict(visible=True)),
+        showlegend=False
+    )
+
+    st.plotly_chart(fig_radar, use_container_width=True)
+
+    # ---------------- DETECTED SKILLS ----------------
+    st.subheader("Detected Skills")
+
+    cols = st.columns(2)
+
+    for i,(skill,value) in enumerate(skills.items()):
+        cols[i%2].write(f"• {skill} ({value})")
+
+    # ---------------- BAR CHART ----------------
+    st.subheader("Skill Frequency")
+
+    fig_bar = go.Figure()
+
+    fig_bar.add_trace(go.Bar(
+        x=skill_values,
+        y=skill_names,
+        orientation='h'
+    ))
+
+    st.plotly_chart(fig_bar, use_container_width=True)
 # =====================================================
 # 🎯 CAREER MATCH
 # =====================================================
