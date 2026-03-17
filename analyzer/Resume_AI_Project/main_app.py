@@ -185,27 +185,27 @@ elif menu == "Career Match":
 
 # show best role explanation
 
-best_role = max(roles, key=roles.get)
-
-st.markdown("### AI Career Explanation")
-
-if best_role == "Data Scientist":
-    st.write("Your resume shows strong data analysis and programming skills. These are essential for Data Science roles.")
-
-elif best_role == "Data Analyst":
-    st.write("Your resume indicates good analytical and data handling skills which match Data Analyst requirements.")
-
-elif best_role == "Web Developer":
-    st.write("Your resume highlights web technologies like HTML, CSS, or JavaScript which align with Web Development roles.")
-
-elif best_role == "Backend Developer":
-    st.write("Your programming and database related skills are suitable for Backend Development roles.")
-
-elif best_role == "Machine Learning Engineer":
-    st.write("Your resume includes machine learning or AI related skills which are required for ML Engineer roles.")
-
-elif best_role == "Full Stack Developer":
-    st.write("Your resume shows both frontend and backend related skills which match Full Stack Development.")
+    best_role = max(roles, key=roles.get)
+    
+    st.markdown("### AI Career Explanation")
+    
+    if best_role == "Data Scientist":
+        st.write("Your resume shows strong data analysis and programming skills. These are essential for Data Science roles.")
+    
+    elif best_role == "Data Analyst":
+        st.write("Your resume indicates good analytical and data handling skills which match Data Analyst requirements.")
+    
+    elif best_role == "Web Developer":
+        st.write("Your resume highlights web technologies like HTML, CSS, or JavaScript which align with Web Development roles.")
+    
+    elif best_role == "Backend Developer":
+        st.write("Your programming and database related skills are suitable for Backend Development roles.")
+    
+    elif best_role == "Machine Learning Engineer":
+        st.write("Your resume includes machine learning or AI related skills which are required for ML Engineer roles.")
+    
+    elif best_role == "Full Stack Developer":
+        st.write("Your resume shows both frontend and backend related skills which match Full Stack Development.")
 # ---------------- SKILL GAP ROADMAP ----------------
 elif menu == "Skill Gap Roadmap":
 
