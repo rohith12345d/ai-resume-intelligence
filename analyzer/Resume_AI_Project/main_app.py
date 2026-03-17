@@ -63,6 +63,16 @@ def set_background():
         border: 1px solid rgba(255,255,255,0.15);
         box-shadow: 0 0 15px rgba(0,229,255,0.25);
         }}
+
+        .glow-meter {{
+        box-shadow: 
+        0 0 10px #00E5FF,
+        0 0 20px #00E5FF,
+        0 0 40px #00E5FF,
+        0 0 60px #00FFA6;
+        border-radius:20px;
+        padding:20px;
+        }}
         </style>
         """,
         unsafe_allow_html=True
@@ -231,8 +241,9 @@ if menu == "📊 Skill Analysis":
     
     )
     
+    st.markdown("<div class='glow-meter'>", unsafe_allow_html=True)
     st.plotly_chart(fig_meter, use_container_width=True)
-    
+
     st.markdown("</div>", unsafe_allow_html=True)
     
    
@@ -265,6 +276,27 @@ if menu == "📊 Skill Analysis":
     )
 
     st.plotly_chart(fig2,use_container_width=True)
+
+
+    st.subheader("AI Skill Radar Analysis")
+
+    fig_radar = go.Figure()
+    
+    fig_radar.add_trace(go.Scatterpolar(
+        r=skill_values,
+        theta=skill_names,
+        fill='toself',
+        line=dict(color="#00E5FF")
+    ))
+    
+    fig_radar.update_layout(
+        polar=dict(radialaxis=dict(visible=True)),
+        showlegend=False,
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white")
+    )
+    
+    st.plotly_chart(fig_radar, use_container_width=True)
 
 
 
