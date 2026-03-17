@@ -1,9 +1,30 @@
 import re
 import pdfplumber
 import docx
+
 def extract_skills(uploaded_file):
 
-    text = uploaded_file.read().decode("utf-8").lower()
+    text = ""
+
+    # READ TXT FILE
+    if uploaded_file.name.endswith(".txt"):
+        text = uploaded_file.read().decode("utf-8", errors="ignore")
+
+    # READ PDF FILE
+    elif uploaded_file.name.endswith(".pdf"):
+        with pdfplumber.open(uploaded_file) as pdf:
+            for page in pdf.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text
+
+    # READ DOCX FILE
+    elif uploaded_file.name.endswith(".docx"):
+        doc = docx.Document(uploaded_file)
+        for para in doc.paragraphs:
+            text += para.text + "\n"
+
+    text = text.lower()
 
     skills_db = {
 
