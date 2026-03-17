@@ -153,7 +153,6 @@ st.markdown("### Resume Skill Summary")
 col1, col2, col3 = st.columns(3)
 
 col1.metric("Skills Detected", len(skill_names))
-col2.metric("Resume Strength Score", score)
 col3.metric("Career Matches", len(recommend_roles(skill_names)))
 
 # =====================================================
@@ -172,6 +171,19 @@ if menu == "📊 Skill Analysis":
     
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     
+    st.markdown("### Resume Skill Summary")
+    
+    col1, col2 = st.columns([1,2])
+    
+    with col1:
+        st.metric("Skills Detected", len(skill_names))
+        st.metric("Career Matches", len(recommend_roles(skill_names)))
+    
+    with col2:
+        st.plotly_chart(fig_meter, use_container_width=True)
+    
+    st.markdown("</div>", unsafe_allow_html=True)
+        
     # Draw gauge once (no redraw → no blinking)
     fig_meter = go.Figure(go.Indicator(
     
