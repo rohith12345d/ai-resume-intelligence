@@ -419,6 +419,26 @@ elif menu == "🎯 Career Match":
 # =====================================================
 elif menu == "🧠 Skill Gap Roadmap":
 
+    st.subheader("Select Target Career")
+    
+    roles = recommend_roles(skill_names)
+    
+    selected_role = st.selectbox(
+        "Choose your target career",
+        list(roles.keys())
+    )
+
+    roadmap = generate_learning_roadmap(selected_role, skill_names)
+
+    st.subheader("Learning Roadmap")
+    
+    for skill, steps in roadmap.items():
+    
+        st.markdown(f"### {skill}")
+    
+        for step in steps:
+            st.write("•", step)
+
     with st.spinner("AI is generating learning roadmap..."):
         time.sleep(1)
 
