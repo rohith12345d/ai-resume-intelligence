@@ -1,101 +1,30 @@
-import re
-import pdfplumber
-import docx
-
-# Skill categories
-
-skill_categories = {
-
-"Programming":[
-"python","java","c","c++","javascript","typescript","go","rust"
-],
-
-"Web Development":[
-"html","css","react","angular","vue","node","express","django","flask"
-],
-
-"Data Skills":[
-"sql","mysql","postgresql","mongodb","data analysis",
-"data science","data visualization","pandas","numpy","statistics"
-],
-
-"AI / Machine Learning":[
-"machine learning","deep learning","tensorflow","pytorch",
-"scikit-learn","nlp","computer vision"
-],
-
-"Cloud / DevOps":[
-"aws","azure","gcp","docker","kubernetes","git","github","ci/cd","linux"
-],
-
-"Analytics":[
-"power bi","tableau","excel"
-],
-
-"Mobile Development":[
-"android","kotlin","swift","flutter"
-],
-
-"Cybersecurity":[
-"cybersecurity","network security","penetration testing"
-]
-
-}
-
-
-def extract_text(file):
-
-    filename = file.name.lower()
-
-    if filename.endswith(".txt"):
-        return file.read().decode("utf-8", errors="ignore")
-
-    if filename.endswith(".pdf"):
-
-        text = ""
-
-        with pdfplumber.open(file) as pdf:
-            for page in pdf.pages:
-                page_text = page.extract_text()
-                if page_text:
-                    text += page_text
-
-        return text
-
-    if filename.endswith(".docx"):
-
-        doc = docx.Document(file)
-
-        text = ""
-
-        for para in doc.paragraphs:
-            text += para.text + " "
-
-        return text
-
-    return ""
-
+# resume_skill_parser.py
 
 def extract_skills(uploaded_file):
 
-    text = extract_text(uploaded_file)
+    try:
+        text = uploaded_file.read().decode("utf-8").lower()
+    except:
+        text = str(uploaded_file.read()).lower()
 
-    text = text.lower()
+    skills_db = {
+        "Programming": ["python","java","c++","c","javascript"],
+        "Web Development": ["html","css","react","node","django"],
+        "Data Skills": ["sql","pandas","numpy","data analysis"],
+        "AI / Machine Learning": ["machine learning","deep learning","tensorflow","keras","scikit"]
+    }
 
     detected = {}
 
-    for category,skills in skill_categories.items():
+    for category, skill_list in skills_db.items():
 
-        found = {}
+        count = 0
 
-        for skill in skills:
+        for skill in skill_list:
+            if skill in text:
+                count += 1
 
-            matches = re.findall(skill,text)
-
-            if matches:
-                found[skill] = len(matches)
-
-        if found:
-            detected[category] = found
+        if count > 0:
+            detected[category] = count
 
     return detected
