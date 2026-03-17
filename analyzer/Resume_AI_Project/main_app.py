@@ -154,17 +154,7 @@ else:
 skill_names = list(skills.keys())
 skill_values = list(skills.values())
 
-# =====================================================
-# 📊 SKILL ANALYSIS PAGE
-# =====================================================
-if menu == "📊 Skill Analysis":
-    with st.spinner("AI is analyzing skill data..."):
-                     time.sleep(1)
-    st.subheader("Detected Skills")
-    cols = st.columns(2)
-    for i, (skill, value) in enumerate(skills.items()):
-        cols[i%2].write(f" - {skill} ({value})") 
-    
+
     # ---------------- AI RESUME STRENGTH ----------------
 
     # score = calculate_readiness(skill_names)
@@ -250,6 +240,19 @@ if menu == "📊 Skill Analysis":
     
     else:
         st.success("AI Evaluation: Strong Resume — Good job readiness")
+
+# =====================================================
+# 📊 SKILL ANALYSIS PAGE
+# =====================================================
+if menu == "📊 Skill Analysis":
+    with st.spinner("AI is analyzing skill data..."):
+                     time.sleep(1)
+    st.subheader("Detected Skills")
+    cols = st.columns(2)
+    for i, (skill, value) in enumerate(skills.items()):
+        cols[i%2].write(f" - {skill} ({value})") 
+    
+    
 
 
 
