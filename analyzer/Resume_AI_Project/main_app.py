@@ -161,8 +161,9 @@ if menu == "📊 Skill Analysis":
     with st.spinner("AI is analyzing skill data..."):
                      time.sleep(1)
     st.subheader("Detected Skills")
-    for skill in skill_names:
-        st.markdown(f" - {skills}")
+    cols = st.columns(2)
+    for i, (skill, value) in enumerate(skills.items()):
+        cols[i%2].write(f" -{skill} ({value})") 
     
     # ---------------- AI RESUME STRENGTH ----------------
 
