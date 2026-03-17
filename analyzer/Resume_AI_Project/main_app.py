@@ -423,11 +423,22 @@ elif menu == "🧠 Skill Gap Roadmap":
 
     st.subheader("Select Target Career")
 
-    roles = recommend_roles(skill_names)
+    roles = [
+        "Full Stack Developer",
+        "Web Developer",
+        "Frontend Developer",
+        "Backend Developer",
+        "Data Analyst",
+        "Data Scientist",
+        "Machine Learning Engineer",
+        "AI Engineer",
+        "DevOps Engineer",
+        "Software Developer"
+    ]
 
     selected_role = st.selectbox(
         "Choose your target career",
-        list(roles.keys())
+        roles
     )
 
     with st.spinner("AI is generating learning roadmap..."):
@@ -439,7 +450,6 @@ elif menu == "🧠 Skill Gap Roadmap":
     st.markdown("### Skills to Learn")
 
     for skill in roadmap:
-
         st.markdown(f"""
         <div style="
         background: rgba(255,255,255,0.20);
