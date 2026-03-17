@@ -9,22 +9,22 @@ from readiness_engine import calculate_readiness
 from roadmap_engine import generate_learning_roadmap
 from insights_engine import generate_insights
 
------------------------------
+#-----------------------------
 
-PAGE CONFIG
+# PAGE CONFIG
 
------------------------------
+#-----------------------------
 
 st.set_page_config(
 page_title="AI Resume Intelligence",
 layout="wide"
 )
 
------------------------------
+#-----------------------------
 
-BACKGROUND
+# BACKGROUND
 
------------------------------
+#-----------------------------
 
 def set_background():
 
@@ -56,11 +56,11 @@ unsafe_allow_html=True
 
 set_background()
 
------------------------------
+#-----------------------------
 
-TITLE
+# TITLE
 
------------------------------
+#-----------------------------
 
 st.markdown(
 """
@@ -72,11 +72,11 @@ AI RESUME INTELLIGENCE DASHBOARD
 unsafe_allow_html=True
 )st.write("")
 
------------------------------
+#-----------------------------
 
-SIDEBAR NAVIGATION
+# SIDEBAR NAVIGATION
 
------------------------------
+#-----------------------------
 
 st.sidebar.title("AI Resume Dashboard")
 
@@ -90,11 +90,11 @@ menu = st.sidebar.radio(
 ]
 )
 
------------------------------
+#-----------------------------
 
-FILE UPLOAD
+# FILE UPLOAD
 
------------------------------
+#-----------------------------
 
 uploaded_file = st.sidebar.file_uploader(
 "Upload Resume",
@@ -105,11 +105,11 @@ if uploaded_file is None:
 st.info("Upload your resume from the sidebar to begin analysis")
 st.stop()
 
------------------------------
+#-----------------------------
 
-SKILL EXTRACTION
+# SKILL EXTRACTION
 
------------------------------
+#-----------------------------
 
 skills = extract_skills(uploaded_file)
 
@@ -120,11 +120,11 @@ st.stop()
 skill_names = list(skills.keys())
 skill_values = list(skills.values())
 
------------------------------
+#-----------------------------
 
-RESUME SCORE
+# RESUME SCORE
 
------------------------------
+#-----------------------------
 
 score = calculate_readiness(skill_names)
 
@@ -157,21 +157,21 @@ paper_bgcolor="rgba(0,0,0,0)",
 font={'color':"#00E5FF"}
 )
 
------------------------------
+#-----------------------------
 
-DASHBOARD PANEL
+# DASHBOARD PANEL
 
------------------------------
+#-----------------------------
 
 st.plotly_chart(fig_meter,use_container_width=True)
 
 st.markdown("<div class='glass'>",unsafe_allow_html=True)
 
------------------------------
+#-----------------------------
 
-SKILL ANALYSIS
+# SKILL ANALYSIS
 
------------------------------
+#-----------------------------
 
 if menu == "Skill Analysis":
 
@@ -191,11 +191,11 @@ showlegend=False
 
 st.plotly_chart(fig,use_container_width=True)
 
------------------------------
+#-----------------------------
 
-CAREER MATCH
+# CAREER MATCH
 
------------------------------
+#-----------------------------
 
 elif menu == "Career Match":
 
@@ -216,11 +216,11 @@ hole=0.55
 
 st.plotly_chart(fig,use_container_width=True)
 
------------------------------
+#-----------------------------
 
-SKILL GAP ROADMAP
+# SKILL GAP ROADMAP
 
------------------------------
+#-----------------------------
 
 elif menu == "Skill Gap Roadmap":
 
@@ -235,11 +235,11 @@ for skill,steps in roadmap.items():
     for step in steps:
         st.write("•",step)
 
------------------------------
+#-----------------------------
 
-AI INSIGHTS
+# AI INSIGHTS
 
------------------------------
+#-----------------------------
 
 elif menu == "AI Insights":
 
