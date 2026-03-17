@@ -431,3 +431,15 @@ elif menu == "💡 AI Insights":
         file_name="ai_resume_report.txt",
         mime="text/plain"
     )
+
+st.markdown("---")
+
+st.markdown(
+"""
+<center>
+AI Resume Intelligence Dashboard • Developed using Python & Streamlit  
+AI Skill Analysis | Career Recommendation | Resume Readiness Engine
+</center>
+""",
+unsafe_allow_html=True
+)
