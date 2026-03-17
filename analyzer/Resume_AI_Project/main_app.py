@@ -316,8 +316,10 @@ if menu == "📊 Skill Analysis":
     # ---------------- BAR CHART ----------------
     st.subheader("Skill Frequency")
 
+    colors = ["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE","#FF4C4C"]
+    
     fig_bar = go.Figure()
-
+    
     fig_bar.add_trace(go.Bar(
         x=skill_values,
         y=skill_names,
@@ -325,7 +327,7 @@ if menu == "📊 Skill Analysis":
         text=skill_values,
         textposition="outside",
         marker=dict(
-            color=["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE","#FF4C4C"]
+            color=[colors[i % len(colors)] for i in range(len(skill_values))]
         )
     ))
     
@@ -336,7 +338,8 @@ if menu == "📊 Skill Analysis":
         plot_bgcolor="rgba(255,255,255,0.20)",
         font=dict(color="black")
     )
-    st.plotly_chart(fig_bar,use_container_width=True)
+    
+    st.plotly_chart(fig_bar, use_container_width=True)
 # =====================================================
 # 🎯 CAREER MATCH
 # =====================================================
