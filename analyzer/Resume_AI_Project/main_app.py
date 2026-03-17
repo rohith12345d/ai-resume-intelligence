@@ -118,7 +118,7 @@ for category, skills in detected_skills.items():
 # RESUME SCORE
 # -----------------------------
 
-score = calculate_readiness(skill_names)
+score = calculate_readiness(all_skills)
 
 st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 
@@ -189,7 +189,7 @@ st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 
 st.subheader("Career Recommendations")
 
-roles = recommend_roles(skill_names)
+roles = recommend_roles(all_skills)
 
 labels = list(roles.keys())
 values = list(roles.values())
@@ -218,7 +218,7 @@ st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 
 st.subheader("Skill Gap Roadmap")
 
-roadmap = generate_learning_roadmap(skill_names)
+roadmap = generate_learning_roadmap(all_skills)
 
 for skill, steps in roadmap.items():
 
@@ -238,7 +238,7 @@ st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 
 st.subheader("AI Resume Insights")
 
-insights = generate_insights(skill_names)
+insights = generate_insights(all_skills)
 
 for insight in insights:
     st.write("•", insight)
