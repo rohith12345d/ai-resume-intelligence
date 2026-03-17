@@ -253,7 +253,7 @@ if menu == "📊 Skill Analysis":
     ))
 
     fig_meter.update_layout(
-        height=260
+        height=260,
         margin=dict(l=20,r=20,t=40,b=10),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
