@@ -190,6 +190,27 @@ st.info(f"Total Skills Detected : {len(skill_names)}")
 
 st.markdown("</div>",unsafe_allow_html=True)
 
+# ---------------- AI CONFIDENCE SCORE ----------------
+
+confidence = min(95, 50 + (len(skill_names) * 8))
+
+if confidence >= 80:
+    status = "High"
+elif confidence >= 60:
+    status = "Moderate"
+else:
+    status = "Low"
+
+st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+
+st.subheader("AI Analysis Confidence")
+
+st.metric("Confidence Score", f"{confidence}%")
+
+st.write(f"Analysis Reliability : **{status}**")
+
+st.markdown("</div>", unsafe_allow_html=True)
+
 
 # ---------------- SKILL ANALYSIS ----------------
 if menu=="Skill Analysis":
