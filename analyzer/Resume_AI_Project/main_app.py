@@ -122,31 +122,76 @@ if menu == "📊 Skill Analysis":
     score = calculate_readiness(skill_names)
 
     fig_meter = go.Figure(go.Indicator(
-        mode="gauge+number",
-        value=score,
-        title={'text':"AI Resume Strength"},
-        gauge={
-            'axis':{'range':[0,100]},
-            'bar':{'color':"#00E5FF"},
-            'steps':[
-                {'range':[0,40],'color':"#3a0000"},
-                {'range':[40,70],'color':"#5a3a00"},
-                {'range':[70,100],'color':"#003a3a"}
-            ]
+
+    mode="gauge+number+delta",
+
+    value=score,
+
+    number={
+        'font':{
+            'size':60,
+            'color':"#00E5FF"
         }
+    },
+
+    title={
+        'text':"AI Resume Strength",
+        'font':{'size':26,'color':"#00E5FF"}
+    },
+
+    gauge={
+
+        'shape':"angular",
+
+        'axis':{
+            'range':[0,100],
+            'tickwidth':2,
+            'tickcolor':"#00E5FF"
+        },
+
+        'bar':{
+            'color':"#00E5FF",
+            'thickness':0.25
+        },
+
+        'bgcolor':"rgba(0,0,0,0.6)",
+
+        'borderwidth':3,
+        'bordercolor':"#00E5FF",
+
+        'steps':[
+
+            {'range':[0,40],'color':"#8B0000"},
+            {'range':[40,70],'color':"#FFA500"},
+            {'range':[70,100],'color':"#006400"}
+
+        ],
+
+        'threshold':{
+            'line':{'color':"#FFFFFF",'width':4},
+            'thickness':0.75,
+            'value':score
+            }
+
+        }
+
     ))
-
+    
     fig_meter.update_layout(
-        height=350,
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white")
+
+    height=350,
+
+    paper_bgcolor="rgba(0,0,0,0)",
+
+    font={'color':"#00E5FF"}
+
     )
-
+    
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+    
     st.plotly_chart(fig_meter,use_container_width=True)
-
-    st.info(f"Total Skills Detected : {len(skill_names)}")
-
-
+    
+    st.markdown("</div>", unsafe_allow_html=True)
     # ---------- SKILL FREQUENCY ----------
     st.subheader("Detected Skills")
 
