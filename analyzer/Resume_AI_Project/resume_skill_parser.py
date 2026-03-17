@@ -102,20 +102,20 @@ def extract_skills(uploaded_file):
 
     for category, skills in skills_db.items():
 
-        found = []
+    found = []
 
-        for skill in skills:
+    for skill in skills:
 
-            # Special handling for C language
-            if skill == "C":
-                if re.search(r'(?<![a-zA-Z])c(?![a-zA-Z])', text):
-                    found.append("c")
-                continue
+        # Special handling for C language
+        if skill == "c":
+            if re.search(r'(?<![a-zA-Z])c(?![a-zA-Z])', text):
+                found.append("c")
+            continue
 
-            if re.search(r'\b' + re.escape(skill) + r'\b', text):
-                found.append(skill)
+        if re.search(r'\b' + re.escape(skill) + r'\b', text):
+            found.append(skill)
 
-        if found:
-            detected[category] = found
+    if found:
+        detected[category] = found
 
-    return detected
+return detected
