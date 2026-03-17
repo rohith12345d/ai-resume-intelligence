@@ -211,13 +211,23 @@ if menu == "📊 Skill Analysis":
 
     st.markdown("## Resume Skill Summary")
 
-    col1, col2 = st.columns(2)
+   col1, col2 = st.columns(2)
 
     with col1:
-        st.metric("Skills Detected", len(skill_names))
-
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-title">Skills Detected</div>
+            <div class="metric-value">{len(skill_names)}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
-        st.metric("Career Matches", len(recommend_roles(skill_names)))
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-title">Career Matches</div>
+            <div class="metric-value">{len(recommend_roles(skill_names))}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("### AI Resume Strength")
 
