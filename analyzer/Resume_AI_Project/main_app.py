@@ -373,7 +373,25 @@ elif menu == "💡 AI Insights":
     for insight in insights:
         report += f"- {insight}\n"
 
-
+    st.markdown("""
+    <style>
+    
+    div.stDownloadButton > button {
+        background-color: #00E5FF;
+        color: black;
+        font-weight: bold;
+        border-radius: 10px;
+        padding: 10px 20px;
+    }
+    
+    div.stDownloadButton > button:hover {
+        background-color: #00FFA6;
+        color: black;
+    }
+    
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.download_button(
         label="Download AI Resume Report",
         data=report,
