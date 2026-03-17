@@ -317,7 +317,7 @@ if menu == "📊 Skill Analysis":
             for skill in skill_names:
                 if tech.lower() in skill.lower():
                     if tech.title() not in detected:
-                    detected.append(tech.title())
+                        detected.append(tech.title())
     
         if detected:
             detected_skills[category] = detected
