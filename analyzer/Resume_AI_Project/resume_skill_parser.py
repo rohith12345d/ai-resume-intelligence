@@ -61,15 +61,13 @@ def extract_skills(uploaded_file):
     detected = {}
 
     for category, skills in skills_db.items():
+        found_skills = []
 
-        count = 0
-
-        for skill in skills:
+        for skill in skills :
 
             if re.search(r'\b'+re.escape(skill)+r'\b', text):
-                count += 1
-
-        if count > 0:
-            detected[category] = count
+                found_skills.append(skill)
+        if found_skills:
+            detected[category] = found_skills
 
     return detected
