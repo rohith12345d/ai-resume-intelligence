@@ -56,14 +56,42 @@ set_background()
 
 
 # ---------------- TITLE ----------------
-st.markdown(
-"""
-<h1 style='text-align:center;color:#00E5FF;font-weight:800'>
+st.markdown("""
+<style>
+
+.glow-title {
+    text-align:center;
+    font-size:48px;
+    font-weight:900;
+    color:#00E5FF;
+    text-shadow:
+        0 0 10px #00E5FF,
+        0 0 20px #00E5FF,
+        0 0 40px #00E5FF;
+    animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from {
+        text-shadow:
+            0 0 10px #00E5FF,
+            0 0 20px #00E5FF;
+    }
+    to {
+        text-shadow:
+            0 0 20px #00E5FF,
+            0 0 40px #00E5FF,
+            0 0 60px #00E5FF;
+    }
+}
+
+</style>
+
+<h1 class="glow-title">
 AI RESUME INTELLIGENCE DASHBOARD
 </h1>
-""",
-unsafe_allow_html=True
-)
+
+""", unsafe_allow_html=True))
 
 
 # ---------------- SIDEBAR ----------------
