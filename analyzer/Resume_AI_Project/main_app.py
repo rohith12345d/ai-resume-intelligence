@@ -301,28 +301,33 @@ if menu == "📊 Skill Analysis":
     # ---------------- DETECTED SKILLS ----------------
     st.subheader("Detected Skills")
 
-    cols = st.columns(2)
-
-    colors = ["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE","#FF4C4C"]
-
-    for i,(skill,value) in enumerate(skills.items()):
+    col1, col2 = st.columns(2)
     
-        color = colors[i % len(colors)]
-
-        cols[i%2].markdown(
-            f"""
-            <div style="
-            background:rgba(255,255,255,0.15);
-            padding:8px;
-            border-radius:8px;
-            margin-bottom:6px;
-            border-left:5px solid {color};
-            font-weight:500;">
-            {skill} ({value})
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+    skill_categories = list(skills.items())
+    
+    for i, (category, skill_list) in enumerate(skill_categories):
+    
+        block = f"""
+        <div style="
+        background:rgba(255,255,255,0.15);
+        padding:12px;
+        border-radius:10px;
+        margin-bottom:10px;
+        border-left:6px solid #00E5FF;
+        ">
+        
+        <b style="font-size:18px">{category}</b><br>
+        """
+    
+        for skill in skill_list:
+            block += f"• {skill}<br>"
+    
+        block += "</div>"
+    
+        if i % 2 == 0:
+            col1.markdown(block, unsafe_allow_html=True)
+        else:
+            col2.markdown(block, unsafe_allow_html=True)
 
     # ---------------- BAR CHART ----------------
     st.subheader("Skill Frequency")
