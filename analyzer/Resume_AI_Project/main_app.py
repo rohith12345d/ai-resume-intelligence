@@ -444,7 +444,7 @@ elif menu == "🧠 Skill Gap Roadmap":
 
     st.subheader("Learning Roadmap")
 
-    roadmap = generate_learning_roadmap(skill_names)
+    roadmap = generate_learning_roadmap(selected_role,skill_names)
 
     cols = st.columns(2)
 
