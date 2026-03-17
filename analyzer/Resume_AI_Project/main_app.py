@@ -56,6 +56,15 @@ st.markdown("""
 <h1 style='text-align:center;color:#00E5FF;font-weight:800'>
 AI RESUME INTELLIGENCE DASHBOARD
 </h1>
+
+<hr style="
+border: none;
+height: 3px;
+background: linear-gradient(to right,#00E5FF,#00FFA6,#00E5FF);
+box-shadow: 0 0 10px #00E5FF;
+margin-bottom: 30px;
+">
+
 """, unsafe_allow_html=True)
 
 
