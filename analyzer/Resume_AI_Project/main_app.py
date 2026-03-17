@@ -89,7 +89,14 @@ st.success("AI System Status: Active and Ready")
 
 
 # ---------------- SIDEBAR ----------------
-st.sidebar.title("AI Resume Dashboard")
+st.sidebar.markdown(
+"""
+<h2 style='text-align:center;color:#00E5FF'>
+🤖 AI Resume Dashboard
+</h2>
+""",
+unsafe_allow_html=True
+)
 
 menu = st.sidebar.radio(
     "Navigation",
