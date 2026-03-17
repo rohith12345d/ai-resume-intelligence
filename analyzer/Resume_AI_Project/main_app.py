@@ -163,32 +163,12 @@ if menu == "📊 Skill Analysis":
     st.subheader("Detected Skills")
     cols = st.columns(2)
     for i, (skill, value) in enumerate(skills.items()):
-        cols[i%2].write(f" -{skill} ({value})") 
+        cols[i%2].write(f" - {skill} ({value})") 
     
     # ---------------- AI RESUME STRENGTH ----------------
 
     # score = calculate_readiness(skill_names)
-    
-    # st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    
-    # st.markdown("## Resume Skill Summary")
-    
-    # # ---- Metrics ----
-    # col1, col2 = st.columns(2)
-    
-    # with col1:
-    #     st.metric("Skills Detected", len(skill_names))
-    
-    # with col2:
-    #     st.metric("Career Matches", len(recommend_roles(skill_names)))
-    
-    # st.markdown("---")
-    
-    # ---- AI Resume Strength Meter ----
-    
-    # ---------------- AI RESUME STRENGTH ----------------
-    # ---------------- AI RESUME STRENGTH ----------------
-
+   
     score = calculate_readiness(skill_names)
     
     
