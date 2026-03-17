@@ -115,8 +115,8 @@ st.stop()
 skills = extract_skills(uploaded_file)
 
 if not skills:
-st.warning("No skills detected in resume")
-st.stop()
+    st.warning("No skills detected in resume")
+    st.stop()
 
 skill_names = list(skills.keys())
 skill_values = list(skills.values())
