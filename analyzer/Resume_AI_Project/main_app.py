@@ -342,43 +342,41 @@ elif menu == "🧠 Skill Gap Roadmap":
 # =====================================================
 elif menu == "💡 AI Insights":
 
-# =====================================================
+    st.subheader("AI Resume Insights")
 
-st.subheader("AI Resume Insights")
+    insights = generate_insights(skill_names)
 
-insights = generate_insights(skill_names)
-
-for insight in insights:
-    st.write("•", insight)
+    for insight in insights:
+        st.write("•", insight)
 
 
-# -------- Generate AI Resume Report --------
+    # -------- Generate AI Resume Report --------
 
-roles = recommend_roles(skill_names)
-best_role = max(roles, key=roles.get)
+    roles = recommend_roles(skill_names)
+    best_role = max(roles, key=roles.get)
 
-score = calculate_readiness(skill_names)
+    score = calculate_readiness(skill_names)
 
-report = "AI RESUME ANALYSIS REPORT\n"
-report += "--------------------------------\n\n"
+    report = "AI RESUME ANALYSIS REPORT\n"
+    report += "--------------------------------\n\n"
 
-report += f"Resume Strength Score : {score}\n\n"
+    report += f"Resume Strength Score : {score}\n\n"
 
-report += "Detected Skills\n"
-for skill in skill_names:
-    report += f"- {skill}\n"
+    report += "Detected Skills\n"
+    for skill in skill_names:
+        report += f"- {skill}\n"
 
-report += "\nRecommended Career\n"
-report += f"{best_role}\n"
+    report += "\nRecommended Career\n"
+    report += f"{best_role}\n"
 
-report += "\nAI Insights\n"
-for insight in insights:
-    report += f"- {insight}\n"
+    report += "\nAI Insights\n"
+    for insight in insights:
+        report += f"- {insight}\n"
 
 
-st.download_button(
-    label="Download AI Resume Report",
-    data=report,
-    file_name="ai_resume_report.txt",
-    mime="text/plain"
-)
+    st.download_button(
+        label="Download AI Resume Report",
+        data=report,
+        file_name="ai_resume_report.txt",
+        mime="text/plain"
+    )
