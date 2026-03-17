@@ -23,17 +23,28 @@ def set_background():
         with open(image_path, "rb") as f:
             img = base64.b64encode(f.read()).decode()
 
-        st.markdown(
-            f"""
-            <style>
-            .stApp {{
-                background-image: url("data:image/jpg;base64,{img}");
-                background-size: cover;
-                background-attachment: fixed;
-            }}
-            </style>
-            """,
-            unsafe_allow_html=True
+                st.markdown(
+        f"""
+        <style>
+        
+        .stApp {{
+            background-image: url("data:image/jpg;base64,{img}");
+            background-size: cover;
+            background-attachment: fixed;
+        }}
+        
+        .glass-card {{
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 25px;
+        }}
+        
+        </style>
+        """,
+        unsafe_allow_html=True
         )
     except:
         pass
