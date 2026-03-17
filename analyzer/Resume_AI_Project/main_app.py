@@ -23,7 +23,7 @@ def set_background():
         with open(image_path, "rb") as f:
             img = base64.b64encode(f.read()).decode()
 
-        st.markdown(
+    st.markdown(
         f"""
         <style>
         
