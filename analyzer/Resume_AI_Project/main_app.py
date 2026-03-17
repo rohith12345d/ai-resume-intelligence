@@ -26,11 +26,21 @@ def set_background():
         st.markdown(
         f"""
         <style>
-        .stApp {{
+        .stApp {
         background-image: url("data:image/jpg;base64,{img}");
         background-size: cover;
         background-attachment: fixed;
-        }}
+        }
+
+        .glass-card {
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255,255,255,0.15);
+        box-shadow: 0 0 15px rgba(0,229,255,0.25);
+        }
         </style>
         """,
         unsafe_allow_html=True
