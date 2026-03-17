@@ -110,6 +110,7 @@ fig_meter = go.Figure(go.Indicator(
         ]
     }
 ))
+st.info(f"Total Skills Detected : {len(skill_names)}")
 
 # ---------------- SKILL ANALYSIS ----------------
 if menu == "Skill Analysis":
