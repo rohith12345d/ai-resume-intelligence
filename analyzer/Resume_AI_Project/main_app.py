@@ -167,8 +167,43 @@ if menu == "📊 Skill Analysis":
 
    # ---------------- AI RESUME STRENGTH ----------------
 
+    # ----------- CALCULATE SCORE -----------
     score = calculate_readiness(skill_names)
     
+    # ----------- CREATE METER -----------
+    fig_meter = go.Figure(go.Indicator(
+    
+        mode="gauge+number",
+    
+        value=score,
+    
+        number={'font':{'size':60,'color':"#00E5FF"}},
+    
+        title={'text':"AI Resume Strength",'font':{'size':24,'color':"#00E5FF"}},
+    
+        gauge={
+    
+            'axis':{'range':[0,100]},
+    
+            'bar':{'color':"#00E5FF"},
+    
+            'steps':[
+                {'range':[0,40],'color':"#8B0000"},
+                {'range':[40,70],'color':"#FFA500"},
+                {'range':[70,100],'color':"#006400"}
+            ]
+    
+        }
+    
+    ))
+    
+    fig_meter.update_layout(
+        height=320,
+        paper_bgcolor="rgba(0,0,0,0)",
+        font={'color':"#00E5FF"}
+    )
+    
+    # ----------- GLASS CARD -----------
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     
     st.markdown("### Resume Skill Summary")
