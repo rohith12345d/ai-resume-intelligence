@@ -11,26 +11,6 @@ from readiness_engine import calculate_readiness
 from roadmap_engine import generate_learning_roadmap
 from insights_engine import generate_insights
 
-def generate_report(score, skill_names, best_role, insights):
-
-    report = "AI RESUME ANALYSIS REPORT\n"
-    report += "--------------------------------\n\n"
-
-    report += f"Resume Strength Score : {score}\n\n"
-
-    report += "Detected Skills\n"
-    for skill in skill_names:
-        report += f"- {skill}\n"
-
-    report += "\nRecommended Career\n"
-    report += f"{best_role}\n"
-
-    report += "\nAI Insights\n"
-    for insight in insights:
-        report += f"- {insight}\n"
-
-    return report
-
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(page_title="AI Resume Intelligence", layout="wide")
@@ -45,9 +25,9 @@ def set_background():
         with open(image_path, "rb") as f:
             img = base64.b64encode(f.read()).decode()
 
-        st.markdown(
-        f"""
+        st.markdown(f"""
         <style>
+
         .stApp {{
         background-image: url("data:image/jpg;base64,{img}");
         background-size: cover;
@@ -65,17 +45,9 @@ def set_background():
         0 0 20px rgba(0,229,255,0.2);
         }}
 
-        .glow-meter {{
-        box-shadow: 
-        0 0 10px #00E5FF,
-        0 0 20px rgba(0,229,255,0.6);
-        border-radius:20px;
-        padding:20px;
-        }}
         </style>
-        """,
-        unsafe_allow_html=True
-        )
+        """, unsafe_allow_html=True)
+
     except:
         pass
 
@@ -87,18 +59,10 @@ st.markdown("""
 <h1 style='text-align:center;color:#00E5FF;font-weight:800'>
 AI RESUME INTELLIGENCE DASHBOARD
 </h1>
-
-<hr style="
-border: none;
-height: 3px;
-background: linear-gradient(to right,#00E5FF,#00FFA6,#00E5FF);
-box-shadow: 0 0 10px #00E5FF;
-margin-bottom: 30px;
-">
-
 """, unsafe_allow_html=True)
 
 st.success("AI System Status: Active and Ready")
+
 
 # ---------------- SIDEBAR ----------------
 st.sidebar.title("AI Resume Dashboard")
@@ -124,16 +88,16 @@ if uploaded_file is None:
 
 
 # ---------------- SKILL EXTRACTION ----------------
-with st.spinner("AI is analyzing your resume...."):
-    # AI analyzing animation
-    progress_bar = st.progress(0)
+with st.spinner("AI is analyzing your resume..."):
+
+    progress = st.progress(0)
+
     for i in range(100):
         time.sleep(0.01)
-        progress_bar.progress(i + 1)
-    
-    # Remove the line after analysis
-    progress_bar.empty()
-    
+        progress.progress(i + 1)
+
+    progress.empty()
+
     skills_raw = extract_skills(uploaded_file)
 
 if not skills_raw:
@@ -141,13 +105,16 @@ if not skills_raw:
     st.stop()
 
 
-# normalize skills
+# ---------------- NORMALIZE SKILLS ----------------
 if isinstance(skills_raw, dict):
     skills = skills_raw
 elif isinstance(skills_raw, list):
+
     skills = {}
+
     for s in skills_raw:
         skills[s] = skills.get(s,0) + 1
+
 else:
     skills = {}
 
@@ -155,162 +122,119 @@ skill_names = list(skills.keys())
 skill_values = list(skills.values())
 
 
-    # ---------------- AI RESUME STRENGTH ----------------
-
-# score = calculate_readiness(skill_names)
-   
-score = calculate_readiness(skill_names)
-    
-    
-st.markdown("## Resume Skill Summary")
-    
-col1, col2 = st.columns(2)
-    
-with col1:
-    st.metric("Skills Detected", len(skill_names))
-    
-with col2:
-    st.metric("Career Matches", len(recommend_roles(skill_names)))
-    
-st.markdown("---")
-    
-fig_meter = go.Figure(go.Indicator(
-    
-    mode="gauge+number",
-    
-       value=score,
-    
-     number={
-        'font':{'size':70,'color':"#00E5FF"}
-    },
-    
-    title={
-         'text':"AI Resume Strength",
-           'font':{'size':28,'color':"#00E5FF"}
-      },
-    
-      gauge={
-    
-        'axis':{
-              'range':[0,100],
-              'tickcolor':"#00E5FF",
-               'tickwidth':2
-        },
-    
-          'bar':{
-            'color':"#00E5FF",
-            'thickness':0.28
-           },
-    
-        'bgcolor':"rgba(0,0,0,0)",
-  
-        'borderwidth':3,
-          'bordercolor':"#00E5FF",
-   
-           'steps':[
-
-               {'range':[0,40],'color':"#FF3B3B"},
-               {'range':[40,70],'color':"#FFA500"},
-               {'range':[70,100],'color':"#00FF7F"}
-
-          ]
-       }
-  
-  ))
-    
-fig_meter.update_layout(
-     height=380,
-     paper_bgcolor="rgba(0,0,0,0)",
-
-     font={'color':"#00E5FF"}
-    
-)
-    
-st.plotly_chart(fig_meter, use_container_width=True)
-    
-if score < 40:
-    st.error("AI Evaluation: Weak Resume — Add more technical skills")
-
-elif score < 70:
-    st.warning("AI Evaluation: Moderate Resume — Improve projects and experience")
-    
-else:
-    st.success("AI Evaluation: Strong Resume — Good job readiness")
-
 # =====================================================
 # 📊 SKILL ANALYSIS PAGE
 # =====================================================
 if menu == "📊 Skill Analysis":
-    with st.spinner("AI is analyzing skill data..."):
-                     time.sleep(1)
-    st.subheader("Detected Skills")
-    cols = st.columns(2)
-    for i, (skill, value) in enumerate(skills.items()):
-        cols[i%2].write(f" - {skill} ({value})") 
-    
-    
 
+    score = calculate_readiness(skill_names)
+
+    # -------- Resume Summary --------
+    st.markdown("## Resume Skill Summary")
+
+    col1,col2 = st.columns(2)
+
+    with col1:
+        st.metric("Skills Detected",len(skill_names))
+
+    with col2:
+        st.metric("Career Matches",len(recommend_roles(skill_names)))
+
+    # -------- Gauge --------
+    st.markdown("### AI Resume Strength")
+
+    fig_meter = go.Figure(go.Indicator(
+        mode="gauge+number",
+        value=score,
+        title={'text':"AI Resume Strength"},
+        gauge={
+            'axis':{'range':[0,100]},
+            'steps':[
+                {'range':[0,40],'color':"#FF3B3B"},
+                {'range':[40,70],'color':"#FFA500"},
+                {'range':[70,100],'color':"#00FF7F"}
+            ]
+        }
+    ))
+
+    st.plotly_chart(fig_meter,use_container_width=True)
+
+
+    # -------- AI Evaluation --------
+    if score < 40:
+        st.error("AI Evaluation: Weak Resume — Add more technical skills")
+
+    elif score < 70:
+        st.warning("AI Evaluation: Moderate Resume — Improve projects and experience")
+
+    else:
+        st.success("AI Evaluation: Strong Resume — Good job readiness")
+
+
+    # -------- Detected Skills --------
+    st.subheader("Detected Skills")
+
+    cols = st.columns(2)
+
+    for i,(skill,value) in enumerate(skills.items()):
+        cols[i%2].write(f"• {skill} ({value})")
+
+
+    # -------- Skill Frequency Chart --------
+    st.subheader("Skill Frequency")
+
+    fig_bar = go.Figure()
+
+    fig_bar.add_trace(go.Bar(
+        x=skill_values,
+        y=skill_names,
+        orientation='h'
+    ))
+
+    fig_bar.update_layout(
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)"
+    )
+
+    st.plotly_chart(fig_bar,use_container_width=True)
 
 
 # =====================================================
-# 🎯 CAREER MATCH PAGE
+# 🎯 CAREER MATCH
 # =====================================================
 elif menu == "🎯 Career Match":
-    with st.spinner("AI is analyzing career compatibility..."):
-                     time.sleep(1)
-
-    st.subheader("Career Recommendations")
 
     roles = recommend_roles(skill_names)
 
     labels = list(roles.keys())
     values = list(roles.values())
 
+    st.subheader("Career Recommendations")
+
     if sum(values) == 0:
+
         st.warning("No strong career match detected based on current skills.")
 
     else:
 
-        best_role = max(roles, key=roles.get)
+        best_role = max(roles,key=roles.get)
         best_score = roles[best_role]
 
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-
-        st.markdown(f"""
-        <h2 style='color:#00E5FF'>Top AI Career Match</h2>
-        <h1 style='color:white'>{best_role}</h1>
-        <h3 style='color:#00FFA6'>Match Score : {best_score}</h3>
-        """, unsafe_allow_html=True)
-
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.success(f"Top Career Match: {best_role} ({best_score})")
 
         fig = go.Figure(data=[go.Pie(
             labels=labels,
             values=values,
-            hole=0.55,
-            textinfo="label+percent",
-            marker=dict(colors=[
-                "#00E5FF","#00FFA6","#FFD700",
-                "#FF7F50","#FF4C4C","#A29BFE"
-            ])
+            hole=0.55
         )])
 
-        fig.update_layout(
-            title="AI Career Recommendation Analysis",
-            paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="white")
-        )
-
         st.plotly_chart(fig,use_container_width=True)
-
 
 
 # =====================================================
 # 🧠 SKILL GAP ROADMAP
 # =====================================================
 elif menu == "🧠 Skill Gap Roadmap":
-    with st.spinner("AI is generating learning roadmap..."):
-                     time.sleep(1)
 
     st.subheader("Learning Roadmap")
 
@@ -324,35 +248,32 @@ elif menu == "🧠 Skill Gap Roadmap":
             st.write("•",step)
 
 
-
+# =====================================================
+# 💡 AI INSIGHTS
 # =====================================================
 elif menu == "💡 AI Insights":
-    with st.spinner("AI is generating resume insights..."):
-                     time.sleep(1)
 
     st.subheader("AI Resume Insights")
 
     insights = generate_insights(skill_names)
 
     for insight in insights:
-        st.write("•", insight)
+        st.write("•",insight)
 
     st.markdown("---")
 
     st.subheader("AI Model Analysis")
-    
+
     processing_time = round(random.uniform(0.8,1.8),2)
-    
+
     st.write("Model Used: Resume Intelligence Analyzer v1.0")
     st.write("AI Engine: Skill Extraction + Career Matching + Readiness Score")
     st.write(f"Processing Time: {processing_time} seconds")
 
 
-    # -------- Generate AI Resume Report --------
-
+    # -------- Generate Report --------
     roles = recommend_roles(skill_names)
-    best_role = max(roles, key=roles.get)
-
+    best_role = max(roles,key=roles.get)
     score = calculate_readiness(skill_names)
 
     report = "AI RESUME ANALYSIS REPORT\n"
@@ -361,6 +282,7 @@ elif menu == "💡 AI Insights":
     report += f"Resume Strength Score : {score}\n\n"
 
     report += "Detected Skills\n"
+
     for skill in skill_names:
         report += f"- {skill}\n"
 
@@ -368,28 +290,11 @@ elif menu == "💡 AI Insights":
     report += f"{best_role}\n"
 
     report += "\nAI Insights\n"
+
     for insight in insights:
         report += f"- {insight}\n"
 
-    st.markdown("""
-    <style>
-    
-    div.stDownloadButton > button {
-        background-color: #00E5FF;
-        color: black;
-        font-weight: bold;
-        border-radius: 10px;
-        padding: 10px 20px;
-    }
-    
-    div.stDownloadButton > button:hover {
-        background-color: #00FFA6;
-        color: black;
-    }
-    
-    </style>
-    """, unsafe_allow_html=True)
-    
+
     st.download_button(
         label="Download AI Resume Report",
         data=report,
@@ -397,14 +302,11 @@ elif menu == "💡 AI Insights":
         mime="text/plain"
     )
 
+
 st.markdown("---")
 
-st.markdown(
-"""
+st.markdown("""
 <center>
-AI Resume Intelligence Dashboard • Developed using Python & Streamlit  
-AI Skill Analysis | Career Recommendation | Resume Readiness Engine
+AI Resume Intelligence Dashboard • Developed using Python & Streamlit
 </center>
-""",
-unsafe_allow_html=True
-)
+""",unsafe_allow_html=True)
