@@ -112,18 +112,26 @@ if menu == "Skill Analysis":
 
     st.subheader("Detected Skills")
 
-    fig = px.bar(
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
         x=skill_values,
         y=skill_names,
-        orientation="h",
-        labels={"x" : "Frequency", "y": "Skills"},
-        title="Skill Strength"
+        orientation='h',
+        marker=dict(color="#00E5FF")
+    ))
+
+    fig.update_layout(
+        title="Skill Strength",
+        xaxis_title="Frequency",
+        yaxis_title="Skills",
+        height=450,
+        showlegend=False,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)"
     )
 
-    fig.update_layout(height=450, showlegend=False)
-
     st.plotly_chart(fig, use_container_width=True)
-
 # CAREER MATCH
 elif menu == "Career Match":
 
