@@ -97,17 +97,27 @@ st.sidebar.markdown(
 """,
 unsafe_allow_html=True
 )
+# Sidebar title
+st.sidebar.markdown("## 🤖 AI Resume Dashboard")
 
-menu = st.sidebar.radio(
-    "Select Module",
-    [
-        "📊 Skill Analysis",
-        "🎯 Career Match",
-        "🧠 Skill Gap Roadmap",
-        "💡 AI Insights"
-    ],
-    label_visibility="collapsed"
-)
+# initialize session state
+if "menu" not in st.session_state:
+    st.session_state.menu = "Skill Analysis"
+
+# menu items
+if st.sidebar.button("📊 Skill Analysis"):
+    st.session_state.menu = "Skill Analysis"
+
+if st.sidebar.button("🎯 Career Match"):
+    st.session_state.menu = "Career Match"
+
+if st.sidebar.button("🧠 Skill Gap Roadmap"):
+    st.session_state.menu = "Skill Gap Roadmap"
+
+if st.sidebar.button("💡 AI Insights"):
+    st.session_state.menu = "AI Insights"
+
+menu = st.session_state.menu
 
 uploaded_file = st.sidebar.file_uploader(
     "Upload Resume",
