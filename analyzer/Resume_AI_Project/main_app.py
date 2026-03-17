@@ -161,6 +161,8 @@ if menu == "📊 Skill Analysis":
     with st.spinner("AI is analyzing skill data..."):
                      time.sleep(1)
     st.subheader("Detected Skills")
+    for skill in skill_names:
+        st.markdown(f" - {skills}")
     
     # ---------------- AI RESUME STRENGTH ----------------
 
@@ -188,7 +190,6 @@ if menu == "📊 Skill Analysis":
 
     score = calculate_readiness(skill_names)
     
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     
     st.markdown("## Resume Skill Summary")
     
