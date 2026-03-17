@@ -254,10 +254,10 @@ if menu == "📊 Skill Analysis":
 
     fig_meter.update_layout(
         height=260,
-        margin=dict(l=20,r=20,t=40,b=10),
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white")
+        margin=dict(l=10,r=10,t=10,b=10),
+        paper_bgcolor="rgba(255,255,255,0.20)",
+        plot_bgcolor="rgba(255,255,255,0.20)",
+        font=dict(color="black")
     )
 
     st.plotly_chart(fig_meter, use_container_width=True)
@@ -275,11 +275,13 @@ if menu == "📊 Skill Analysis":
     ))
 
     fig_radar.update_layout(
-        height=350,
+        height=300,
+        margin=dict(l=10,r=10,t=40,b=20),
+        
         polar=dict(radialaxis=dict(visible=True)),
         showlegend=False,
         paper_bgcolor="rgba(255,255,255,0.25)",
-        plot_bgcolor="rgba(255,255,255,0.25)",
+        plot_bgcolor="rgba(255,255,255,0.20)",
         font=dict(color="black")
     )
 
@@ -306,9 +308,10 @@ if menu == "📊 Skill Analysis":
     ))
 
     fig_bar.update_layout(
-        height=350,
-        paper_bgcolor="rgba(255,255,255,0.25)",
-        plot_bgcolor="rgba(255,255,255,0.25)",
+        height=280,
+        margin=dict(l=10,r=10,t=30,b=20),
+        paper_bgcolor="rgba(255,255,255,0.20)",
+        plot_bgcolor="rgba(255,255,255,0.20)",
         font=dict(color="black")
     )
 
