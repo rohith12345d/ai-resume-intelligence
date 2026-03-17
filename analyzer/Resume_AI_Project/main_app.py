@@ -150,8 +150,7 @@ if menu == "📊 Skill Analysis":
         },
 
         'bar':{
-            'color':"#00E5FF",
-            'thickness':0.25
+            'color':"rgba(0,0,0,0)"
         },
 
         'bgcolor':"rgba(0,0,0,0.6)",
