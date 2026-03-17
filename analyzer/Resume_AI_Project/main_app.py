@@ -2,6 +2,7 @@ import streamlit as st
 import plotly.graph_objects as go
 import base64
 import os
+import time
 
 from resume_skill_parser import extract_skills
 from career_match_engine import recommend_roles
@@ -92,7 +93,12 @@ if uploaded_file is None:
 
 
 # ---------------- SKILL EXTRACTION ----------------
-skills_raw = extract_skills(uploaded_file)
+with st.spinner("AI is analyzing your resume...."):
+    progress = st.progress(0)
+    for i in range(100):
+        time.sleep(0.01)
+        progress.progress(i+1)
+    skills_raw = extract_skills(uploaded_file)
 
 if not skills_raw:
     st.warning("No skills detected in resume")
