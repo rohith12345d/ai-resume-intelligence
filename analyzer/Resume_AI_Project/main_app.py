@@ -166,66 +166,62 @@ if menu == "📊 Skill Analysis":
     
     # ---------------- AI RESUME STRENGTH ----------------
 
+    # ---------------- AI RESUME STRENGTH ----------------
+
     score = calculate_readiness(skill_names)
     
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     
-    # placeholder to avoid duplicate chart error
-    meter_placeholder = st.empty()
+    fig_meter = go.Figure(go.Indicator(
     
-    for i in range(score + 1):
+        mode="gauge+number",
     
-        fig_meter = go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=i,
+        value=score,
     
-            number={
-                'font': {
-                    'size': 60,
-                    'color': "#00E5FF"
-                }
+        number={
+            'font':{'size':60,'color':"#00E5FF"}
+        },
+    
+        title={
+            'text':"AI Resume Strength",
+            'font':{'size':26,'color':"#00E5FF"}
+        },
+    
+        gauge={
+    
+            'axis':{
+                'range':[0,100],
+                'tickwidth':2,
+                'tickcolor':"#00E5FF"
             },
     
-            title={
-                'text': "AI Resume Strength",
-                'font': {'size': 26, 'color': "#00E5FF"}
+            'bar':{
+                'color':"#00E5FF",
+                'thickness':0.25
             },
     
-            gauge={
+            'bgcolor':"rgba(0,0,0,0.6)",
     
-                'axis': {
-                    'range': [0, 100],
-                    'tickwidth': 2,
-                    'tickcolor': "#00E5FF"
-                },
+            'borderwidth':3,
+            'bordercolor':"#00E5FF",
     
-                'bar': {
-                    'color': "#00E5FF",
-                    'thickness': 0.25
-                },
+            'steps':[
+                {'range':[0,40],'color':"#8B0000"},
+                {'range':[40,70],'color':"#FFA500"},
+                {'range':[70,100],'color':"#006400"}
+            ]
     
-                'bgcolor': "rgba(0,0,0,0.6)",
+        }
     
-                'borderwidth': 3,
-                'bordercolor': "#00E5FF",
+    ))
     
-                'steps': [
-                    {'range': [0, 40], 'color': "#8B0000"},
-                    {'range': [40, 70], 'color': "#FFA500"},
-                    {'range': [70, 100], 'color': "#006400"}
-                ]
-            }
-        ))
+    fig_meter.update_layout(
+        height=350,
+        paper_bgcolor="rgba(0,0,0,0)",
+        font={'color':"#00E5FF"}
+    )
     
-        fig_meter.update_layout(
-            height=350,
-            paper_bgcolor="rgba(0,0,0,0)",
-            font={'color': "#00E5FF"}
-        )
-    
-        meter_placeholder.plotly_chart(fig_meter, use_container_width=True)
-    
-        time.sleep(0.02)
+    st.plotly_chart(fig_meter, use_container_width=True)
     
     st.markdown("</div>", unsafe_allow_html=True)
     
