@@ -431,10 +431,11 @@ elif menu == "🧠 Skill Gap Roadmap":
     roadmap = generate_learning_roadmap(selected_role, skill_names)
 
     st.subheader("Learning Roadmap")
+    st.markdown("### Skills to learn")
     
-    for skill, steps in roadmap.items():
+    for skill in roadmap:
     
-        st.markdown(f"### {skill}")
+        st.markdown(f"• {skill}")
     
         for step in steps:
             st.write("•", step)
