@@ -87,22 +87,27 @@ if uploaded_file is None:
     st.stop()
 
 
-# ---------------- SKILL EXTRACTION ----------------
-with st.spinner("AI is analyzing your resume..."):
+# ---------------- SKILL EXTRACTION (RUN ONLY ONCE) ----------------
 
-    progress = st.progress(0)
+if "skills_data" not in st.session_state:
 
-    for i in range(100):
-        time.sleep(0.01)
-        progress.progress(i + 1)
+    with st.spinner("AI is analyzing your resume..."):
 
-    progress.empty()
+        progress = st.progress(0)
 
-    skills_raw = extract_skills(uploaded_file)
+        for i in range(100):
+            time.sleep(0.01)
+            progress.progress(i + 1)
 
-if not skills_raw:
-    st.warning("No skills detected in resume")
-    st.stop()
+        progress.empty()
+
+        st.session_state.skills_data = extract_skills(uploaded_file)
+
+skills_raw = st.session_state.skills_data
+
+
+
+
 
 
 # ---------------- NORMALIZE SKILLS ----------------
