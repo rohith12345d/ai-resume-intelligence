@@ -399,7 +399,7 @@ elif menu == "🧠 Skill Gap Roadmap":
     
             st.markdown(f"""
             <div style="
-            background: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.35);
             border-radius:12px;
             padding:18px;
             margin-bottom:15px;
@@ -407,11 +407,11 @@ elif menu == "🧠 Skill Gap Roadmap":
             backdrop-filter: blur(5px);
             ">
             
-            <h3 style="color:#003b46;margin-bottom:10px;">
+            <h3 style="color:#002b36;font-weight:700;margin-bottom:10px;">
             {skill.title()}
             </h3>
     
-            <ul style="color:black;padding-left:20px;">
+            <ul style="color:#111;font-size:16px;padding-left:22px;">
             {steps_html}
             </ul>
     
