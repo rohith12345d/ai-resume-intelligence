@@ -153,8 +153,16 @@ if menu == "Skill Analysis":
         percent = round((v / total) * 100, 2)
         percentages.append(percent)
 
-    fig2 = go.Figure()
-
+    fig2 = go.Figure(data=[go.pie(
+                                 labels = skill_names,
+                                 values = percentages,
+                                 hole = 0.5
+                                 )])
+    fig2.update_layout(
+        title = "AI Skill Distribution",
+        paper_bgcolor = "rgba(0,0,0,0)"
+    )
+    
     fig2.add_trace(go.Bar(
         x=percentages,
         y=skill_names,
