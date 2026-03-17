@@ -344,6 +344,19 @@ elif menu == "🧠 Skill Gap Roadmap":
 # =====================================================
 elif menu == "💡 AI Insights":
 
+    best_role = max(recommend_roles(skill_names), key=recommend_roles(skill_names).get)
+
+    score = calculate_readiness(skill_names)
+
+    report = generate_report(score, skill_names, best_role, insights)
+
+    st.download_button(
+    label="Download AI Resume Report",
+    data=report,
+    file_name="ai_resume_report.txt",
+    mime="text/plain"
+    )
+
     st.subheader("AI Resume Insights")
 
     insights = generate_insights(skill_names)
@@ -351,15 +364,3 @@ elif menu == "💡 AI Insights":
     for insight in insights:
         st.write("•",insight)
 
-best_role = max(recommend_roles(skill_names), key=recommend_roles(skill_names).get)
-
-score = calculate_readiness(skill_names)
-
-report = generate_report(score, skill_names, best_role, insights)
-
-st.download_button(
-    label="Download AI Resume Report",
-    data=report,
-    file_name="ai_resume_report.txt",
-    mime="text/plain"
-)
