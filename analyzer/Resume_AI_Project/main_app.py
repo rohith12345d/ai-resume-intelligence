@@ -197,10 +197,21 @@ else:
     skills = {}
 
 
+# Convert detected skills into a list
 skill_names = []
 for skill_list in skills.values():
     skill_names.extend(skill_list)
-skill_names= [s.lower() for s in skill_names]
+
+skill_names = [s.lower() for s in skill_names]
+
+# Count skill frequency
+skill_count = {}
+for s in skill_names:
+    skill_count[s] = skill_count.get(s, 0) + 1
+
+# Separate names and values for charts
+skill_names = list(skill_count.keys())
+skill_values = list(skill_count.values())
 
 
 # =====================================================
