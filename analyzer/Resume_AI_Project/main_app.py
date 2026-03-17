@@ -113,14 +113,15 @@ fig_meter = go.Figure(go.Indicator(
 st.info(f"Total Skills Detected : {len(skill_names)}")
 
 # ---------------- SKILL ANALYSIS ----------------
+# SKILL ANALYSIS
 if menu == "Skill Analysis":
-
-    st.subheader("Resume Strength")
-    st.plotly_chart(fig_meter, use_container_width=True)
 
     st.subheader("Detected Skills")
 
-    fig = go.Figure(go.Bar(
+    # Normal skill frequency chart
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
         x=skill_values,
         y=skill_names,
         orientation='h',
@@ -131,10 +132,46 @@ if menu == "Skill Analysis":
         title="Skill Strength",
         xaxis_title="Frequency",
         yaxis_title="Skills",
-        height=450
+        height=400,
+        showlegend=False,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)"
     )
 
     st.plotly_chart(fig, use_container_width=True)
+
+    # -------------------------
+    # AI SKILL SCORE BREAKDOWN
+    # -------------------------
+
+    st.subheader("AI Skill Score Breakdown")
+
+    total = sum(skill_values)
+
+    percentages = []
+    for v in skill_values:
+        percent = round((v / total) * 100, 2)
+        percentages.append(percent)
+
+    fig2 = go.Figure()
+
+    fig2.add_trace(go.Bar(
+        x=percentages,
+        y=skill_names,
+        orientation="h",
+        marker=dict(color="#00FFB3")
+    ))
+
+    fig2.update_layout(
+        title="Skill Percentage Analysis",
+        xaxis_title="Skill Strength %",
+        yaxis_title="Skill Areas",
+        height=400,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)"
+    )
+
+    st.plotly_chart(fig2, use_container_width=True)
 
 # ---------------- CAREER MATCH ----------------
 # CAREER MATCH
