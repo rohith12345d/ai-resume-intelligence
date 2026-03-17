@@ -157,76 +157,76 @@ skill_values = list(skills.values())
 
     # ---------------- AI RESUME STRENGTH ----------------
 
-    # score = calculate_readiness(skill_names)
+# score = calculate_readiness(skill_names)
    
-    score = calculate_readiness(skill_names)
+score = calculate_readiness(skill_names)
     
     
-    st.markdown("## Resume Skill Summary")
+st.markdown("## Resume Skill Summary")
     
-    col1, col2 = st.columns(2)
+col1, col2 = st.columns(2)
     
-    with col1:
-        st.metric("Skills Detected", len(skill_names))
+with col1:
+    st.metric("Skills Detected", len(skill_names))
     
-    with col2:
-        st.metric("Career Matches", len(recommend_roles(skill_names)))
+with col2:
+    st.metric("Career Matches", len(recommend_roles(skill_names)))
     
-    st.markdown("---")
+st.markdown("---")
     
-    fig_meter = go.Figure(go.Indicator(
+fig_meter = go.Figure(go.Indicator(
     
-        mode="gauge+number",
+    mode="gauge+number",
     
-        value=score,
+       value=score,
     
-        number={
-            'font':{'size':70,'color':"#00E5FF"}
+     number={
+        'font':{'size':70,'color':"#00E5FF"}
+    },
+    
+    title={
+         'text':"AI Resume Strength",
+           'font':{'size':28,'color':"#00E5FF"}
+      },
+    
+      gauge={
+    
+        'axis':{
+              'range':[0,100],
+              'tickcolor':"#00E5FF",
+               'tickwidth':2
         },
     
-        title={
-            'text':"AI Resume Strength",
-            'font':{'size':28,'color':"#00E5FF"}
-        },
+          'bar':{
+            'color':"#00E5FF",
+            'thickness':0.28
+           },
     
-        gauge={
+        'bgcolor':"rgba(0,0,0,0)",
+  
+        'borderwidth':3,
+          'bordercolor':"#00E5FF",
+   
+           'steps':[
+
+               {'range':[0,40],'color':"#FF3B3B"},
+               {'range':[40,70],'color':"#FFA500"},
+               {'range':[70,100],'color':"#00FF7F"}
+
+          ]
+       }
+  
+  ))
     
-            'axis':{
-                'range':[0,100],
-                'tickcolor':"#00E5FF",
-                'tickwidth':2
-            },
+  fig_meter.update_layout(
     
-            'bar':{
-                'color':"#00E5FF",
-                'thickness':0.28
-            },
+    height=380,
     
-            'bgcolor':"rgba(0,0,0,0)",
+       paper_bgcolor="rgba(0,0,0,0)",
     
-            'borderwidth':3,
-            'bordercolor':"#00E5FF",
+     font={'color':"#00E5FF"}
     
-            'steps':[
-    
-                {'range':[0,40],'color':"#FF3B3B"},
-                {'range':[40,70],'color':"#FFA500"},
-                {'range':[70,100],'color':"#00FF7F"}
-    
-            ]
-        }
-    
-    ))
-    
-    fig_meter.update_layout(
-    
-        height=380,
-    
-        paper_bgcolor="rgba(0,0,0,0)",
-    
-        font={'color':"#00E5FF"}
-    
-    )
+)
     
     st.plotly_chart(fig_meter, use_container_width=True)
     
