@@ -1,5 +1,4 @@
 import streamlit as st
-import plotly.express as px
 import plotly.graph_objects as go
 import base64
 import os
@@ -10,8 +9,10 @@ from readiness_engine import calculate_readiness
 from roadmap_engine import generate_learning_roadmap
 from insights_engine import generate_insights
 
+
 # PAGE CONFIG
 st.set_page_config(page_title="AI Resume Intelligence", layout="wide")
+
 
 # BACKGROUND
 def set_background():
@@ -35,7 +36,9 @@ def set_background():
         unsafe_allow_html=True
     )
 
+
 set_background()
+
 
 # TITLE
 st.markdown("""
@@ -44,7 +47,6 @@ AI RESUME INTELLIGENCE DASHBOARD
 </h1>
 """, unsafe_allow_html=True)
 
-st.write("")
 
 # SIDEBAR NAVIGATION
 st.sidebar.title("AI Resume Dashboard")
@@ -53,6 +55,7 @@ menu = st.sidebar.radio(
     "Navigation",
     ["Skill Analysis", "Career Match", "Skill Gap Roadmap", "AI Insights"]
 )
+
 
 # FILE UPLOAD
 uploaded_file = st.sidebar.file_uploader(
@@ -64,18 +67,26 @@ if uploaded_file is None:
     st.info("Upload your resume from the sidebar to begin analysis")
     st.stop()
 
+
 # SKILL EXTRACTION
 skills = extract_skills(uploaded_file)
 
-if not skills or len(skills) == 0 :
+if not skills or len(skills) == 0:
     st.warning("No skills detected in resume")
     st.stop()
+
+
 skill_names = []
 skill_values = []
+
 for skill, count in skills.items():
     skill_names.append(skill)
     skill_values.append(count)
 
+
+# limit to top skills (clean UI)
+skill_names = skill_names[:10]
+skill_values = skill_values[:10]
 
 
 # RESUME SCORE
@@ -103,12 +114,13 @@ fig_meter.update_layout(
     font={'color': "#00E5FF"}
 )
 
-# DASHBOARD PANEL
-st.plotly_chart(fig_meter, use_container_width=True)
-st.markdown("<div class='glass'>", unsafe_allow_html=True)
 
 # SKILL ANALYSIS
 if menu == "Skill Analysis":
+
+    st.subheader("Resume Strength")
+
+    st.plotly_chart(fig_meter, use_container_width=True)
 
     st.subheader("Detected Skills")
 
@@ -132,6 +144,8 @@ if menu == "Skill Analysis":
     )
 
     st.plotly_chart(fig, use_container_width=True)
+
+
 # CAREER MATCH
 elif menu == "Career Match":
 
@@ -139,14 +153,27 @@ elif menu == "Career Match":
 
     roles = recommend_roles(skill_names)
 
-    labels = list(roles.keys())
-    values = list(roles.values())
+    if roles:
 
-    fig = go.Figure(
-        data=[go.Pie(labels=labels, values=values, hole=0.55)]
-    )
+        labels = list(roles.keys())
+        values = list(roles.values())
 
-    st.plotly_chart(fig, use_container_width=True)
+        fig = go.Figure(data=[go.Pie(
+            labels=labels,
+            values=values,
+            hole=0.55
+        )])
+
+        fig.update_layout(
+            title="Career Match Distribution",
+            paper_bgcolor="rgba(0,0,0,0)"
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
+
+    else:
+        st.warning("No matching career roles found")
+
 
 # SKILL GAP ROADMAP
 elif menu == "Skill Gap Roadmap":
@@ -156,10 +183,12 @@ elif menu == "Skill Gap Roadmap":
     roadmap = generate_learning_roadmap(skill_names)
 
     for skill, steps in roadmap.items():
+
         st.markdown(f"### {skill}")
 
         for step in steps:
             st.write("•", step)
+
 
 # AI INSIGHTS
 elif menu == "AI Insights":
@@ -170,5 +199,3 @@ elif menu == "AI Insights":
 
     for insight in insights:
         st.write("•", insight)
-
-st.markdown("</div>", unsafe_allow_html=True)
