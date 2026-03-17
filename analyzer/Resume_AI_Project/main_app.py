@@ -278,7 +278,7 @@ if menu == "📊 Skill Analysis":
         height=300,
         margin=dict(l=40,r=40,t=40,b=60),
         
-        polar=dict(radialaxis=dict(visible=True,gridcolor="rgba(0,0,0,0.2)"),
+        polar=dict(radialaxis=dict(visible=True,gridcolor="rgba(0,0,0,0.2)")),
         showlegend=False,
         paper_bgcolor="rgba(255,255,255,0.25)",
         plot_bgcolor="rgba(255,255,255,0.20)",
