@@ -234,9 +234,16 @@ if menu == "📊 Skill Analysis":
     fig_meter = go.Figure(go.Indicator(
         mode="gauge+number",
         value=score,
-        title={'text':"AI Resume Strength"},
+        number={'font':{'size':50,'color':'black'}},
+        title={'text':"AI Resume Strength",'font':{'size':20,'color':'#003b46'}},
+
         gauge={
-            'axis':{'range':[0,100]},
+            'axis':{'range':[0,100],'tickcolor':'#003b46'},
+
+            'bar':{'color':'#00E5FF','thickness':0.25},
+
+            'bgcolor':"rgba(255,255,255,0.25)",
+
             'steps':[
                 {'range':[0,40],'color':"#FF3B3B"},
                 {'range':[40,70],'color':"#FFA500"},
@@ -244,6 +251,12 @@ if menu == "📊 Skill Analysis":
             ]
         }
     ))
+
+    fig_meter.update_layout(
+        height=300,
+        paper_bgcolor="rgba(255,255,255,0.25)",
+        plot_bgcolor="rgba(255,255,255,0.25)"
+    )
 
     st.plotly_chart(fig_meter, use_container_width=True)
 
@@ -255,12 +268,17 @@ if menu == "📊 Skill Analysis":
     fig_radar.add_trace(go.Scatterpolar(
         r=skill_values,
         theta=skill_names,
-        fill='toself'
+        fill='toself',
+        line=dict(color="#00E5FF")
     ))
 
     fig_radar.update_layout(
+        height=350,
         polar=dict(radialaxis=dict(visible=True)),
-        showlegend=False
+        showlegend=False,
+        paper_bgcolor="rgba(255,255,255,0.25)",
+        plot_bgcolor="rgba(255,255,255,0.25)",
+        font=dict(color="black")
     )
 
     st.plotly_chart(fig_radar, use_container_width=True)
@@ -281,8 +299,16 @@ if menu == "📊 Skill Analysis":
     fig_bar.add_trace(go.Bar(
         x=skill_values,
         y=skill_names,
-        orientation='h'
+        orientation='h',
+        marker=dict(color="#00E5FF")
     ))
+
+    fig_bar.update_layout(
+        height=350,
+        paper_bgcolor="rgba(255,255,255,0.25)",
+        plot_bgcolor="rgba(255,255,255,0.25)",
+        font=dict(color="black")
+    )
 
     st.plotly_chart(fig_bar, use_container_width=True)
 # =====================================================
