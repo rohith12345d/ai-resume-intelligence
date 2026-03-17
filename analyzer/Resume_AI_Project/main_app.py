@@ -296,6 +296,8 @@ if menu == "📊 Skill Analysis":
 
     st.plotly_chart(fig_radar, use_container_width=True)
 
+    st.caption("Radar chart shows distribution of skill categories detected in your resume")
+
     # ---------------- DETECTED SKILLS ----------------
     st.subheader("Detected Skills")
 
