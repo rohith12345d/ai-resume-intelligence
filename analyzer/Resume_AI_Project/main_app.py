@@ -167,14 +167,11 @@ if menu == "📊 Skill Analysis":
 
    # ---------------- AI RESUME STRENGTH ----------------
 
-    # ----------- CALCULATE SCORE -----------
     score = calculate_readiness(skill_names)
     
-    # ----------- CREATE METER -----------
     fig_meter = go.Figure(go.Indicator(
     
         mode="gauge+number",
-    
         value=score,
     
         number={'font':{'size':60,'color':"#00E5FF"}},
@@ -185,7 +182,12 @@ if menu == "📊 Skill Analysis":
     
             'axis':{'range':[0,100]},
     
-            'bar':{'color':"#00E5FF"},
+            'bar':{'color':"#00E5FF",'thickness':0.25},
+    
+            'bgcolor':"rgba(0,0,0,0.6)",
+    
+            'borderwidth':3,
+            'bordercolor':"#00E5FF",
     
             'steps':[
                 {'range':[0,40],'color':"#8B0000"},
@@ -202,6 +204,19 @@ if menu == "📊 Skill Analysis":
         paper_bgcolor="rgba(0,0,0,0)",
         font={'color':"#00E5FF"}
     )
+    
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+    
+    col1, col2 = st.columns([1,2])
+    
+    with col1:
+        st.metric("Skills Detected", len(skill_names))
+        st.metric("Career Matches", len(recommend_roles(skill_names)))
+    
+    with col2:
+        st.plotly_chart(fig_meter, use_container_width=True)
+    
+    st.markdown("</div>", unsafe_allow_html=True)
     
     # ----------- GLASS CARD -----------
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
