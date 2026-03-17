@@ -164,11 +164,13 @@ if menu == "📊 Skill Analysis":
                      time.sleep(1)
     st.subheader("Detected Skills")
     
-    # ---------- AI RESUME STRENGTH ----------
+    # ---------------- AI RESUME STRENGTH ----------------
 
     score = calculate_readiness(skill_names)
     
-    # create placeholder for animation
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+    
+    # placeholder to avoid duplicate chart error
     meter_placeholder = st.empty()
     
     for i in range(score + 1):
@@ -177,19 +179,40 @@ if menu == "📊 Skill Analysis":
             mode="gauge+number",
             value=i,
     
-            number={'font':{'size':60,'color':"#00E5FF"}},
+            number={
+                'font': {
+                    'size': 60,
+                    'color': "#00E5FF"
+                }
+            },
     
-            title={'text':"AI Resume Strength",'font':{'size':26,'color':"#00E5FF"}},
+            title={
+                'text': "AI Resume Strength",
+                'font': {'size': 26, 'color': "#00E5FF"}
+            },
     
             gauge={
-                'axis':{'range':[0,100]},
     
-                'bar':{'color':"#00E5FF"},
+                'axis': {
+                    'range': [0, 100],
+                    'tickwidth': 2,
+                    'tickcolor': "#00E5FF"
+                },
     
-                'steps':[
-                    {'range':[0,40],'color':"#8B0000"},
-                    {'range':[40,70],'color':"#FFA500"},
-                    {'range':[70,100],'color':"#006400"}
+                'bar': {
+                    'color': "#00E5FF",
+                    'thickness': 0.25
+                },
+    
+                'bgcolor': "rgba(0,0,0,0.6)",
+    
+                'borderwidth': 3,
+                'bordercolor': "#00E5FF",
+    
+                'steps': [
+                    {'range': [0, 40], 'color': "#8B0000"},
+                    {'range': [40, 70], 'color': "#FFA500"},
+                    {'range': [70, 100], 'color': "#006400"}
                 ]
             }
         ))
@@ -197,18 +220,16 @@ if menu == "📊 Skill Analysis":
         fig_meter.update_layout(
             height=350,
             paper_bgcolor="rgba(0,0,0,0)",
-            font={'color':"#00E5FF"}
+            font={'color': "#00E5FF"}
         )
-
-    meter_placeholder.plotly_chart(fig_meter, use_container_width=True)
-
-    time.sleep(0.02)
     
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+        meter_placeholder.plotly_chart(fig_meter, use_container_width=True)
     
-    st.plotly_chart(fig_meter,use_container_width=True)
+        time.sleep(0.02)
     
     st.markdown("</div>", unsafe_allow_html=True)
+    
+    st.info(f"Total Skills Detected : {len(skill_names)}")
     
     # ---------- SKILL FREQUENCY ----------
     
