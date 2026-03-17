@@ -1,23 +1,58 @@
-# readiness_engine.py
+# resume_skill_parser.py
 
-def calculate_readiness(skills):
+import pdfplumber
+import docx
 
-    if not skills:
-        return 0
+def extract_skills(uploaded_file):
 
-    # total skills detected
-    total_skills = len(skills)
+    text = ""
+    file_name = uploaded_file.name.lower()
 
-    # simple readiness scoring
-    if total_skills >= 10:
-        score = 90
-    elif total_skills >= 7:
-        score = 75
-    elif total_skills >= 5:
-        score = 60
-    elif total_skills >= 3:
-        score = 40
-    else:
-        score = 20
+    # -------- TXT --------
+    if file_name.endswith(".txt"):
+        text = uploaded_file.read().decode("utf-8")
 
-    return score
+    # -------- PDF --------
+    elif file_name.endswith(".pdf"):
+
+        with pdfplumber.open(uploaded_file) as pdf:
+            for page in pdf.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text
+
+    # -------- DOCX --------
+    elif file_name.endswith(".docx"):
+
+        doc = docx.Document(uploaded_file)
+
+        for para in doc.paragraphs:
+            text += para.text
+
+    text = text.lower()
+
+    # ---------------------
+    # SKILL DATABASE
+    # ---------------------
+
+    skills_db = {
+        "Programming": ["python","java","c++","javascript"],
+        "Web Development": ["html","css","react","node","django"],
+        "Data Skills": ["sql","pandas","numpy","data analysis"],
+        "AI / Machine Learning": ["machine learning","deep learning","tensorflow","keras","scikit"]
+    }
+
+    detected = {}
+
+    for category, skill_list in skills_db.items():
+
+        count = 0
+
+        for skill in skill_list:
+            if skill in text:
+                count += 1
+
+        if count > 0:
+            detected[category] = count
+
+    return detected
