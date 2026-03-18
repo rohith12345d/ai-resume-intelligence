@@ -86,6 +86,41 @@ color: var(--primary-text-color);
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+
+/* LIGHT MODE ONLY */
+[data-theme="light"] {
+
+    /* Sidebar text */
+    [data-testid="stSidebar"] * {
+        color: black !important;
+    }
+
+    /* Metric cards */
+    .metric-value {
+        color: black !important;
+    }
+
+    /* Skill cards */
+    div[style*="border-left:6px"] {
+        color: black !important;
+    }
+
+}
+
+/* DARK MODE ONLY */
+[data-theme="dark"] {
+
+    [data-testid="stSidebar"] * {
+        color: white !important;
+    }
+
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 
 # ---------------- BACKGROUND IMAGE ----------------
 def set_background():
