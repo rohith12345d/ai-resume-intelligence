@@ -158,9 +158,10 @@ def set_background():
         with open(image_path, "rb") as f:
             img = base64.b64encode(f.read()).decode()
 
+
         st.markdown(f"""
         <style>
-
+        
         .stApp {{
         background-image: url("data:image/jpg;base64,{img}");
         background-size: cover;
@@ -168,17 +169,21 @@ def set_background():
         }}
         
         /* Light mode overlay */
-        [data-theme="light"] .stApp {{
+        @media (prefers-color-scheme: light) {{
+        .stApp {{
         background-image:
-        linear-gradient(rgba(255,255,255,0.55), rgba(255,255,255,0.55)),
+        linear-gradient(rgba(255,255,255,0.80), rgba(255,255,255,0.80)),
         url("data:image/jpg;base64,{img}");
+        }}
         }}
         
         /* Dark mode overlay */
-        [data-theme="dark"] .stApp {{
+        @media (prefers-color-scheme: dark) {{
+        .stApp {{
         background-image:
-        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+        linear-gradient(rgba(0,0,0,0.30), rgba(0,0,0,0.30)),
         url("data:image/jpg;base64,{img}");
+        }}
         }}
 
         </style>
