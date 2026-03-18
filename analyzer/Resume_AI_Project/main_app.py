@@ -451,7 +451,7 @@ if menu == "📊 Skill Analysis":
 
     st.caption("Skill Frequency shows how many skills from each category were detected in the resume.")
     
-    st.subheader("Skill Category Analysis")
+    st.subheader("Skill Category Distribution")
     
     colors = ["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE","#FF4C4C"]
     
