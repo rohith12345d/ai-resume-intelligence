@@ -4,6 +4,8 @@ import base64
 import os
 import time
 import random
+import re
+
 
 from resume_skill_parser import extract_skills
 from career_match_engine import recommend_roles
