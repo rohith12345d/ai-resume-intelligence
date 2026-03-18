@@ -1,8 +1,32 @@
+import re
+import pdfplumber
+import docx
+
+
+def extract_text(uploaded_file):
+
+    if uploaded_file.name.endswith(".pdf"):
+        text = ""
+        with pdfplumber.open(uploaded_file) as pdf:
+            for page in pdf.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text + " "
+        return text.lower()
+
+    elif uploaded_file.name.endswith(".docx"):
+        doc = docx.Document(uploaded_file)
+        text = " ".join([p.text for p in doc.paragraphs])
+        return text.lower()
+
+    else:
+        return uploaded_file.read().decode("utf-8").lower()
+
+
 def extract_skills(uploaded_file):
 
     text = extract_text(uploaded_file)
 
-    # Split resume text into words
     words = set(text.split())
 
     skills_db = {
@@ -22,17 +46,14 @@ def extract_skills(uploaded_file):
 
         for skill in skills:
 
-            # Special case for C language
             if skill == "c":
                 if "c" in words:
                     found.append("C")
                 continue
 
-            # Handle multi-word skills
             if " " in skill:
                 if skill in text:
                     found.append(skill.title())
-
             else:
                 if skill in words:
                     found.append(skill.title())
