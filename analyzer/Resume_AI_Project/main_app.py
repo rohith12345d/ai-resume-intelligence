@@ -89,30 +89,31 @@ color: var(--primary-text-color);
 st.markdown("""
 <style>
 
-/* LIGHT MODE ONLY */
-[data-theme="light"] {
+/* Light mode */
+@media (prefers-color-scheme: light) {
 
-    /* Sidebar text */
     [data-testid="stSidebar"] * {
         color: black !important;
     }
 
-    /* Metric cards */
     .metric-value {
         color: black !important;
     }
 
-    /* Skill cards */
     div[style*="border-left:6px"] {
         color: black !important;
     }
 
 }
 
-/* DARK MODE ONLY */
-[data-theme="dark"] {
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
 
     [data-testid="stSidebar"] * {
+        color: white !important;
+    }
+
+    .metric-value {
         color: white !important;
     }
 
