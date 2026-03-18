@@ -30,12 +30,35 @@ def extract_skills(uploaded_file):
     words = set(text.split())
 
     skills_db = {
-        "Programming": ["python","java","javascript","c","cpp"],
-        "Web Development": ["html","css","react","node","apis"],
-        "Data Skills": ["sql","pandas","numpy","data analysis"],
-        "AI / Machine Learning": ["machine learning"],
-        "Project Management": ["agile"],
-        "Documentation": ["technical writing"]
+
+        "Programming": [
+            "python","java","javascript","c","cpp","c++","c#",
+            "go","rust","kotlin","swift"
+        ],
+    
+        "Web Development": [
+            "html","css","react","node","apis","angular",
+            "vue","bootstrap","tailwind","express"
+        ],
+    
+        "Data Skills": [
+            "sql","pandas","numpy","data analysis","data visualization",
+            "excel","power bi","tableau","statistics"
+        ],
+    
+        "AI / Machine Learning": [
+            "machine learning","deep learning","tensorflow",
+            "pytorch","nlp","computer vision","scikit-learn"
+        ],
+    
+        "Project Management": [
+            "agile","scrum","kanban","jira","team management"
+        ],
+    
+        "Documentation": [
+            "technical writing","documentation","report writing",
+            "presentation","research writing"
+        ]
     }
 
     detected = {}
