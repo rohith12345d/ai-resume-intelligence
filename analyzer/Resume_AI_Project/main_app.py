@@ -457,13 +457,19 @@ if menu == "📊 Skill Analysis":
     
         "Documentation":[
             "technical writing","documentation","requirement analysis",
-            "software documentation"
+            "software documentation","presentations"
         ],
     
         "Tools & Platforms":[
             "git","github","gitlab","bitbucket","vscode","intellij",
             "eclipse","figma","postman","jira"
-        ]
+        ],
+
+        "Networking":[
+            "network infrastructure","networking","tcp/ip","dns",
+            "dhcp","lan","wan"
+        ],
+        
     
     }
     
