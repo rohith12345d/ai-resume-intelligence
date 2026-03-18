@@ -188,32 +188,34 @@ if isinstance(skills_raw, dict):
     skills = skills_raw
 
 elif isinstance(skills_raw, list):
-
     skills = {}
-
     for s in skills_raw:
         skills[s] = skills.get(s, 0) + 1
-
 else:
     skills = {}
 
-
-# Convert detected skills into a list
-skill_names = set()
+# Collect all skills
+all_skills = []
 for skill_list in skills.values():
     for skill in skill_list:
-        skill_names.add(skill.lower())
-skill_names = list(skill_names)
+        all_skills.append(skill.lower())
 
+# Remove duplicates but keep order
+skill_names = []
+seen = set()
 
-# Count skill frequency
+for s in all_skills:
+    if s not in seen:
+        skill_names.append(s)
+        seen.add(s)
+
+# Count frequency correctly
 skill_count = {}
-for s in skill_names:
+for s in all_skills:
     skill_count[s] = skill_count.get(s, 0) + 1
 
-# Separate names and values for charts
-skill_names = list(skill_count.keys())
-skill_values = list(skill_count.values())
+# Prepare chart data
+skill_values = [skill_count[s] for s in skill_names]
 
 
 # =====================================================
