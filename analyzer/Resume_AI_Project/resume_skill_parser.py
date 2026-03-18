@@ -14,7 +14,7 @@ def extract_text(uploaded_file):
 
     elif uploaded_file.name.endswith(".docx"):
         doc = docx.Document(uploaded_file)
-        text = " ".join([para.text for para in doc.paragraphs])
+        text = " ".join([p.text for p in doc.paragraphs])
         return text.lower()
 
     else:
@@ -26,30 +26,12 @@ def extract_skills(uploaded_file):
     text = extract_text(uploaded_file)
 
     skills_db = {
-
-        "Programming":[
-            "python","c","cpp","java","javascript","r"
-        ],
-
-        "Web Development":[
-            "html","css","javascript","react","node","bootstrap","apis"
-        ],
-
-        "Data Skills":[
-            "sql","pandas","numpy","data analysis","excel"
-        ],
-
-        "AI / Machine Learning":[
-            "machine learning","deep learning","tensorflow","pytorch"
-        ],
-
-        "Software Development":[
-            "agile","scrum"
-        ],
-
-        "Documentation":[
-            "technical writing"
-        ]
+        "Programming":["python","java","javascript","c","cpp"],
+        "Web Development":["html","css","react","node","apis"],
+        "Data Skills":["sql","pandas","numpy","data analysis"],
+        "AI / Machine Learning":["machine learning"],
+        "Project Management":["agile"],
+        "Documentation":["technical writing"]
     }
 
     detected = {}
@@ -60,14 +42,13 @@ def extract_skills(uploaded_file):
 
         for skill in skills:
 
-            # special handling for C
-            if skill == "c": 
+            if skill == "c":
                 if re.search(r'(?<![a-zA-Z])c(?![a-zA-Z])', text):
-                    found.append("c")
+                    found.append("C")
                 continue
 
             if re.search(r'\b' + re.escape(skill) + r'\b', text):
-                found.append(skill)
+                found.append(skill.title())
 
         if found:
             detected[category] = found
