@@ -437,33 +437,60 @@ if menu == "📊 Skill Analysis":
             col2.markdown(block, unsafe_allow_html=True)
     # ---------------- BAR CHART ----------------
 
-    st.caption("Skill Frequency shows how many skills from each category were detected in the resume.")
-    st.subheader("Skill Frequency")
+    # st.caption("Skill Frequency shows how many skills from each category were detected in the resume.")
+    # st.subheader("Skill Frequency")
 
-    colors = ["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE","#FF4C4C"]
+    # colors = ["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE","#FF4C4C"]
     
-    fig_bar = go.Figure()
+    # fig_bar = go.Figure()
     
-    fig_bar.add_trace(go.Bar(
-        x=skill_values,
-        y=skill_names,
-        orientation='h',
-        text=skill_values,
-        textposition="outside",
-        marker=dict(
-            color=[colors[i % len(colors)] for i in range(len(skill_values))]
-        )
-    ))
+    # fig_bar.add_trace(go.Bar(
+    #     x=skill_values,
+    #     y=skill_names,
+    #     orientation='h',
+    #     text=skill_values,
+    #     textposition="outside",
+    #     marker=dict(
+    #         color=[colors[i % len(colors)] for i in range(len(skill_values))]
+    #     )
+    # ))
     
-    fig_bar.update_layout(
-        height=280,
-        margin=dict(l=40, r=40, t=30, b=20),
-        paper_bgcolor="rgba(255,255,255,0.20)",
-        plot_bgcolor="rgba(255,255,255,0.20)",
-        font=dict(color="black")
+    # fig_bar.update_layout(
+    #     height=280,
+    #     margin=dict(l=40, r=40, t=30, b=20),
+    #     paper_bgcolor="rgba(255,255,255,0.20)",
+    #     plot_bgcolor="rgba(255,255,255,0.20)",
+    #     font=dict(color="black")
+    # )
+    
+    # st.plotly_chart(fig_bar, use_container_width=True)
+    # st.caption("Skill Distribution by Category")
+st.subheader("Skill Category Analysis")
+
+colors = ["#00E5FF","#00FFA6","#FFD700","#FF7F50","#A29BFE","#FF4C4C"]
+
+fig_bar = go.Figure()
+
+fig_bar.add_trace(go.Bar(
+    x=category_values,
+    y=category_names,
+    orientation='h',
+    text=category_values,
+    textposition="outside",
+    marker=dict(
+        color=[colors[i % len(colors)] for i in range(len(category_values))]
     )
-    
-    st.plotly_chart(fig_bar, use_container_width=True)
+))
+
+fig_bar.update_layout(
+    height=320,
+    margin=dict(l=40, r=40, t=30, b=20),
+    paper_bgcolor="rgba(255,255,255,0.20)",
+    plot_bgcolor="rgba(255,255,255,0.20)",
+    font=dict(color="black")
+)
+
+st.plotly_chart(fig_bar, use_container_width=True)
 # =====================================================
 # 🎯 CAREER MATCH
 # =====================================================
