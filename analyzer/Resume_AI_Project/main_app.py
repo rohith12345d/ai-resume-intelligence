@@ -305,8 +305,8 @@ if menu == "📊 Skill Analysis":
     fig_radar = go.Figure()
 
     fig_radar.add_trace(go.Scatterpolar(
-        r=skill_values,
-        theta=skill_names,
+        r=radar_values,
+        theta=radar_categories,
         fill='toself',
         line=dict(color="#00E5FF")
     ))
