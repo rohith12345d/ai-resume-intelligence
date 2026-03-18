@@ -61,7 +61,7 @@ def extract_skills(uploaded_file):
         for skill in skills:
 
             # special handling for C
-            if skill == "c":
+            if skill == "c": 
                 if re.search(r'(?<![a-zA-Z])c(?![a-zA-Z])', text):
                     found.append("c")
                 continue
