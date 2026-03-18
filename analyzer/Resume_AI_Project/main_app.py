@@ -183,7 +183,6 @@ if "skills_data" not in st.session_state:
 
 skills_raw = st.session_state.skills_data
 
-
 # ---------------- NORMALIZE SKILLS ----------------
 if isinstance(skills_raw, dict):
     skills = skills_raw
@@ -204,7 +203,9 @@ skill_names = set()
 for skill_list in skills.values():
     for skill in skill_list:
         skill_names.add(skill.lower())
-skill_names = list(skill_names)    
+skill_names = list(skill_names)
+
+t.write(skill_names)
 
 # Count skill frequency
 skill_count = {}
