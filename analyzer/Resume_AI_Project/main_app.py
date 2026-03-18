@@ -287,6 +287,7 @@ if menu == "📊 Skill Analysis":
 
     # ---------------- RADAR ----------------
     st.subheader("AI Skill Capability Radar")
+    skill_values = [1]*len(skill_names)
 
     fig_radar = go.Figure()
 
@@ -309,7 +310,7 @@ if menu == "📊 Skill Analysis":
     )
 
     st.plotly_chart(fig_radar, use_container_width=True)
-    skill_values = [1]*len(skill_names)
+    
 
     st.caption("Radar chart visualizes the distribution of skill categories detected in your resume")
 
