@@ -386,7 +386,7 @@ if menu == "📊 Skill Analysis":
     }
     
     detected_skills = {}
-    global_seen = set{}
+    global_seen = set()
     
     for category, tech_list in skill_categories.items():
     
