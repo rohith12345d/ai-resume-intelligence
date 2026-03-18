@@ -16,8 +16,34 @@ from insights_engine import generate_insights
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(page_title="AI Resume Intelligence", layout="wide")
+theme = st.get_option("theme.base")
 
+if theme == "light":
+    st.markdown("""
+    <style>
 
+    /* Sidebar text */
+    [data-testid="stSidebar"] * {
+        color: black !important;
+    }
+
+    /* Metric values */
+    .metric-value {
+        color: black !important;
+    }
+
+    /* Skill cards */
+    div[style*="border-left:6px"] {
+        color: black !important;
+    }
+
+    /* Chart titles */
+    h1, h2, h3, h4 {
+        color: black !important;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
 # ---------------- SIDEBAR + UI STYLE ----------------
 st.markdown("""
 <style>
