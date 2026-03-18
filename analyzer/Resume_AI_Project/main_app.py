@@ -200,10 +200,10 @@ else:
 # Convert detected skills into a list
 skill_names = []
 for skill_list in skills.values():
-    skill_names.extend(skill_list)
-skill_names = list(set(skill_names))
-
-skill_names = [s.lower() for s in skill_names]
+    for skill in skill_list:
+        skill_names.append(skill.lower)
+        
+skill_names = sorted(set(skill_names))
 
 # Count skill frequency
 skill_count = {}
@@ -309,6 +309,7 @@ if menu == "📊 Skill Analysis":
     )
 
     st.plotly_chart(fig_radar, use_container_width=True)
+    skill_values = [1]*len(skill_names)
 
     st.caption("Radar chart visualizes the distribution of skill categories detected in your resume")
 
