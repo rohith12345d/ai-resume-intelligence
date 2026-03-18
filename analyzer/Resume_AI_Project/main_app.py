@@ -30,7 +30,7 @@ st.markdown("""
 
 /* Sidebar text */
 [data-testid="stSidebar"] * {
-    color: var(--primary-text-color);
+    color: inherit;
 }
 
 /* Hide radio circles */
@@ -358,7 +358,7 @@ if menu == "📊 Skill Analysis":
         showlegend=False,
         paper_bgcolor="rgba(255,255,255,0.25)",
         plot_bgcolor="rgba(255,255,255,0.20)",
-        font=dict(color="black")
+        font=dict()
     )
 
     st.plotly_chart(fig_radar, use_container_width=True)
@@ -471,6 +471,7 @@ if menu == "📊 Skill Analysis":
         border-radius:10px;
         margin-bottom:10px;
         border-left:6px solid #00E5FF;
+        color:inherit;
         ">
         <b style="font-size:18px">{category}</b><br>
         {skill_text}
