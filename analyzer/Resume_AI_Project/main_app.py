@@ -72,14 +72,14 @@ margin-bottom: 10px;
 .metric-title {
 font-size:20px;
 font-weight:600;
-color:#003b46;
+
 letter-spacing:0.5px;
 }
 
 .metric-value {
 font-size:40px;
 font-weight:bold;
-color:black;
+
 }
 
 
