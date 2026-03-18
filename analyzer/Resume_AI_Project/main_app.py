@@ -292,8 +292,15 @@ if menu == "📊 Skill Analysis":
     
 
     # ---------------- RADAR ----------------
-    st.subheader("AI Skill Capability Radar")
-    skill_values = [skill_count[s] for s in skill_names]
+    st.subheader("Skill Category Strength Radar")
+
+    radar_categories = []
+    radar_values = []
+    
+    for category, skill_list in skills.items():
+        radar_categories.append(category)
+        radar_values.append(len(skill_list))
+   
 
     fig_radar = go.Figure()
 
