@@ -445,7 +445,7 @@ if menu == "📊 Skill Analysis":
         category_values.append(len(skill_list))
     # ---------------- BAR CHART ----------------
 
-    # st.caption("Skill Frequency shows how many skills from each category were detected in the resume.")
+    st.caption("Skill Frequency shows how many skills from each category were detected in the resume.")
     
     st.subheader("Skill Category Analysis")
     
