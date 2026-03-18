@@ -47,7 +47,7 @@ def extract_skills(uploaded_file):
                     found.append("C")
                 continue
 
-            if re.search(r'\b' + re.escape(skill) + r'\b', text):
+            if f" {skill} " in f" {text} ":
                 found.append(skill.title())
 
         if found:
