@@ -30,7 +30,7 @@ st.markdown("""
 
 /* Sidebar text */
 [data-testid="stSidebar"] * {
-    color: var(--text-color);
+    color: var(--primary-text-color);
 }
 
 /* Hide radio circles */
@@ -79,7 +79,7 @@ letter-spacing:0.5px;
 .metric-value {
 font-size:40px;
 font-weight:bold;
-color: var(--text-color);
+color: var(--primary-text-color);
 }
 
 
