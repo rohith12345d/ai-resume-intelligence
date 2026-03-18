@@ -201,9 +201,9 @@ else:
 skill_names = []
 for skill_list in skills.values():
     for skill in skill_list:
-        skill_names.append(skill.lower)
+        skill_names.append(skill.lower())
         
-skill_names = sorted(set(skill_names))
+skill_names = list(dict.fromkeys(skill_names))
 
 # Count skill frequency
 skill_count = {}
