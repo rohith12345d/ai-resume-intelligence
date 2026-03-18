@@ -200,13 +200,11 @@ else:
 
 
 # Convert detected skills into a list
-skill_names = []
+skill_names = set()
 for skill_list in skills.values():
     for skill in skill_list:
-        if skill.lower() not in skill_names:
-            skill_names.append(skill.lower())
-        
-skill_names = list(dict.fromkeys(skill_names))
+        skill_names.add(skill.lower())
+skill_names = list(skill_names)    
 
 # Count skill frequency
 skill_count = {}
