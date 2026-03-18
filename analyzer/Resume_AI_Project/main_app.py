@@ -201,6 +201,7 @@ else:
 skill_names = []
 for skill_list in skills.values():
     skill_names.extend(skill_list)
+skill_names = list(set(skill_names))
 
 skill_names = [s.lower() for s in skill_names]
 
