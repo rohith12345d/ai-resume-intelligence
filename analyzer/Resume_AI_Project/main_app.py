@@ -139,16 +139,19 @@ def set_background():
         background-size: cover;
         background-attachment: fixed;
         }}
-
-        .glass-card {{
-        background: rgba(255,255,255,0.05);
-        backdrop-filter: blur(12px);
-        border-radius: 15px;
-        padding: 25px;
-        margin-bottom: 20px;
-        border: 1px solid rgba(0,229,255,0.3);
-        box-shadow: 0 0 10px rgba(0,229,255,0.4),
-        0 0 20px rgba(0,229,255,0.2);
+        
+        /* Light mode overlay */
+        [data-theme="light"] .stApp {{
+        background-image:
+        linear-gradient(rgba(255,255,255,0.55), rgba(255,255,255,0.55)),
+        url("data:image/jpg;base64,{img}");
+        }}
+        
+        /* Dark mode overlay */
+        [data-theme="dark"] .stApp {{
+        background-image:
+        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+        url("data:image/jpg;base64,{img}");
         }}
 
         </style>
