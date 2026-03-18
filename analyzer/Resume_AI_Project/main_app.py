@@ -386,6 +386,7 @@ if menu == "📊 Skill Analysis":
     }
     
     detected_skills = {}
+    global_seen = set{}
     
     for category, tech_list in skill_categories.items():
     
@@ -393,12 +394,13 @@ if menu == "📊 Skill Analysis":
     
         for tech in tech_list:
             for skill in skill_names:
-                if re.search (r'\b' + re.escape(tech.lower()) + r'\b', skill.lower()):
-                    if tech.title() not in detected:
+                if tech.lower() == skill.lower():
+                    if tech.lower() not in global_seen:
                         detected.append(tech.title())
-    
+                        global_seen.add(tech.lower())
         if detected:
             detected_skills[category] = detected
+                       
 
     # ---------------- DETECTED SKILLS ----------------
     st.subheader("Detected Skills")
