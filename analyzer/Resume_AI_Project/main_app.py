@@ -138,7 +138,7 @@ st.success("AI System Status: Active and Ready")
 
 # ---------------- SIDEBAR ----------------
 st.sidebar.markdown("""
-<h2 style='text-align:center;color:#00E5FF'>
+<h2 style='text-align:center;color:var(--text-color)'>
 🤖 AI Resume Dashboard
 </h2>
 """, unsafe_allow_html=True)
