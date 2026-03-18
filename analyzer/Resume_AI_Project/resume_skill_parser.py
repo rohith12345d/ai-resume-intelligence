@@ -9,7 +9,9 @@ def extract_text(uploaded_file):
         text = ""
         with pdfplumber.open(uploaded_file) as pdf:
             for page in pdf.pages:
-                text += page.extract_text() or ""
+                extracted = page.extract_text()
+                if extracted:
+                    text += extracted + " "
         return text.lower()
 
     elif uploaded_file.name.endswith(".docx"):
@@ -26,12 +28,29 @@ def extract_skills(uploaded_file):
     text = extract_text(uploaded_file)
 
     skills_db = {
-        "Programming":["python","java","javascript","c","cpp"],
-        "Web Development":["html","css","react","node","apis"],
-        "Data Skills":["sql","pandas","numpy","data analysis"],
-        "AI / Machine Learning":["machine learning"],
-        "Project Management":["agile"],
-        "Documentation":["technical writing"]
+        "Programming": [
+            "python", "java", "javascript", "c", "cpp"
+        ],
+
+        "Web Development": [
+            "html", "css", "react", "node", "apis"
+        ],
+
+        "Data Skills": [
+            "sql", "pandas", "numpy", "data analysis"
+        ],
+
+        "AI / Machine Learning": [
+            "machine learning"
+        ],
+
+        "Project Management": [
+            "agile"
+        ],
+
+        "Documentation": [
+            "technical writing"
+        ]
     }
 
     detected = {}
@@ -42,13 +61,18 @@ def extract_skills(uploaded_file):
 
         for skill in skills:
 
+            # Special handling for C language
             if skill == "c":
                 if re.search(r'(?<![a-zA-Z])c(?![a-zA-Z])', text):
                     found.append("C")
                 continue
 
-            if re.search(r'\b' + re.escape(skill) + r'\b', text):
+            # Strict word matching
+            pattern = r'(?<![a-zA-Z])' + re.escape(skill) + r'(?![a-zA-Z])'
+
+            if re.search(pattern, text):
                 found.append(skill.title())
+
         if found:
             detected[category] = found
 
