@@ -210,16 +210,12 @@ for s in all_skills:
         seen.add(s)
 
 # Count skill frequency from original detected skills
-skill_count = {}
+skill_names = []
+skill_values = []
 
-for skill_list in skills.values():
-    for skill in skill_list:
-        s = skill.lower()
-        skill_count[s] = skill_count.get(s, 0) + 1
-
-# Names and values for charts
-skill_names = list(skill_count.keys())
-skill_values = list(skill_count.values())
+for category, skill_list in skills.items():
+    skill_names.append(category)
+    skill_values.append(len(skill_list))
 
 
 # =====================================================
