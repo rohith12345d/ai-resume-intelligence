@@ -435,6 +435,14 @@ if menu == "📊 Skill Analysis":
             col1.markdown(block, unsafe_allow_html=True)
         else:
             col2.markdown(block, unsafe_allow_html=True)
+
+    # -------- CATEGORY COUNT --------
+    category_names = []
+    category_values = []
+    
+    for category, skill_list in skills.items():
+        category_names.append(category)
+        category_values.append(len(skill_list))
     # ---------------- BAR CHART ----------------
 
     # st.caption("Skill Frequency shows how many skills from each category were detected in the resume.")
