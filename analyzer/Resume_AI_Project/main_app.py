@@ -30,7 +30,7 @@ st.markdown("""
 
 /* Sidebar text */
 [data-testid="stSidebar"] * {
-    color: white;
+    color: var(--text-color);
 }
 
 /* Hide radio circles */
@@ -79,7 +79,7 @@ letter-spacing:0.5px;
 .metric-value {
 font-size:40px;
 font-weight:bold;
-
+color: var(--text-color);
 }
 
 
@@ -277,7 +277,7 @@ if menu == "📊 Skill Analysis":
         margin=dict(l=10,r=10,t=10,b=10),
         paper_bgcolor="rgba(255,255,255,0.20)",
         plot_bgcolor="rgba(255,255,255,0.20)",
-        font=dict()
+        font=dict(color=None)
     )
 
     st.plotly_chart(fig_meter, use_container_width=True)
