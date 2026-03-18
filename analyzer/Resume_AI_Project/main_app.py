@@ -204,7 +204,7 @@ skill_names = []
 for skill_list in skills.values():
     for skill in skill_list:
         if skill.lower() not in skill_names:
-            sskill_names.append(skill.lower())
+            skill_names.append(skill.lower())
         
 skill_names = list(dict.fromkeys(skill_names))
 
