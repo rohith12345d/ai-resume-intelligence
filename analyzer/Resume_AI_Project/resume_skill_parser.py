@@ -57,7 +57,12 @@ def extract_skills(uploaded_file):
     
         "Documentation": [
             "technical writing","documentation","report writing",
-            "presentation","research writing"
+            "presentations","research writing"
+        ],
+        
+        "Networking":[
+            "network infrastructure","networking","network administration",
+            "tcp/ip","dns","dhcp"
         ]
     }
 
