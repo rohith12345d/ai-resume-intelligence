@@ -205,7 +205,7 @@ for skill_list in skills.values():
         skill_names.add(skill.lower())
 skill_names = list(skill_names)
 
-t.write(skill_names)
+st.write(skill_names)
 
 # Count skill frequency
 skill_count = {}
