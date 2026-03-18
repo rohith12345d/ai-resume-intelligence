@@ -287,7 +287,7 @@ if menu == "📊 Skill Analysis":
 
     # ---------------- RADAR ----------------
     st.subheader("AI Skill Capability Radar")
-    skill_values = [1]*len(skill_names)
+    skill_values = [skill_count[s] for s in skill_names]
 
     fig_radar = go.Figure()
 
@@ -392,7 +392,7 @@ if menu == "📊 Skill Analysis":
     
         for tech in tech_list:
             for skill in skill_names:
-                if tech.lower() in skill.lower():
+                if re.search (r'\b' + re.escape(tech.lower()) + r'\b', skill.lower()):
                     if tech.title() not in detected:
                         detected.append(tech.title())
     
