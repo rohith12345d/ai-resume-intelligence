@@ -254,8 +254,8 @@ if menu == "📊 Skill Analysis":
     fig_meter = go.Figure(go.Indicator(
         mode="gauge+number",
         value=score,
-        number={'font':{'size':50,'color':'black'}},
-        title={'text':"AI Resume Strength",'font':{'size':20,'color':'#003b46'}},
+        number={'font':{'size':50}},
+        title={'text':"AI Resume Strength",'font':{'size':20}},
 
         gauge={
             'axis':{'range':[0,100],'tickcolor':'#003b46'},
@@ -277,7 +277,7 @@ if menu == "📊 Skill Analysis":
         margin=dict(l=10,r=10,t=10,b=10),
         paper_bgcolor="rgba(255,255,255,0.20)",
         plot_bgcolor="rgba(255,255,255,0.20)",
-        font=dict(color="black")
+        font=dict()
     )
 
     st.plotly_chart(fig_meter, use_container_width=True)
@@ -480,7 +480,7 @@ if menu == "📊 Skill Analysis":
         margin=dict(l=40, r=40, t=30, b=20),
         paper_bgcolor="rgba(255,255,255,0.20)",
         plot_bgcolor="rgba(255,255,255,0.20)",
-        font=dict(color="black")
+        font=dict()
     )
     
     st.plotly_chart(fig_bar, use_container_width=True)
@@ -562,7 +562,7 @@ elif menu == "🧠 Skill Gap Roadmap":
         border-left:5px solid #00E5FF;
         backdrop-filter: blur(5px);
         font-size:16px;
-        color:#111;
+        color:inherit;
         ">
         • {skill}
         </div>
@@ -592,7 +592,7 @@ elif menu == "💡 AI Insights":
         border-left:5px solid #00E5FF;
         backdrop-filter: blur(5px);
         font-size:15px;
-        color:#111;
+        color:inherit;
         ">
         {insight}
         </div>
