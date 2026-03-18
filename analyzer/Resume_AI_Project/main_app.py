@@ -437,12 +437,16 @@ if menu == "📊 Skill Analysis":
             col2.markdown(block, unsafe_allow_html=True)
 
     # -------- CATEGORY COUNT --------
-    category_names = []
-    category_values = []
+    category_data = []
     
     for category, skill_list in skills.items():
-        category_names.append(category)
-        category_values.append(len(skill_list))
+        category_data.append((category, len(skill_list)))
+    
+    # sort highest → lowest
+    category_data.sort(key=lambda x: x[1], reverse=True)
+    
+    category_names = [x[0] for x in category_data]
+    category_values = [x[1] for x in category_data]
     # ---------------- BAR CHART ----------------
 
     st.caption("Skill Frequency shows how many skills from each category were detected in the resume.")
