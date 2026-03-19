@@ -402,7 +402,7 @@ if menu == "📊 Skill Analysis":
     skill_categories = {
 
         "Programming":[
-            "python","c","cpp","java","javascript","typescript","go","rust","kotlin","swift",
+            "python","c","cpp","java","c++","javascript","typescript","go","rust","kotlin","swift",
             "ruby","php","scala","matlab","r"
         ],
     
@@ -469,6 +469,16 @@ if menu == "📊 Skill Analysis":
             "network infrastructure","networking","tcp/ip","dns",
             "dhcp","lan","wan"
         ],
+
+        
+        "Core CS":[
+            "data structures","algorithms"
+        ],
+
+        
+        "Tools":[
+            "git","github"
+        ]
         
     
     }
