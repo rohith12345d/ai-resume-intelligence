@@ -61,7 +61,10 @@ def extract_skills(uploaded_file):
         ],
 
         "Core CS":[
-            "data structures","algorithms"
+            "data structures",
+            "algorithms",
+            "oop",
+            "object oriented programmming",
         ],
 
         
