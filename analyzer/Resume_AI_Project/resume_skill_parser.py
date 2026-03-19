@@ -59,6 +59,15 @@ def extract_skills(uploaded_file):
             "technical writing","documentation","report writing",
             "presentations","research writing"
         ],
+
+        "Core CS":[
+            "data structures","algorithms"
+        ],
+
+        
+        "Tools":[
+            "git","github"
+        ],
         
         "Networking":[
             "network infrastructure","networking","network administration",
