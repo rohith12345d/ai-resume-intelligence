@@ -470,9 +470,11 @@ if menu == "📊 Skill Analysis":
             "dhcp","lan","wan"
         ],
 
-        
         "Core CS":[
-            "data structures","algorithms"
+            "data structures",
+            "algorithms",
+            "oop",
+            "object oriented programmming",
         ],
 
         
