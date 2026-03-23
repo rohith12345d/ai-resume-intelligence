@@ -585,28 +585,25 @@ elif menu == "🎯 Career Match":
 
     labels = list(roles.keys())
     values = list(roles.values())
-
+    
     st.subheader("Career Recommendations")
-
-    if sum(values) == 0:
-
-        st.warning("No strong career match detected based on current skills.")
-
-    else:
-
+    
+    # ✅ SAFE CONDITION
+    if roles and len(roles) > 0:
         best_role = max(roles, key=roles.get)
         best_score = roles[best_role]
-
         st.success(f"Top Career Match: {best_role} ({best_score})")
-
-        fig = go.Figure(data=[go.Pie(
-            labels=labels,
-            values=values,
-            hole=0.55
-        )])
-
-        st.plotly_chart(fig, use_container_width=True)
-
+    else:
+        st.warning("No strong career match detected based on current skills.")
+    
+    # ✅ ALWAYS SHOW CHART
+    fig = go.Figure(data=[go.Pie(
+        labels=labels,
+        values=values,
+        hole=0.55
+    )])
+    
+    st.plotly_chart(fig, use_container_width=True)
 
 # =====================================================
 # 🧠 SKILL GAP ROADMAP
@@ -712,7 +709,10 @@ elif menu == "💡 AI Insights":
     """, unsafe_allow_html=True)
 
     roles = recommend_roles(skill_names)
-    best_role = max(roles, key=roles.get)
+    if roles and len(roles) > 0:
+        best_role = max(roles, key=roles.get)
+    else:
+        best_role = "No strong match"
     score = calculate_readiness(skill_names)
 
     report = "AI RESUME ANALYSIS REPORT\n"
