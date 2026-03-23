@@ -712,7 +712,7 @@ elif menu == "💡 AI Insights":
     if roles and len(roles) > 0:
         best_role = max(roles, key=roles.get)
     else:
-        best_role = "No strong match"
+        best_role = "No strong career match found"
     score = calculate_readiness(skill_names)
 
     report = "AI RESUME ANALYSIS REPORT\n"
